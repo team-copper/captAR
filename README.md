@@ -1,14 +1,14 @@
 # captAR
-### Augmented Reality-based Capture the Flag using React-Native
+## Augmented Reality-based Capture the Flag using React-Native
 
-##### Resources:
+#### Resources:
 * https://facebook.github.io/react-native/releases/0.48/docs/getting-started.html
 * https://github.com/jeromeetienne/AR.js
 * https://github.com/invertase/react-native-firebase
 * https://applikeysolutions.com/blog/how-to-build-an-augmented-reality-app-with-react-native
 * https://medium.com/setocean/donaldsays-react-native-augmented-reality-brought-to-you-by-toptal-5175011885e5
 
-##### Git Instuctions (from John):
+#### Git Instuctions (from John):
 Here's a git workflow for you -
 1) Before you start work on a new feature, make sure you are in your master branch (by doing `git checkout master`) and make sure you have the most up-to-date code from github (by doing `git pull origin master`)
 
