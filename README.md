@@ -1,5 +1,5 @@
 # captAR
-### Augmented reality-based Capture the Flag using React-Native
+### Augmented Reality-based Capture the Flag using React-Native
 
 *Resources:*
 * https://facebook.github.io/react-native/releases/0.48/docs/getting-started.html
