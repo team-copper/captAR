@@ -6,7 +6,6 @@ pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
 pod 'React', :path => '../node_modules/react-native', :subspecs => [
   'DevSupport',
   'RCTText',
-  'RCTImage',
   'RCTNetwork',
   'RCTWebSocket',
 ]
