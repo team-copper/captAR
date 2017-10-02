@@ -2,14 +2,13 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
-import { Map, CameraView, Style } from './component';
+import { Style, LoginForm } from './component';
 
 export default class captAR extends Component {
   render() {
     return (
       <View style={Style.container}>
-        <Map />
-        <CameraView />
+        <LoginForm />
       </View>
     )
   }
