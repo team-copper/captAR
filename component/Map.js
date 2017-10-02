@@ -1,5 +1,6 @@
 "user strict";
 
+import firebase from "../firebase"
 import React, { Component } from "react";
 import { AppRegistry, StyleSheet, Text, View, Dimensions } from "react-native";
 import MapView from "react-native-maps";
@@ -30,7 +31,16 @@ export default class Map extends Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
+  saveToFirebaseDB(payload){
+    const newMsgRef = firebase.database()
+      .ref('messages')
+      .push();
+      payload.id = newMsgRef.key
+    newMsgRef.set(payload)
+  }
+
   getCurrentPosition = () => {
+    let msg;
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -42,6 +52,11 @@ export default class Map extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
+    firebase.auth()
+      .signInAnonymously()
+      .then(() => {
+        this.saveToFirebaseDB(this.state);
+      })
   };
 
   watchPosition = () => {
@@ -64,7 +79,7 @@ export default class Map extends Component {
   };
 
   checkGeofencing = () => {
-    BackgroundGeolocation.on("geofenceschange", function(event) {
+    BackgroundGeolocation.on("geofenceschange", function (event) {
       var on = event.on; //<-- new geofences activiated.
       var off = event.off; //<-- geofences that were de-activated.
 
@@ -84,6 +99,7 @@ export default class Map extends Component {
 
   render() {
     if (this.state.latitude) {
+      this.saveToFirebaseDB(this.state);
       return (
         <MapView
           style={Style.map}
