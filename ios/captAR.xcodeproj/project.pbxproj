@@ -53,6 +53,7 @@
 		C5DD32D5E6794E72B1236AC5 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46E816D4D102479C8BD823A5 /* MaterialIcons.ttf */; };
 		C714724F6DC8428694AFAEF1 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A8501B4041046CB90FD4E21 /* Ionicons.ttf */; };
 		C7AAEFB4ADFC4741A087DEE9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5163D5F889447B6AFA35C6A /* Octicons.ttf */; };
+		C837DB57A3594378B35733A1 /* libRNReactNativeGeoFence.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E85B68238F6E4397AF595F3A /* libRNReactNativeGeoFence.a */; };
 		CE4A8413F58E4B7C92284BE2 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9E577CE2054F8F85264758 /* RNBackgroundFetch+AppDelegate.m */; };
 		D19E4AB213084C858532D0D0 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17B333F7851443B08589E9ED /* TSBackgroundFetch.framework */; };
 		D22372F1F2F746A9825C97AD /* TSLocationManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7919EA6DEDB24000A78FA674 /* TSLocationManager.framework */; };
@@ -258,6 +259,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		27F2CCB01F82CC6A001D5149 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AB66DB0B5DE43539063AC28 /* RNReactNativeGeoFence.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReactNativeGeoFence;
+		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -426,6 +434,7 @@
 		2D02E4901E0B4A5D006451C7 /* captAR-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "captAR-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46E816D4D102479C8BD823A5 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		4843F7111211447EA040C115 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		4AB66DB0B5DE43539063AC28 /* RNReactNativeGeoFence.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeGeoFence.xcodeproj; path = "../node_modules/react-native-geo-fence/ios/RNReactNativeGeoFence.xcodeproj"; sourceTree = "<group>"; };
 		4AE14F3467214C18935FCE2D /* libRNBackgroundGeolocation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBackgroundGeolocation.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		602DD43CB86C46F28D93877F /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = "../node_modules/cocoa-lumberjack/CocoaLumberjack/Lumberjack.xcodeproj"; sourceTree = "<group>"; };
@@ -452,6 +461,7 @@
 		CEBA98B30E8A43108048FE0E /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		D414E0D194274ACF814BA89D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		DB29D032CAAB4B028395980B /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
+		E85B68238F6E4397AF595F3A /* libRNReactNativeGeoFence.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeGeoFence.a; sourceTree = "<group>"; };
 		F5163D5F889447B6AFA35C6A /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		F6DFFB1A5B0E45C99E085E3E /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		FEA69D5D1FA34421B753569C /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -493,6 +503,7 @@
 				D19E4AB213084C858532D0D0 /* TSBackgroundFetch.framework in Frameworks */,
 				A1F10ED980D744D59DB57EFB /* libCocoaLumberjack.a in Frameworks */,
 				27117FC01F7EF93C008BEF16 /* MapKit.framework in Frameworks */,
+				C837DB57A3594378B35733A1 /* libRNReactNativeGeoFence.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +652,7 @@
 				874602A672B442E6938DD936 /* libRNVectorIcons.a */,
 				8C9F58965AEC47EBB6C1A34E /* libRNBackgroundFetch.a */,
 				9F101ADC5E4142A68D3D65B8 /* libCocoaLumberjack.a */,
+				E85B68238F6E4397AF595F3A /* libRNReactNativeGeoFence.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -702,6 +714,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		27F2CCAD1F82CC6A001D5149 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				27F2CCB11F82CC6A001D5149 /* libRNReactNativeGeoFence.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		45B1F356E8434DCCB695674A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -759,6 +779,7 @@
 				D414E0D194274ACF814BA89D /* RNVectorIcons.xcodeproj */,
 				6A0C0CA561E24EA58810435A /* RNBackgroundFetch.xcodeproj */,
 				602DD43CB86C46F28D93877F /* Lumberjack.xcodeproj */,
+				4AB66DB0B5DE43539063AC28 /* RNReactNativeGeoFence.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -911,6 +932,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = G49T6SUUHR;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = true;
@@ -1010,6 +1032,10 @@
 				{
 					ProductGroup = 27117F881F7EF8CD008BEF16 /* Products */;
 					ProjectRef = 87259A54CBC64C3B835527AE /* RNBackgroundGeolocation.xcodeproj */;
+				},
+				{
+					ProductGroup = 27F2CCAD1F82CC6A001D5149 /* Products */;
+					ProjectRef = 4AB66DB0B5DE43539063AC28 /* RNReactNativeGeoFence.xcodeproj */;
 				},
 				{
 					ProductGroup = 27117F841F7EF8CD008BEF16 /* Products */;
@@ -1214,6 +1240,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 27117FBD1F7EF8CD008BEF16 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		27F2CCB11F82CC6A001D5149 /* libRNReactNativeGeoFence.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReactNativeGeoFence.a;
+			remoteRef = 27F2CCB01F82CC6A001D5149 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {
@@ -1512,12 +1545,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = captARTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1553,12 +1588,14 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = captARTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1580,6 +1617,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = G49T6SUUHR;
@@ -1595,6 +1634,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = captAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1605,6 +1645,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.TeamCopperCaptARTest;
 				PRODUCT_NAME = captAR;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1613,6 +1654,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G49T6SUUHR;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1627,6 +1670,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = captAR/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1637,6 +1681,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.TeamCopperCaptARTest;
 				PRODUCT_NAME = captAR;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -1665,11 +1710,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = "captAR-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1713,11 +1760,13 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/**",
 					"$(SRCROOT)/../node_modules/cocoa-lumberjack/CocoaLumberjack/**",
+					"$(SRCROOT)/../node_modules/react-native-geo-fence/ios",
 				);
 				INFOPLIST_FILE = "captAR-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1758,6 +1807,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.captAR-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1782,6 +1832,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

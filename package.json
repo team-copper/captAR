@@ -11,7 +11,6 @@
 		"react": "16.0.0-alpha.12",
 		"react-native": "0.48.4",
 		"react-native-action-button": "^2.8.0",
-		"react-native-background-geolocation": "^2.9.4",
 		"react-native-camera": "^0.10.0",
 		"react-native-maps": "^0.16.4",
 		"react-native-swipe-gestures": "^1.0.2",
