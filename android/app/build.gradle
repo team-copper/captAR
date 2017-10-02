@@ -133,6 +133,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-geo-fence')
     compile project(':react-native-vector-icons')
     compile project(':react-native-maps')
     compile project(':react-native-camera')
