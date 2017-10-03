@@ -1,30 +1,58 @@
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
-const UPDATE_FLAG_LOCATION = 'UPDATE_FLAG_LOCATION'
+const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
+const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
+
+// Initial State
+
+let flags = [ ]
+
+/*
+Object: 
+{
+    flagId: null,
+    startLoc: {latitude: 0, longitude: 0}, // idea: randomly generate location within bounds
+    currentLoc: {latitude: 0, longitude: 0}, // current location is either start location or holder location
+    team: null, /// red/blue
+    // status: null, // taken? true/false
+    holder: null, // playerId of player who captures flag
+}
+*/
+
 
 // Action Creators
-export function isLoggedIn(){
-  const action = {type: IS_LOGGED_IN}
+export function createFlag(flag){
+  const action = {type: CREATE_FLAG, flag}
   return action
 }
 
-export function isLoggedOut(){
-  const action = {type: IS_LOGGED_OUT}
-  return action
+export function takeFlag(flag){
+    const action = {type: TAKE_FLAG, flag}
+    return action
+}
+
+export function resetFlagLocation(flag){
+    const action = {type: RESET_FLAG_LOCATION, flag}
+    return action
 }
 
 // REDUCERS
-export default (state = false, action) => {
+export default (state = flags, action) => {
   switch (action.type) {
 
-    case IS_LOGGED_IN:
-      return true
+    case CREATE_FLAG:
+        return [...state, action.flag]
 
-    case IS_LOGGED_OUT:
-      return false
+    case TAKE_FLAG:
+        let newState = state.filter(flag => flag.flagId !== action.flag.flagId)
+        return [...newState, action.flag]
+
+    case RESET_FLAG_LOCATION:
+        let newState = state.filter(flag => flag.flagId !== action.flag.flagId)
+        return [...newState, action.flag]
 
     default:
-      return state;
+        return state;
   }
 }
 
