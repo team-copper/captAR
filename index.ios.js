@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
 import { Provider} from 'react-redux'
-import { Style, Main } from './component';
+import { Style, Main, GameView } from './component';
 import store from './store'
 
 class captAR extends Component {
