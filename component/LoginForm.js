@@ -1,10 +1,11 @@
+'user strict';
+
+import firebase from '../firebase';
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import firebase from '../firebase';
-import TitledInput from './TitledInput';
-import Style from './Style';
+import { Style, TitledInput } from "./index";
 
-class LoginForm extends Component {
+export default class LoginForm extends Component {
     state = { email: '', password: '', error: '', loading: false };
     onLoginPress() {
         this.setState({ error: '', loading: true });
@@ -53,6 +54,7 @@ class LoginForm extends Component {
         );
     }
 }
+
 const styles = {
     errorTextStyle: {
         color: '#E64A19',
@@ -61,5 +63,3 @@ const styles = {
         paddingBottom: 10
     }
 };
-
-export default LoginForm;
