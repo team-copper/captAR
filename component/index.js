@@ -1,4 +1,5 @@
 export { default as LoginForm } from "./LoginForm";
+export { default as Main } from "./Main";
 export { default as TitledInput } from "./TitledInput";
 export { default as GameView } from "./GameView";
 export { default as Map } from "./Map";

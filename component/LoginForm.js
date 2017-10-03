@@ -3,10 +3,17 @@
 import firebase from '../firebase';
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import { Style, TitledInput } from "./index";
+import { connect } from 'react-redux'
 
-export default class LoginForm extends Component {
-    state = { email: '', password: '', error: '', loading: false };
+import { Style, TitledInput } from "./index";
+import { isLoggedIn, isLoggedOut } from '../store'
+
+class LoginForm extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { email: '', password: '', error: '', loading: false };
+    }
+
     onLoginPress() {
         this.setState({ error: '', loading: true });
 
@@ -15,6 +22,7 @@ export default class LoginForm extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ error: '', loading: false });
+                this.props.isLoggedIn();
             })
             .catch(() => {
                 //Login was not successful, let's create a new account
@@ -34,22 +42,22 @@ export default class LoginForm extends Component {
     render() {
         return (
             <View style={Style.body}>
-                    <TitledInput
-                        label='Email Address'
-                        placeholder='you@domain.com                          '
-                        value={this.state.email}
-                        onChangeText={email => this.setState({ email })}
-                    />
-                    <TitledInput
-                        label='Password'
-                        autoCorrect={false}
-                        placeholder='**********                 '
-                        secureTextEntry
-                        value={this.state.password}
-                        onChangeText={password => this.setState({ password })}
-                    />
-                    <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-                    {this.renderButtonOrSpinner()}
+                <TitledInput
+                    label='Email Address'
+                    placeholder='you@domain.com                          '
+                    value={this.state.email}
+                    onChangeText={email => this.setState({ email })}
+                />
+                <TitledInput
+                    label='Password'
+                    autoCorrect={false}
+                    placeholder='**********                 '
+                    secureTextEntry
+                    value={this.state.password}
+                    onChangeText={password => this.setState({ password })}
+                />
+                <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+                {this.renderButtonOrSpinner()}
             </View>
         );
     }
@@ -63,3 +71,9 @@ const styles = {
         paddingBottom: 10
     }
 };
+
+const mapDispatchToProps = { isLoggedIn }
+
+const LoginFormContainer = connect(null, mapDispatchToProps)(LoginForm)
+
+export default LoginFormContainer

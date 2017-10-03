@@ -2,14 +2,18 @@
 
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
-import { Style, LoginForm, GameView } from './component';
+import { Provider} from 'react-redux'
+import { Style, Main } from './component';
+import store from './store'
 
-export default class captAR extends Component {
+class captAR extends Component {
   render() {
     return (
+      <Provider store={store}>
       <View style={Style.container}>
-        <GameView />
+        <Main />
       </View>
+      </Provider>
     )
   }
 }
