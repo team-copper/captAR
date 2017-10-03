@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     height: 200,
   },
   actionButtonIcon: {
-    fontSize: 20,
+    fontSize: 24,
     height: 22,
     color: 'white',
   },
