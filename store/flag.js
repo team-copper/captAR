@@ -7,6 +7,8 @@ const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
 
 let flags = [ ]
 
+// HAVE SESSION/GAME ID on every object, duration, gameID
+
 /*
 Object: 
 {
@@ -55,8 +57,3 @@ export default (state = flags, action) => {
         return state;
   }
 }
-
-// Flag
-// Team
-// Initial Location
-// Holder
