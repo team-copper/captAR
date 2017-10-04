@@ -11,7 +11,7 @@ import {
   Dimensions
 } from "react-native";
 import MapView from "react-native-maps";
-import { Style, gameLogic } from "./index";
+import { Style } from "./index";
 import geolib from 'geolib'
 import { elevatedAcre } from '../assets/presetGameFields'
 
@@ -151,9 +151,9 @@ export default class Map extends Component {
           error: null
         });
         console.log(
-          gameLogic.checkInside({latitude: this.state.latitude,
+          geolib.isPointInside({latitude: this.state.latitude,
             longitude: this.state.longitude}, 
-            this.state.polyCoordinates
+            this.state.redCoordinates
           )
         );
       },
@@ -200,10 +200,11 @@ export default class Map extends Component {
       : this.setState({ pressFlag: false });
 
     this.setState({
-      flagDistance: gameLogic
-        .calculateDistance(
-          { longitude: this.state.longitude, latitude: this.state.latitude },
-          event.nativeEvent.coordinate
+      flagDistance: 
+        geolib.getDistance(
+          { latitude: this.state.latitude, longitude: this.state.longitude },
+          { latitude: event.nativeEvent.coordinate.latitude, 
+            longitude: event.nativeEvent.coordinate.longitude }, 100, 1
         )
         .toFixed(4)
     });
@@ -218,8 +219,8 @@ export default class Map extends Component {
           initialRegion={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.00461,
-            longitudeDelta: 0.002105
+            latitudeDelta: 0.0002305*10,
+            longitudeDelta: 0.00010525*10
           }}
         >
           <MapView.Polygon
