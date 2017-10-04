@@ -13,9 +13,13 @@ import {
 import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style } from "./index";
-import { elevatedAcre } from "../assets/presetGameFields";
+import {
+  elevatedAcre,
+  bowlingGreen,
+  batteryPark
+} from "../assets/presetGameFields";
 
-export default class Map extends Component {
+export default class SelectGameView extends Component {
   constructor(props) {
     super(props);
 
@@ -24,34 +28,15 @@ export default class Map extends Component {
       latitude: 0,
       error: null,
       pressArea: false,
-      pressFlag: false,
-      gameAreaCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
-      redCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
-      blueCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
-      redFlag: { latitude: 0, longitude: 0 },
-      blueFlag: { latitude: 0, longitude: 0 },
-      flagDistance: 0
+      selectedAra: 0,
+      elevatedAcreCoordinates: [{ latitude: 0, longitude: 0 }],
+      bowlingGreenCoordinates: [{ latitude: 0, longitude: 0 }],
+      batteryParkCoordinates: [{ latitude: 0, longitude: 0 }]
     };
 
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
-    this.handleFlagPress = this.handleFlagPress.bind(this);
   }
 
   componentDidMount() {
@@ -77,25 +62,19 @@ export default class Map extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
-          latitude: 40.703374,
-          longitude: -74.008507,
-          gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
-          redCoordinates: elevatedAcre.redCoordinates,
-          blueCoordinates: elevatedAcre.blueCoordinates,
-
-          redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-          blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          elevatedAcreCoordinates: elevatedAcre.gameAreaCoordinates,
+          bowlingGreenCoordinates: bowlingGreen.gameAreaCoordinates,
+          batteryParkCoordinates: batteryPark.gameAreaCoordinates,
           error: null
         });
-        console.log(
-          geolib.isPointInside(
-            {
-              latitude: this.state.latitude,
-              longitude: this.state.longitude
-            },
-            this.state.redCoordinates
-          )
-        );
+        // console.log(
+        //   geolib.isPointInside({latitude: this.state.latitude,
+        //     longitude: this.state.longitude},
+        //     this.state.redCoordinates
+        //   )
+        // );
       },
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -112,8 +91,8 @@ export default class Map extends Component {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
         this.setState({
-          latitude: 40.703374,
-          longitude: -74.008507,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
           error: null
         });
       },
@@ -134,26 +113,6 @@ export default class Map extends Component {
       : this.setState({ pressArea: false });
   };
 
-  handleFlagPress = event => {
-    !this.state.pressFlag
-      ? this.setState({ pressFlag: true })
-      : this.setState({ pressFlag: false });
-
-    this.setState({
-      flagDistance: geolib
-        .getDistance(
-          { latitude: this.state.latitude, longitude: this.state.longitude },
-          {
-            latitude: event.nativeEvent.coordinate.latitude,
-            longitude: event.nativeEvent.coordinate.longitude
-          },
-          1,
-          3
-        )
-        .toFixed(2)
-    });
-  };
-
   render() {
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
@@ -163,25 +122,29 @@ export default class Map extends Component {
           initialRegion={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
-            latitudeDelta: 0.0002305 * 2,
-            longitudeDelta: 0.00010525 * 2
+            latitudeDelta: 0.02305 * 0.7,
+            longitudeDelta: 0.0105258 * 0.7
           }}
         >
           <MapView.Polygon
-            name="gameArea"
-            coordinates={this.state.gameAreaCoordinates}
-            fillColor="rgba(0, 0, 0, 0.5)"
+            name="elevatedAcre"
+            coordinates={this.state.elevatedAcreCoordinates}
+            fillColor="rgba(0, 255, 0, 0.4)"
             onPress={event => this.handleAreaPress(event)}
           />
+
           <MapView.Polygon
-            name="redTeamArea"
-            coordinates={this.state.redCoordinates}
-            fillColor="rgba(200, 0, 0, 0.1)"
+            name="bowlingGreen"
+            coordinates={this.state.bowlingGreenCoordinates}
+            fillColor="rgba(0, 255, 0, 0.4)"
+            onPress={event => this.handleAreaPress(event)}
           />
+
           <MapView.Polygon
-            name="blueTeamArea"
-            coordinates={this.state.blueCoordinates}
-            fillColor="rgba(0, 0, 200, 0.1)"
+            name="batteryPark"
+            coordinates={this.state.batteryParkCoordinates}
+            fillColor="rgba(0, 255, 0, 0.4)"
+            onPress={event => this.handleAreaPress(event)}
           />
 
           <MapView.Marker
@@ -198,29 +161,6 @@ export default class Map extends Component {
             />
           </MapView.Marker>
 
-          <MapView.Marker
-            name="redFlag"
-            coordinate={this.state.redFlag}
-            title={"Red Team Flag"}
-            onPress={event => this.handleFlagPress(event)}
-          >
-            <Image
-              source={require("../assets/redFlag.png")}
-              style={{ height: 25, width: 25 }}
-            />
-          </MapView.Marker>
-
-          <MapView.Marker
-            name="blueFlag"
-            coordinate={this.state.blueFlag}
-            title={"Blue Team Flag"}
-            onPress={event => this.handleFlagPress(event)}
-          >
-            <Image
-              source={require("../assets/blueFlag.png")}
-              style={{ height: 25, width: 25 }}
-            />
-          </MapView.Marker>
           <View
             style={{
               marginTop: 25
