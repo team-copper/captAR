@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 
 // points on map:
 // [1,2]

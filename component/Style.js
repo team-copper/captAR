@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 import { StyleSheet, Dimensions } from 'react-native';
 
