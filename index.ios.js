@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
 import { Provider} from 'react-redux'
-import { Style, Main, GameView } from './component';
+import { Style, Main, GameView, SelectGameView } from './component';
 import store from './store'
 
 class captAR extends Component {
@@ -11,7 +11,7 @@ class captAR extends Component {
     return (
       <Provider store={store}>
       <View style={Style.container}>
-        <Main />
+        <SelectGameView />
       </View>
       </Provider>
     )

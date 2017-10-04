@@ -7,7 +7,8 @@ class Main extends Component {
   render() {
     return (
       <View style={Style.container}>
-        {this.props.isLoggedIn ? <GameView /> : <LoginForm />}
+        {/* {this.props.isLoggedIn ? <GameView /> : <LoginForm />} */}
+        <GameView />
       </View>
     )
   }
