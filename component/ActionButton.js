@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 import React, { Component } from 'react';
 import ActionButton from 'react-native-action-button';

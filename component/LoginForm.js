@@ -3,7 +3,9 @@
 import firebase from '../firebase';
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import socket from '../socket'
+
 import { Style, TitledInput } from "./index";
 import { isLoggedIn, isLoggedOut } from '../store'
 
@@ -23,6 +25,7 @@ class LoginForm extends Component {
                 this.setState({ email: '', password: '', error: '', loading: false });
                 this.props.isLoggedIn();
                 this.props.navigation.navigate("GameView")
+                socket.emit('logged-in');
             })
             .catch(() => {
                 //Login was not successful, let's create a new account
