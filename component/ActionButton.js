@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 import React, { Component } from 'react';
 import ActionButton from 'react-native-action-button';
@@ -20,12 +20,12 @@ export default class ActionButtonView extends Component {
           <ActionButton.Item buttonColor='#9b59b6' title="Capture" position={this.state.position} onPress={() => this.props.takePicture()}>
             <Icon name="md-radio-button-on" style={Style.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Send My Location" position={this.state.position}onPress={() => {}}>
-            <Icon name="md-send" style={Style.actionButtonIcon} />
-          </ActionButton.Item>
           <ActionButton.Item buttonColor='#1abc9c' title="Message" position={this.state.position} onPress={() => {}}>
             <Icon name="md-mail" style={Style.actionButtonIcon} />
           </ActionButton.Item>
+          <ActionButton.Item buttonColor='#3498db' title="Log Out" position={this.state.position} onPress={() => this.props.onLogoutPress()}>
+          <Icon name="ios-log-out" style={Style.actionButtonIcon} />
+        </ActionButton.Item>
         </ActionButton>
       </View>
     )
