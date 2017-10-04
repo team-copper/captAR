@@ -1,0 +1,31 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+pod "Yoga", :path => "../node_modules/react-native/ReactCommon/yoga"
+
+pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  'DevSupport',
+  'RCTText',
+  'RCTNetwork',
+  'RCTWebSocket',
+]
+
+pod 'Firebase/Core'
+
+# [START auth_pod]
+pod 'Firebase/Auth'
+# [END auth_pod]
+
+target 'captAR' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for captAR
+
+  target 'captARTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+

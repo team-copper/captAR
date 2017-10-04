@@ -232,6 +232,7 @@ export default class Map extends Component {
               <Text>You have selected game area</Text>
             ) : null}
             {this.state.pressFlag ? (
+
               <Text>
                 You are {this.state.flagDistance}m away from that flag
               </Text>

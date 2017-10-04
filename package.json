@@ -18,7 +18,8 @@
 		"react-native-swipeout": "^2.2.2",
 		"react-native-vector-icons": "^4.4.0",
 		"react-redux": "^5.0.6",
-		"redux": "^3.7.2"
+		"redux": "^3.7.2",
+		"socket.io-client": "^2.0.3"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",
