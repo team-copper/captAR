@@ -25,7 +25,7 @@ export default class Map extends Component {
       pressFlag: false,
       polyCoordinates: [
         { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
+         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
@@ -59,15 +59,6 @@ export default class Map extends Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
-  }
-
-  saveToFirebaseDB(payload) {
-    const newMsgRef = firebase
-      .database()
-      .ref("messages")
-      .push();
-    payload.id = newMsgRef.key;
-    newMsgRef.set(payload);
   }
 
   getCurrentPosition = () => {
@@ -155,12 +146,6 @@ export default class Map extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    firebase
-      .auth()
-      .signInAnonymously()
-      .then(() => {
-        this.saveToFirebaseDB(this.state);
-      });
   };
 
   watchPosition = () => {
@@ -206,7 +191,6 @@ export default class Map extends Component {
 
   render() {
     if (this.state.latitude) {
-      this.saveToFirebaseDB(this.state);
       return (
         <MapView
           style={Style.map}
