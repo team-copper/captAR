@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import { Style, gameLogic } from "./index";
+import geolib from 'geolib'
+import { elevatedAcre } from '../assets/presetGameFields'
 
 export default class Map extends Component {
   constructor(props) {
@@ -80,58 +82,62 @@ export default class Map extends Component {
 
           polyCoordinates: [
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude - 0.002
+              latitude: 40.703542,
+              longitude: -74.008528
             },
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude + 0.002
+              latitude: 40.703319,
+              longitude: -74.008273
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude + 0.002
+              latitude: 40.703217,
+              longitude: -74.008428
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude - 0.002
+              latitude: 40.703310,
+              longitude: -74.008606
+            },
+            {
+              latitude: 40.703412,
+              longitude: -74.008722
             }
           ],
-
+      
           redCoordinates: [
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude - 0.002
+              latitude: 40.703542,
+              longitude: -74.008528
             },
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude
+              latitude: 40.703439,
+              longitude: -74.008411
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude
+              latitude: 40.703309,
+              longitude: -74.008602
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude - 0.002
+              latitude: 40.703412,
+              longitude: -74.008722
             }
           ],
-
+      
           blueCoordinates: [
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude
+              latitude: 40.703439,
+              longitude: -74.008411
             },
             {
-              latitude: position.coords.latitude + 0.001,
-              longitude: position.coords.longitude + 0.002
+              latitude: 40.703319,
+              longitude: -74.008273
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude + 0.002
+              latitude: 40.703217,
+              longitude: -74.008428
             },
             {
-              latitude: position.coords.latitude - 0.001,
-              longitude: position.coords.longitude
+              latitude: 40.703309,
+              longitude: -74.008602
             }
           ],
           redFlag: {
@@ -145,11 +151,10 @@ export default class Map extends Component {
           error: null
         });
         console.log(
-          gameLogic.checkInside(this.state.polyCoordinates, {
-            latitude: this.state.latitude,
-            longitude: this.state.longitude
-          }),
-          this.state.polyCoordinates
+          gameLogic.checkInside({latitude: this.state.latitude,
+            longitude: this.state.longitude}, 
+            this.state.polyCoordinates
+          )
         );
       },
       error => this.setState({ error: error.message }),

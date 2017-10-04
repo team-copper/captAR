@@ -73,11 +73,11 @@ const elevatedAcre = {
       }
     ],
     redFlag: {
-      latitude: Math.random()*(max-min)+min,
-      longitude: Math.random()*(max-min)+min
+    //   latitude: Math.random()*(max-min)+min,
+    //   longitude: Math.random()*(max-min)+min
     },
     blueFlag: {
-      latitude: position.coords.latitude - 0.00075,
-      longitude: position.coords.longitude - 0.00175
+    //   latitude: position.coords.latitude - 0.00075,
+    //   longitude: position.coords.longitude - 0.00175
     }
 }
