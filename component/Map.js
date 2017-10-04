@@ -61,14 +61,14 @@ export default class Map extends Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  saveToFirebaseDB(payload) {
-    const newMsgRef = firebase
-      .database()
-      .ref("messages")
-      .push();
-    payload.id = newMsgRef.key;
-    newMsgRef.set(payload);
-  }
+  // saveToFirebaseDB(payload) {
+  //   const newMsgRef = firebase
+  //     .database()
+  //     .ref("messages")
+  //     .push();
+  //   payload.id = newMsgRef.key;
+  //   newMsgRef.set(payload);
+  // }
 
   getCurrentPosition = () => {
     let msg;
@@ -155,12 +155,12 @@ export default class Map extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    firebase
-      .auth()
-      .signInAnonymously()
-      .then(() => {
-        this.saveToFirebaseDB(this.state);
-      });
+    // firebase
+    //   .auth()
+    //   .signInAnonymously()
+    //   .then(() => {
+    //     this.saveToFirebaseDB(this.state);
+    //   });
   };
 
   watchPosition = () => {
@@ -206,7 +206,7 @@ export default class Map extends Component {
 
   render() {
     if (this.state.latitude) {
-      this.saveToFirebaseDB(this.state);
+      // this.saveToFirebaseDB(this.state);
       return (
         <MapView
           style={Style.map}

@@ -1,6 +1,7 @@
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
 const ASSIGN_PLAYER_TEAM = 'ASSIGN_PLAYER_TEAM'
+// save player location --> thunk, save loc to db
 const GET_PLAYER_LOCATION = 'GET_PLAYER_LOCATION'
 const CHANGE_PLAYER_STATUS = 'CHANGE_PLAYER_STATUS'
 const CLEAR_PLAYER = 'CLEAR_PLAYER'
