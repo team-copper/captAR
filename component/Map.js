@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 
 import firebase from "../firebase";
 import React, { Component } from "react";

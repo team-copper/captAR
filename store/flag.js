@@ -12,6 +12,10 @@ let flags = [ ]
 /*
 Object: 
 {
+    session: {
+        gameId: null,
+        duration: null,
+    }
     flagId: null,
     startLoc: {latitude: 0, longitude: 0}, // idea: randomly generate location within bounds
     currentLoc: {latitude: 0, longitude: 0}, // current location is either start location or holder location
