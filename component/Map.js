@@ -27,7 +27,7 @@ export default class Map extends Component {
       pressFlag: false,
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
+         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],

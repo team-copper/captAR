@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 import firebase from '../firebase';
 import React, { Component } from 'react';
@@ -19,17 +19,22 @@ class LoginForm extends Component {
         this.setState({ error: '', loading: true });
 
         const { email, password } = this.state;
-        console.log('email: pwd', email + password)
+        console.log('logging in with ', email , password)
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
-                this.setState({ error: '', loading: false });
+                this.setState({ email: '', password: '', error: '', loading: false });
                 this.props.isLoggedIn();
+                this.props.navigation.navigate("GameView")
                 socket.emit('logged-in');
             })
             .catch(() => {
                 //Login was not successful, let's create a new account
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => { this.setState({ error: '', loading: false }); })
+                    .then(() => { 
+                        this.setState({ email: '', password: '', error: '', loading: false }); 
+                        this.props.isLoggedIn();
+                        this.props.navigation.navigate('GameView');
+                    })
                     .catch(() => {
                         this.setState({ error: 'Authentication failed.', loading: false });
                     });

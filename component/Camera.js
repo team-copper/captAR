@@ -25,6 +25,7 @@ class CameraView extends Component {
     firebase.auth().signOut()
       .then(() => {
         this.props.isLoggedOut();
+        this.props.navigate("LoginForm");
       })
       .catch(error => console.log(error));
   }
