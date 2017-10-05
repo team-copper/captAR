@@ -1,4 +1,4 @@
-import socket from 'socket.io-client'
+import socket from '../socket'
 
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
@@ -55,23 +55,27 @@ export function deleteFlag(flagId){
 // THUNKS
 
 export function createFlagThunk(flag){
+    console.log("*****", flag)
     createFlag(flag)
-    socket.emit(createFlag(flag))
+    console.log("*****AFTER CREATE FLAG*****")
+    socket.emit(flag)
+    console.log("*****AFTER EMIT CREATE FLAG*****")
+    
 }
 
 export function takeFlagThunk(flag){
     takeFlag(flag)
-    socket.emit(takeFlag(flag))
+    socket.emit(flag)
 }
 
 export function resetFlagThunk(flag){
     resetFlag(flag)
-    socket.emit(resetFlagLocation(flag))
+    socket.emit(flag)
 }
 
 export function deleteFlagThunk(flag){
     deleteFlag(flag)
-    socket.emit(deleteFlagLocation(flag))
+    socket.emit(flag)
 }
 
 // REDUCERS
@@ -86,11 +90,11 @@ export default (state = flags, action) => {
         return [...newState, action.flag]
 
     case RESET_FLAG_LOCATION:
-        let newState = state.filter(flag => flag.flagId !== action.flag.flagId)
+         newState = state.filter(flag => flag.flagId !== action.flag.flagId)
         return [...newState, action.flag]
 
     case DELETE_FLAG:
-        let newState = state.filter(flag => flag.flagId !== action.flagId)
+         newState = state.filter(flag => flag.flagId !== action.flagId)
         return newState
 
     default:

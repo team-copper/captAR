@@ -27,7 +27,7 @@ export function createTeam(team){
   return action
 }
 
-export function takeFlag(team){
+export function clearTeam(team){
     const action = {type: CLEAR_TEAM, team}
     return action
 }
