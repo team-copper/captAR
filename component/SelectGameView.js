@@ -142,6 +142,14 @@ export default class SelectGameView extends Component {
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
       console.log(this.state.selectedArea);
+      const selectedArea = []
+      for (const area in this.state.selectedArea) {
+        if (this.state.selectedArea[area] === true) {
+          selectedArea.push(area)
+        }
+      }
+      console.log(selectedArea);
+
       return (
         <MapView
           style={Style.map}
@@ -194,9 +202,15 @@ export default class SelectGameView extends Component {
           >
             <Text>Latitude: {this.state.latitude}</Text>
             <Text>Longitude: {this.state.longitude}</Text>
-            {this.state.pressArea ? (
-              <Text>You have selected game area</Text>
-            ) : null}
+            {(selectedArea.length === 1) ? (
+              <Text>
+                You have selected: {selectedArea}. Please join the game.
+              </Text>
+            ) :
+              <Text>
+                Please select one game area to join.
+              </Text>
+            }
             {this.state.pressFlag ? (
               <Text>
                 You are {this.state.flagDistance}m away from that flag
