@@ -1,9 +1,10 @@
 
 export class Player {
     constructor() {
+        this.gameSessionId = null
         this.playerId = null
         this.position = null
-        this.teamId = null
+        this.teamColor = null
         this.tagged = false
         this.hasFlag = false
     }
@@ -28,6 +29,7 @@ export class Player {
 
 export class Team {
     constructor() {
+        this.gameSessionId = null
         this.teamId = null
         this.teamName = null
         this.teamColor = null
@@ -36,6 +38,7 @@ export class Team {
 
 export class Flag {
     constructor() {
+        this.gameSessionId = null
         this.homeLocation = null
         this.currentLocation = null
         this.teamId = null

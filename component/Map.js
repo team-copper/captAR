@@ -14,12 +14,16 @@ import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
+import Uuid from "uuid-lib";
+import { Player, Team, Flag } from "../model"
+import { createFlagThunk, createPlayerThunk } from "../store"
 
 export default class Map extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      gameSessionId: null,
       longitude: 0,
       latitude: 0,
       error: null,
@@ -27,7 +31,7 @@ export default class Map extends Component {
       pressFlag: false,
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
-         { latitude: 0, longitude: 0 },
+        { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
@@ -77,6 +81,7 @@ export default class Map extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
+          gameSessionId: Uuid.create(),
           latitude: 40.703374,
           longitude: -74.008507,
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
@@ -106,6 +111,22 @@ export default class Map extends Component {
     //   .then(() => {
     //     this.saveToFirebaseDB(this.state);
     //   });
+    let redFlag = new Flag()
+    redFlag.setHomeLocation(this.state.redFlag.latitude, this.state.redFlag.longitude)
+    redFlag.gameSessionId = this.state.gameSessionId
+    createFlagThunk(redFlag);
+
+    let blueFlag = new Flag()
+    blueFlag.setHomeLocation(this.state.blueFlag.latitude, this.state.blueFlag.longitude)
+    blueFlag.gameSessionId = this.state.gameSessionId 
+    createFlagThunk(blueFlag);
+
+    let player = new Player()
+    player.setPosition(this.state.latitude, this.state.longitude)
+    player.gameSessionId = this.state.gameSessionId
+    player.playerId = Uuid.create()
+    player.teamColor = 'red' // for testing, Oscar assign this to 'blue'
+    createPlayerThunk(player);
   };
 
   watchPosition = () => {

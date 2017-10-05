@@ -1,34 +1,35 @@
 {
-	"name": "captAR",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
-	},
-	"dependencies": {
-		"firebase": "^4.4.0",
-		"geolib": "^2.0.23",
-		"react": "16.0.0-alpha.12",
-		"react-native": "0.48.4",
-		"react-native-action-button": "^2.8.0",
-		"react-native-camera": "^0.10.0",
-		"react-native-maps": "^0.16.4",
-		"react-native-swipe-gestures": "^1.0.2",
-		"react-native-swipeout": "^2.2.2",
-		"react-native-vector-icons": "^4.4.0",
-		"react-navigation": "^1.0.0-beta.13",
-		"react-redux": "^5.0.6",
-		"redux": "^3.7.2",
-		"socket.io-client": "^2.0.3"
-	},
-	"devDependencies": {
-		"babel-jest": "21.2.0",
-		"babel-preset-react-native": "4.0.0",
-		"jest": "21.2.1",
-		"react-test-renderer": "16.0.0-alpha.12"
-	},
-	"jest": {
-		"preset": "react-native"
-	}
+  "name": "captAR",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "firebase": "^4.4.0",
+    "geolib": "^2.0.23",
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.48.4",
+    "react-native-action-button": "^2.8.0",
+    "react-native-camera": "^0.10.0",
+    "react-native-maps": "^0.16.4",
+    "react-native-swipe-gestures": "^1.0.2",
+    "react-native-swipeout": "^2.2.2",
+    "react-native-vector-icons": "^4.4.0",
+    "react-navigation": "^1.0.0-beta.13",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "socket.io-client": "^2.0.3",
+    "uuid-lib": "0.0.6"
+  },
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.0.0-alpha.12"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
 }
