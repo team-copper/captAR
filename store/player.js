@@ -50,9 +50,36 @@ export function changePlayerStatus(player){
     return action
 }
 
-export function clearPlayer(player){
-    const action = {type: CLEAR_PLAYER, player}
+export function clearPlayer(playerId){
+    const action = {type: CLEAR_PLAYER, playerId}
     return action
+}
+
+// THUNKS
+
+export function createPlayerThunk(player){
+    createPlayer(player)
+    socket.emit(createPlayer(player))
+}
+
+export function assignPlayerTeamThunk(player){
+    assignPlayerTeam(player)
+    socket.emit(assignPlayerTeam(player))
+}
+
+export function getPlayerLocationThunk(player){
+    getPlayerLocation(player)
+    socket.emit(getPlayerLocation(player))
+}
+
+export function changePlayerStatusThunk(player){
+    changePlayerStatus(player)
+    socket.emit(changePlayerStatus(player))
+}
+
+export function clearPlayerThunk(playerId){
+    clearPlayer(playerId)
+    socket.emit(clearPlayer(playerId))
 }
 
 // REDUCERS
@@ -75,8 +102,8 @@ export default (state = players, action) => {
         return [...state, action.player]
 
     case CLEAR_PLAYER:
-        let newState = state.filter(player => player.playerId !== action.player.playerId)
-        return [...newState]
+        let newState = state.filter(player => player.playerId !== action.playerId)
+        return newState
 
     default:
         return state;

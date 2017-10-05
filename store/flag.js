@@ -1,3 +1,5 @@
+import socket from 'socket.io-client'
+
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
@@ -26,6 +28,8 @@ Object:
 }
 */
 
+// as soon as flag is created, send emit to socket server, call createFlag() AC then do socket emit
+
 
 // Action Creators
 export function createFlag(flag){
@@ -46,6 +50,28 @@ export function resetFlagLocation(flag){
 export function deleteFlag(flagId){
     const action = {type: DELETE_FLAG, flagId}
     return action
+}
+
+// THUNKS
+
+export function createFlagThunk(flag){
+    createFlag(flag)
+    socket.emit(createFlag(flag))
+}
+
+export function takeFlagThunk(flag){
+    takeFlag(flag)
+    socket.emit(takeFlag(flag))
+}
+
+export function resetFlagThunk(flag){
+    resetFlagThunk(flag)
+    socket.emit(resetFlagLocation(flag))
+}
+
+export function deleteFlagThunk(flag){
+    deleteFlagThunk(flag)
+    socket.emit(deleteFlagLocation(flag))
 }
 
 // REDUCERS

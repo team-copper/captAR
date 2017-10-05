@@ -628,7 +628,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-
 		AB7E1CC7A61C47F093F6A574 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -637,7 +636,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -738,7 +736,6 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = G49T6SUUHR;
-
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
