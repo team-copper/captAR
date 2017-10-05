@@ -1,3 +1,5 @@
+import socket from '../socket'
+
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
 const ASSIGN_PLAYER_TEAM = 'ASSIGN_PLAYER_TEAM'
@@ -50,9 +52,37 @@ export function changePlayerStatus(player){
     return action
 }
 
-export function clearPlayer(player){
-    const action = {type: CLEAR_PLAYER, player}
+export function clearPlayer(playerId){
+    const action = {type: CLEAR_PLAYER, playerId}
     return action
+}
+
+// THUNKS
+
+export function createPlayerThunk(player){
+    console.log("&&&&&&playerthunk")
+    createPlayer(player)
+    socket.emit(player)
+}
+
+export function assignPlayerTeamThunk(player){
+    assignPlayerTeam(player)
+    socket.emit(player)
+}
+
+export function getPlayerLocationThunk(player){
+    getPlayerLocation(player)
+    socket.emit(player)
+}
+
+export function changePlayerStatusThunk(player){
+    changePlayerStatus(player)
+    socket.emit(player)
+}
+
+export function clearPlayerThunk(playerId){
+    clearPlayer(playerId)
+    socket.emit(playerId)
 }
 
 // REDUCERS
@@ -67,16 +97,16 @@ export default (state = players, action) => {
         return [...state, action.player]
 
     case GET_PLAYER_LOCATION:
-        let newState = state.filter(player => player.playerId !== action.player.playerId)
+         newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state, action.player]
 
     case CHANGE_PLAYER_STATUS:
-        let newState = state.filter(player => player.playerId !== action.player.playerId)    
+         newState = state.filter(player => player.playerId !== action.player.playerId)    
         return [...state, action.player]
 
     case CLEAR_PLAYER:
-        let newState = state.filter(player => player.playerId !== action.player.playerId)
-        return [...newState]
+         newState = state.filter(player => player.playerId !== action.playerId)
+        return newState
 
     default:
         return state;
