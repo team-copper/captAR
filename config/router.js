@@ -1,8 +1,8 @@
+'use strict';
+
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-
-import LoginForm from '../component/LoginForm';
-import GameView from '../component/GameView';
+import { LoginForm, GameView } from '../component';
 
 export const GameScreen = StackNavigator({
     LoginForm: {
