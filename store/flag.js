@@ -2,6 +2,7 @@
 const CREATE_FLAG = 'CREATE_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
 const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
+const DELETE_FLAG = 'DELETE_FLAG'
 
 // Initial State
 
@@ -42,6 +43,11 @@ export function resetFlagLocation(flag){
     return action
 }
 
+export function deleteFlag(flagId){
+    const action = {type: DELETE_FLAG, flagId}
+    return action
+}
+
 // REDUCERS
 export default (state = flags, action) => {
   switch (action.type) {
@@ -56,6 +62,10 @@ export default (state = flags, action) => {
     case RESET_FLAG_LOCATION:
         let newState = state.filter(flag => flag.flagId !== action.flag.flagId)
         return [...newState, action.flag]
+
+    case DELETE_FLAG:
+        let newState = state.filter(flag => flag.flagId !== action.flagId)
+        return newState
 
     default:
         return state;
