@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import geolib from "geolib";
-import { Style } from "./index";
+import { Style, ActionButtonView } from "./index";
 import {
   elevatedAcre,
   bowlingGreen,
@@ -129,21 +129,21 @@ export default class SelectGameView extends Component {
           <MapView.Polygon
             name="elevatedAcre"
             coordinates={this.state.elevatedAcreCoordinates}
-            fillColor="rgba(0, 255, 0, 0.4)"
+            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
             onPress={event => this.handleAreaPress(event)}
           />
 
           <MapView.Polygon
             name="bowlingGreen"
             coordinates={this.state.bowlingGreenCoordinates}
-            fillColor="rgba(0, 255, 0, 0.4)"
+            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
             onPress={event => this.handleAreaPress(event)}
           />
 
           <MapView.Polygon
             name="batteryPark"
             coordinates={this.state.batteryParkCoordinates}
-            fillColor="rgba(0, 255, 0, 0.4)"
+            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
             onPress={event => this.handleAreaPress(event)}
           />
 
