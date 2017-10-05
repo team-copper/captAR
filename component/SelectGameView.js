@@ -28,7 +28,11 @@ export default class SelectGameView extends Component {
       latitude: 0,
       error: null,
       pressArea: false,
-      selectedAra: 0,
+      selectedArea: {
+        elevatedAcre: false,
+        bowlingGreen: false,
+        batteryPark: false,
+      },
       elevatedAcreCoordinates: [{ latitude: 0, longitude: 0 }],
       bowlingGreenCoordinates: [{ latitude: 0, longitude: 0 }],
       batteryParkCoordinates: [{ latitude: 0, longitude: 0 }]
@@ -106,16 +110,38 @@ export default class SelectGameView extends Component {
     );
   };
 
-  handleAreaPress = event => {
-    console.log(event.nativeEvent);
-    !this.state.pressArea
-      ? this.setState({ pressArea: true })
-      : this.setState({ pressArea: false });
+  handleAreaPress = (event, id) => {
+    console.log(id, 'selected polygon Id');
+    // id === 1 : elevatedAcre
+    // id === 2 : bowlingGreen
+    // id === 3 : batteryPark
+    if (id === 1)
+      this.setState((state) => {
+        (!this.state.selectedArea.elevatedAcre)
+          ? state.selectedArea.elevatedAcre = true
+          : state.selectedArea.elevatedAcre = false
+        return state
+      });
+    if (id === 2)
+      this.setState((state) => {
+        (!this.state.selectedArea.bowlingGreen)
+          ? state.selectedArea.bowlingGreen = true
+          : state.selectedArea.bowlingGreen = false
+        return state
+      });
+    if (id === 3)
+      this.setState((state) => {
+        (!this.state.selectedArea.batteryPark)
+          ? state.selectedArea.batteryPark = true
+          : state.selectedArea.batteryPark = false
+        return state
+      });
   };
 
   render() {
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
+      console.log(this.state.selectedArea);
       return (
         <MapView
           style={Style.map}
@@ -129,22 +155,22 @@ export default class SelectGameView extends Component {
           <MapView.Polygon
             name="elevatedAcre"
             coordinates={this.state.elevatedAcreCoordinates}
-            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event)}
+            fillColor={this.state.selectedArea.elevatedAcre ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+            onPress={event => this.handleAreaPress(event, 1)}
           />
 
           <MapView.Polygon
             name="bowlingGreen"
             coordinates={this.state.bowlingGreenCoordinates}
-            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event)}
+            fillColor={this.state.selectedArea.bowlingGreen ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+            onPress={event => this.handleAreaPress(event, 2)}
           />
 
           <MapView.Polygon
             name="batteryPark"
             coordinates={this.state.batteryParkCoordinates}
-            fillColor={this.state.pressArea ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event)}
+            fillColor={this.state.selectedArea.batteryPark ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+            onPress={event => this.handleAreaPress(event, 3)}
           />
 
           <MapView.Marker
