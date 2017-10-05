@@ -10,7 +10,6 @@ export { default as ActionButtonView } from "./ActionButton";
 export { default as ARView } from "./AR";
 
 export { default as Style } from "./Style";
-export { default as gameLogic } from "./gameLogic";
 
 'user strict';
 

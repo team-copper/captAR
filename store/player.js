@@ -1,3 +1,5 @@
+import socket from 'socket.io-client'
+
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
 const ASSIGN_PLAYER_TEAM = 'ASSIGN_PLAYER_TEAM'

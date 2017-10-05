@@ -65,12 +65,12 @@ export function takeFlagThunk(flag){
 }
 
 export function resetFlagThunk(flag){
-    resetFlagThunk(flag)
+    resetFlag(flag)
     socket.emit(resetFlagLocation(flag))
 }
 
 export function deleteFlagThunk(flag){
-    deleteFlagThunk(flag)
+    deleteFlag(flag)
     socket.emit(deleteFlagLocation(flag))
 }
 
