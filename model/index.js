@@ -9,7 +9,7 @@ export class Player {
         this.hasFlag = false
     }
 
-    setPosition = function(inLatitude, inLongitude) {
+    setPosition (inLatitude, inLongitude) {
         this.position = {latitude: inLatitude, longitude: inLongitude}
     }
     
@@ -36,23 +36,33 @@ export class Team {
     }
 }
 
-export class Flag {
-    constructor() {
-        this.gameSessionId = null
-        this.homeLocation = null
-        this.currentLocation = null
-        this.teamId = null
-        this.taken = false
-        this.holderId = null
-    }
+export function Flag(color) {
+    this.gameSessionId = null
+    this.homeLocation = null
+    this.location = this.homeLocation
+    this.teamColor = color
+    this.taken = false
+    this.holderId = null
+}
 
-    setHomeLocation = function(inLatitude, inLongitude) {
+Flag.prototype.setHomeLocation = function(inLatitude, inLongitude) {
         this.homeLocation = {latitude: inLatitude, longitude: inLongitude}
     }
     
-    flagTaken = function(player) {
-        this.taken = true;
-        this.holderId = player.playerId;
-        this.currentLocation = player.position;
-    }
+Flag.prototype.flagTaken = function(player) {
+    this.taken = true;
+    this.holderId = player.playerId;
+    this.location = player.position;
+}
+
+Flag.prototype.flagDropped = function() {
+        this.taken = false;
+        this.holderId = null;
+        this.location = this.homeLocation;
+}
+
+export function GameArea() {
+    this.gameSessionId = null;
+    this.redFlag = null;
+    this.blueFlag = null;
 }

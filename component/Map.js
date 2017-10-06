@@ -16,9 +16,10 @@ import { Style } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model"
-import { createFlagThunk, createPlayerThunk } from "../store"
+import { createFlagThunk, createPlayerThunk, getPlayerLocationThunk, changePlayerStatusThunk, clearPlayerThunk, takeFlagThunk, resetFlagThunk, deleteFlagThunk } from "../store";
+import { connect } from 'react-redux';
 
-export default class Map extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -29,24 +30,9 @@ export default class Map extends Component {
       error: null,
       pressArea: false,
       pressFlag: false,
-      gameAreaCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
-      redCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
-      blueCoordinates: [
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 },
-        { latitude: 0, longitude: 0 }
-      ],
+      gameAreaCoordinates: [ ],
+      redCoordinates: [ ],
+      blueCoordinates: [ ],
       redFlag: { latitude: 0, longitude: 0 },
       blueFlag: { latitude: 0, longitude: 0 },
       flagDistance: 0
@@ -273,3 +259,21 @@ export default class Map extends Component {
     }
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    player = state.player
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    playerLocation: playerId => {
+      dispatch(getPlayerLocationThunk(playerId))
+    }
+  }
+}
+
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map)
+
+export default MapContainer

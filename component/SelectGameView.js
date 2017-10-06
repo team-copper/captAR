@@ -119,7 +119,7 @@ export default class SelectGameView extends Component {
       return (
         <MapView
           style={Style.map}
-          initialRegion={{
+          region={{
             latitude: this.state.latitude,
             longitude: this.state.longitude,
             latitudeDelta: 0.02305 * 0.7,

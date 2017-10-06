@@ -24,7 +24,7 @@ class LoginForm extends Component {
             .then(() => {
                 this.setState({ email: '', password: '', error: '', loading: false });
                 this.props.isLoggedIn();
-                this.props.navigation.navigate("GameView")
+                this.props.navigation.navigate("SelectGameView")
                 socket.emit('logged-in');
             })
             .catch(() => {
@@ -33,7 +33,7 @@ class LoginForm extends Component {
                     .then(() => { 
                         this.setState({ email: '', password: '', error: '', loading: false }); 
                         this.props.isLoggedIn();
-                        this.props.navigation.navigate('GameView');
+                        this.props.navigation.navigate('SelectGameView');
                     })
                     .catch(() => {
                         this.setState({ error: 'Authentication failed.', loading: false });
