@@ -49,7 +49,9 @@ export default class Map extends Component {
         { latitude: 0, longitude: 0 }
       ],
       redFlag: { latitude: 0, longitude: 0 },
+      redFlagCircle: { latitude: 0, longitude: 0  },
       blueFlag: { latitude: 0, longitude: 0 },
+      blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
@@ -90,7 +92,6 @@ export default class Map extends Component {
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
           redCoordinates: elevatedAcre.redCoordinates,
           blueCoordinates: elevatedAcre.blueCoordinates,
-
           redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
           blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
@@ -239,6 +240,12 @@ export default class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+            <MapView.Circle
+              name="redFlagCircle"
+              center={this.state.redFlag}
+              radius={1.5}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
 
             <MapView.Marker
               name="blueFlag"
@@ -250,6 +257,13 @@ export default class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+            <MapView.Circle
+              name="blueFlagCircle"
+              center={this.state.blueFlag}
+              radius={1.5}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
+
           </MapView>
 
           <View style={Style.displayBar}>
