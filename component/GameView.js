@@ -10,7 +10,6 @@ export default class GameView extends Component {
     return (
       <View style={Style.container}>
         <Map />
-        <CameraView navigate={this.props.navigation.navigate}/>
       </View>
     )
   }

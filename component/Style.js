@@ -47,11 +47,6 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100
   },
-  cameraPreview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
   actionButtonRight: {
     position: 'absolute',
     marginVertical: 550,
@@ -87,10 +82,14 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-    position: 'absolute',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-  }
+  },
+  cameraPreview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
 });
 
 export default styles;
