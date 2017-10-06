@@ -7,6 +7,23 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  body: {
+    flex: 9,
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'center',
+    backgroundColor: '#F5FCFF',
+  },
+  toolbar: {
+        height: 56,
+    backgroundColor: '#e9eaed',
+  },
+  textInput: {
+    height: 40,
+    width: 200,
+    borderColor: 'red',
+    borderWidth: 1
+  },
   transparentButton: {
     marginTop: 10,
     padding: 15
@@ -92,6 +109,14 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
   },
+  flagAR: {
+    position: 'absolute',
+    marginVertical: 120,
+    width: 90,
+    height: 90,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignSelf: 'center',
+  }
 });
 
 export default styles;
