@@ -29,7 +29,7 @@ export default class Map extends Component {
       error: null,
       enableCapture: false,
       pressFlag: false,
-      displayStatus: "Anuj has captured the flag",
+      displayStatus: "",
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
@@ -58,6 +58,7 @@ export default class Map extends Component {
     this.handleFlagPress = this.handleFlagPress.bind(this);
     this.onCapturePress = this.onCapturePress.bind(this);
     this.onCloseCamera = this.onCloseCamera.bind(this);
+    this.onFlagCapture = this.onFlagCapture.bind(this);
   }
 
   componentDidMount() {
@@ -180,6 +181,10 @@ export default class Map extends Component {
     this.setState({ enableCapture: false})
   }
 
+  onFlagCapture() {
+    this.setState({ displayStatus: "Jordan has captured the flag!"})
+  }
+
   render() {
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
@@ -262,12 +267,13 @@ export default class Map extends Component {
 
           {this.state.enableCapture
             ? <CameraView
-                onCloseCamera = {this.onCloseCamera} />
+                onCloseCamera = {this.onCloseCamera}
+                onFlagCapture = {this.onFlagCapture}
+                />
             : null}
 
           <GameActionButtonView
             onCapturePress = {this.onCapturePress}
-
           />
 
         </View>
