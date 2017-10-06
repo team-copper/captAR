@@ -30,6 +30,7 @@ export default class Map extends Component {
       error: null,
       enableCapture: false,
       pressFlag: false,
+      displayStatus: "",
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
@@ -49,7 +50,9 @@ export default class Map extends Component {
         { latitude: 0, longitude: 0 }
       ],
       redFlag: { latitude: 0, longitude: 0 },
+      redFlagCircle: { latitude: 0, longitude: 0  },
       blueFlag: { latitude: 0, longitude: 0 },
+      blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
@@ -57,6 +60,8 @@ export default class Map extends Component {
     this.watchPosition = this.watchPosition.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
     this.onCapturePress = this.onCapturePress.bind(this);
+    this.onCloseCamera = this.onCloseCamera.bind(this);
+    this.onFlagCapture = this.onFlagCapture.bind(this);
   }
 
   componentDidMount() {
@@ -88,7 +93,6 @@ export default class Map extends Component {
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
           redCoordinates: elevatedAcre.redCoordinates,
           blueCoordinates: elevatedAcre.blueCoordinates,
-
           redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
           blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
@@ -172,9 +176,15 @@ export default class Map extends Component {
   };
 
   onCapturePress() {
-    !this.state.onCapturePress
-      ? this.setState({ enableCapture: true})
-      : this.setState({ enableCapture: false})
+    this.setState({ enableCapture: true})
+  }
+
+  onCloseCamera() {
+    this.setState({ enableCapture: false})
+  }
+
+  onFlagCapture() {
+    this.setState({ displayStatus: "Jordan has captured the flag!"})
   }
 
   render() {
@@ -231,6 +241,12 @@ export default class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+            <MapView.Circle
+              name="redFlagCircle"
+              center={this.state.redFlag}
+              radius={1.5}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
 
             <MapView.Marker
               name="blueFlag"
@@ -242,20 +258,34 @@ export default class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+            <MapView.Circle
+              name="blueFlagCircle"
+              center={this.state.blueFlag}
+              radius={1.5}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
+
           </MapView>
 
-          <View style={Style.selectTextContainer}>
-            <Text>Latitude: {this.state.latitude}</Text>
-            <Text>Longitude: {this.state.longitude}</Text>
+          <View style={Style.displayBar}>
             {this.state.pressFlag ? (
-              <Text>
+              <Text style={Style.displayFont}>
                 You are {this.state.flagDistance}m away from that flag
               </Text>
-            ) : null}
+            ) :
+              <Text style={Style.displayFont}>
+                {this.state.displayStatus}
+              </Text>
+            }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
 
-          { this.state.enableCapture ? <CameraView /> : null }
+          {this.state.enableCapture
+            ? <CameraView
+                onCloseCamera = {this.onCloseCamera}
+                onFlagCapture = {this.onFlagCapture}
+                />
+            : null}
 
           <GameActionButtonView
             onCapturePress = {this.onCapturePress}
