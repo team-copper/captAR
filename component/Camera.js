@@ -1,9 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
+import firebase from "../firebase";
 import { connect } from 'react-redux'
 import Camera from 'react-native-camera';
-import { GameActionButtonView, Style } from './index';
+import { Style } from './index';
 import { isLoggedOut } from '../store'
 
 class CameraView extends Component {
@@ -19,15 +20,6 @@ class CameraView extends Component {
       .catch(err => console.error(err));
   }
 
-  onLogoutPress() {
-    firebase.auth().signOut()
-      .then(() => {
-        this.props.isLoggedOut();
-        this.props.navigate("LoginForm");
-      })
-      .catch(error => console.log(error));
-  }
-
   render() {
     return (
       <Camera
@@ -35,9 +27,6 @@ class CameraView extends Component {
         style={Style.cameraPreview}
         aspect={Camera.constants.Aspect.fill}
         orientation={Camera.constants.Orientation.auto}>
-        <GameActionButtonView
-          takePicture = {this.takePicture}
-          onLogoutPress = {this.onLogoutPress} />
       </Camera>
     )
   }
