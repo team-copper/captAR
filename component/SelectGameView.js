@@ -8,11 +8,11 @@ import {
   Text,
   View,
   Image,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import MapView from "react-native-maps";
 import geolib from "geolib";
-import { Style, ActionButtonView } from "./index";
+import { Style, SelectGameActionButtonView } from "./index";
 import {
   elevatedAcre,
   bowlingGreen,
@@ -151,74 +151,65 @@ export default class SelectGameView extends Component {
       console.log(selectedArea);
 
       return (
-        <MapView
-          style={Style.map}
-          initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: 0.02305 * 0.7,
-            longitudeDelta: 0.0105258 * 0.7
-          }}
-        >
-          <MapView.Polygon
-            name="elevatedAcre"
-            coordinates={this.state.elevatedAcreCoordinates}
-            fillColor={this.state.selectedArea.elevatedAcre ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event, 1)}
-          />
-
-          <MapView.Polygon
-            name="bowlingGreen"
-            coordinates={this.state.bowlingGreenCoordinates}
-            fillColor={this.state.selectedArea.bowlingGreen ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event, 2)}
-          />
-
-          <MapView.Polygon
-            name="batteryPark"
-            coordinates={this.state.batteryParkCoordinates}
-            fillColor={this.state.selectedArea.batteryPark ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
-            onPress={event => this.handleAreaPress(event, 3)}
-          />
-
-          <MapView.Marker
-            name="currentLocation"
-            coordinate={{
+        <View style={Style.container}>
+          <MapView
+            style={Style.map}
+            initialRegion={{
               latitude: this.state.latitude,
-              longitude: this.state.longitude
+              longitude: this.state.longitude,
+              latitudeDelta: 0.02305 * 0.7,
+              longitudeDelta: 0.0105258 * 0.7
             }}
-            title={"Your Location"}
           >
-            <Image
-              source={require("../assets/person.png")}
-              style={{ height: 25, width: 25 }}
+            <MapView.Polygon
+              name="elevatedAcre"
+              coordinates={this.state.elevatedAcreCoordinates}
+              fillColor={this.state.selectedArea.elevatedAcre ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+              onPress={event => this.handleAreaPress(event, 1)}
             />
-          </MapView.Marker>
 
-          <View
-            style={{
-              marginTop: 25
-            }}
-          >
-            <Text>Latitude: {this.state.latitude}</Text>
-            <Text>Longitude: {this.state.longitude}</Text>
+            <MapView.Polygon
+              name="bowlingGreen"
+              coordinates={this.state.bowlingGreenCoordinates}
+              fillColor={this.state.selectedArea.bowlingGreen ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+              onPress={event => this.handleAreaPress(event, 2)}
+            />
+
+            <MapView.Polygon
+              name="batteryPark"
+              coordinates={this.state.batteryParkCoordinates}
+              fillColor={this.state.selectedArea.batteryPark ? "rgba(255, 255, 0, 0.8)" : "rgba(0, 255, 0, 0.6)"}
+              onPress={event => this.handleAreaPress(event, 3)}
+            />
+
+            <MapView.Marker
+              name="currentLocation"
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+              }}
+              title={"Your Location"}
+            >
+              <Image
+                source={require("../assets/person.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+          </MapView>
+          <View style={Style.selectTextContainer}>
             {(selectedArea.length === 1) ? (
               <Text>
-                You have selected: {selectedArea}. Please join the game.
+                You have selected: {selectedArea}
               </Text>
             ) :
               <Text>
-                Please select one game area to join.
+                Please select one game area to join
               </Text>
             }
-            {this.state.pressFlag ? (
-              <Text>
-                You are {this.state.flagDistance}m away from that flag
-              </Text>
-            ) : null}
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-        </MapView>
+          <SelectGameActionButtonView />
+        </View>
       );
     } else {
       return (

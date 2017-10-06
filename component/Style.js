@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 9,
-    flexDirection:'column',
-    alignItems:'center',
-    justifyContent:'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#F5FCFF',
   },
   toolbar: {
@@ -53,12 +53,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   actionButtonRight: {
-    alignSelf: 'flex-end',
+    position: 'absolute',
+    marginVertical: 550,
+    marginLeft: 220,
     width: 200,
     height: 200,
   },
   actionButtonLeft: {
-    alignSelf: 'flex-start',
+    position: 'absolute',
+    marginVertical: 550,
     width: 200,
     height: 200,
   },
@@ -66,6 +69,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     height: 22,
     color: 'white',
+  },
+  selectViewButtonRight: {
+    position: 'absolute',
+    marginTop: 200,
+  },
+  selectTextContainer: {
+    marginVertical: 50,
+    position: 'absolute',
+    alignSelf: 'center',
   },
   ar: {
     justifyContent: 'center',
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1,
-    alignItems: 'center',
+    position: 'absolute',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   }
