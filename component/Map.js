@@ -57,6 +57,7 @@ export default class Map extends Component {
     this.watchPosition = this.watchPosition.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
     this.onCapturePress = this.onCapturePress.bind(this);
+    this.onCloseCamera = this.onCloseCamera.bind(this);
   }
 
   componentDidMount() {
@@ -172,9 +173,11 @@ export default class Map extends Component {
   };
 
   onCapturePress() {
-    !this.state.onCapturePress
-      ? this.setState({ enableCapture: true})
-      : this.setState({ enableCapture: false})
+    this.setState({ enableCapture: true})
+  }
+
+  onCloseCamera() {
+    this.setState({ enableCapture: false})
   }
 
   render() {
@@ -257,10 +260,14 @@ export default class Map extends Component {
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
 
-          { this.state.enableCapture ? <CameraView /> : null }
+          {this.state.enableCapture
+            ? <CameraView
+                onCloseCamera = {this.onCloseCamera} />
+            : null}
 
           <GameActionButtonView
             onCapturePress = {this.onCapturePress}
+
           />
 
         </View>

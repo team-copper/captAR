@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
   selectTextContainer: {
-    marginVertical: 50,
     position: 'absolute',
+    marginVertical: 50,
     alignSelf: 'center',
   },
   ar: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   displayBar: {
     alignItems: 'center',
-    height: 50,
+    height: 45,
     backgroundColor: '#C0C0C0',
     justifyContent: 'center',
   },
@@ -81,7 +81,16 @@ const styles = StyleSheet.create({
   },
   cameraPreview: {
     flex: 1,
-    justifyContent: 'flex-end',
+  },
+  closeCameraContainer: {
+    position: 'absolute',
+    marginVertical: 10,
+    marginLeft: 375,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    width: 28,
+    height: 30,
+    fontSize: 26,
+    fontWeight: 'bold',
   },
 });
 

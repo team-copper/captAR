@@ -5,7 +5,7 @@ import firebase from "../firebase";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { View } from "react-native";
-import { Style, CameraView } from "./index";
+import { Style } from "./index";
 
 // default position state set as right-hander
 export default class GameActionButtonView extends Component {
