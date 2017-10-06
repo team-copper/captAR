@@ -29,6 +29,7 @@ export default class Map extends Component {
       error: null,
       enableCapture: false,
       pressFlag: false,
+      displayStatus: "Anuj has captured the flag",
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
@@ -243,14 +244,16 @@ export default class Map extends Component {
             </MapView.Marker>
           </MapView>
 
-          <View style={Style.selectTextContainer}>
-            <Text>Latitude: {this.state.latitude}</Text>
-            <Text>Longitude: {this.state.longitude}</Text>
+          <View style={Style.displayBar}>
             {this.state.pressFlag ? (
-              <Text>
+              <Text style={Style.displayFont}>
                 You are {this.state.flagDistance}m away from that flag
               </Text>
-            ) : null}
+            ) :
+              <Text style={Style.displayFont}>
+                {this.state.displayStatus}
+              </Text>
+            }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
 

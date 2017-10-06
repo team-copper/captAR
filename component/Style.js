@@ -7,23 +7,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  body: {
-    flex: 9,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  toolbar: {
-        height: 56,
-    backgroundColor: '#e9eaed',
-  },
-  textInput: {
-    height: 40,
-    width: 200,
-    borderColor: 'red',
-    borderWidth: 1
-  },
   transparentButton: {
     marginTop: 10,
     padding: 15
@@ -85,10 +68,20 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  displayBar: {
+    alignItems: 'center',
+    height: 50,
+    backgroundColor: '#C0C0C0',
+    justifyContent: 'center',
+  },
+  displayFont: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
   cameraPreview: {
     flex: 1,
     justifyContent: 'flex-end',
-    alignItems: 'center'
   },
 });
 
