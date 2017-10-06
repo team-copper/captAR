@@ -18,8 +18,10 @@ import {
   bowlingGreen,
   batteryPark
 } from "../assets/presetGameFields";
+import { fetchGameThunk } from '../store';
+import { connect } from 'react-redux';
 
-export default class SelectGameView extends Component {
+class SelectGameView extends Component {
   constructor(props) {
     super(props);
 
@@ -136,6 +138,7 @@ export default class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
+      this.props.fetchGame(id);
   };
 
   render() {
@@ -220,3 +223,22 @@ export default class SelectGameView extends Component {
     }
   }
 }
+
+const mapStateToProps = state => {
+  console.log('state in selectGameView ', state.game)
+  return {
+    messages: state.game
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchGame: (polyId) => {
+      dispatch(fetchGameThunk(polyId))
+    }
+  }
+}
+
+const SelectGameViewContainer = connect(mapStateToProps, mapDispatchToProps)(SelectGameView);
+
+export default SelectGameViewContainer;

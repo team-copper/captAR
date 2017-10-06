@@ -16,7 +16,7 @@ export { default as Style } from "./Style";
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Provider} from 'react-redux'
-import { Style, Main, GameView, LoginForm, SelectGameView } from './';
+import { Style } from './';
 import store from '../store'
 import { GameScreen } from '../config/router'
 
@@ -25,7 +25,7 @@ export default class captAR extends Component {
     return (
       <Provider store={store}>
         <View style={Style.container}>
-          <GameView />
+          <GameScreen />
         </View>
       </Provider>
     )

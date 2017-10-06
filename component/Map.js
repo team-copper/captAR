@@ -17,6 +17,7 @@ import { elevatedAcre } from "../assets/presetGameFields";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model"
 import { createFlagThunk, createPlayerThunk } from "../store"
+import { connect } from 'react-redux';
 
 export default class Map extends Component {
   constructor(props) {
