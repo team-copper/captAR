@@ -43,6 +43,7 @@ class SelectGameView extends Component {
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
+    this.checkFirebase = this.checkFirebase.bind(this)
   }
 
   componentDidMount() {
@@ -117,15 +118,26 @@ class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
-      this.props.fetchGame(id);
+      this.checkFirebase(id);
   };
 
+  checkFirebase = (id) => {
+    const dbName = 'GameArea'+id.toString()
+    firebase.database().ref(`dbName`).once('value')
+      .then(function(snapshot) {
+          var game = snapshot.val();
+          console.log('returned game ', game)
+      })
+      .catch(error => console.log('no game found'))
+  }
+
   render() {
-    if (this.state.latitude) {
       const games = this.props.gameArea;
-      games.length
-      ? Object.keys(games[0]).forEach(key => console.log('msg ', games[0][key]))
-      : console.log('getting game areas')
+      // games.length
+      // // ? Object.keys(games[0]).forEach(key => console.log('msg ', games[0][key]))
+      // ? console.log('game returned ', games)
+      // : console.log('getting game areas')
+    if (this.state.latitude) {
       const selectedArea = []
       for (const area in this.state.selectedArea) {
         if (this.state.selectedArea[area] === true) {

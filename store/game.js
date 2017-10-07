@@ -55,7 +55,7 @@ export function clearGame(game){
 
 export function fetchGameThunk(polyId) {
     return function (dispatch) {
-        firebase.database().ref('gameArea').once('value')
+        firebase.database().ref(`gameArea/${polyId}`).once('value')
             .then(function(snapshot) {
                 var game = snapshot.val();
                 dispatch(fetchGame(game))
