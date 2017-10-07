@@ -53,14 +53,15 @@ export function clearGame(game){
 
 // THUNKS
 
-export function fetchGameThunk(polyId){
-    firebase.database().ref('/messages').once('value')
-        .then(function(snapshot) {
-            var messages = snapshot.val();
-            console.log('message returned ', messages)
-            dispatch(fetchGame(messages))
-        })
-        .catch(error => console.log('no message found')) 
+export function fetchGameThunk(polyId) {
+    return function (dispatch) {
+        firebase.database().ref('gameArea').once('value')
+            .then(function(snapshot) {
+                var game = snapshot.val();
+                dispatch(fetchGame(game))
+            })
+            .catch(error => console.log('no message found'))
+    }
 }
 
 export function createGameThunk(gameSessionId){

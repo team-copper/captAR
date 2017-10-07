@@ -1,5 +1,5 @@
-import { combineReducers, createStore } from 'redux'
-
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 import authenticated from './authenticated'
 import game from './game'
 
@@ -7,8 +7,9 @@ const reducers = combineReducers({
   authenticated,
   game
 })
+const middleware = applyMiddleware(thunkMiddleware);
 
-const store = createStore(reducers);
+const store = createStore(reducers, middleware);
 
 export default store;
 export * from './authenticated'

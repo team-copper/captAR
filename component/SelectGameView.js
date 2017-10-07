@@ -54,15 +54,6 @@ class SelectGameView extends Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  // saveToFirebaseDB(payload) {
-  //   const newMsgRef = firebase
-  //     .database()
-  //     .ref("messages")
-  //     .push();
-  //   payload.id = newMsgRef.key;
-  //   newMsgRef.set(payload);
-  // }
-
   getCurrentPosition = () => {
     let msg;
     navigator.geolocation.getCurrentPosition(
@@ -75,22 +66,10 @@ class SelectGameView extends Component {
           batteryParkCoordinates: batteryPark.gameAreaCoordinates,
           error: null
         });
-        // console.log(
-        //   geolib.isPointInside({latitude: this.state.latitude,
-        //     longitude: this.state.longitude},
-        //     this.state.redCoordinates
-        //   )
-        // );
       },
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    // firebase
-    //   .auth()
-    //   .signInAnonymously()
-    //   .then(() => {
-    //     this.saveToFirebaseDB(this.state);
-    //   });
   };
 
   watchPosition = () => {
@@ -113,7 +92,7 @@ class SelectGameView extends Component {
   };
 
   handleAreaPress = (event, id) => {
-    console.log(id, 'selected polygon Id');
+    // console.log(id, 'selected polygon Id');
     // id === 1 : elevatedAcre
     // id === 2 : bowlingGreen
     // id === 3 : batteryPark
@@ -143,16 +122,16 @@ class SelectGameView extends Component {
 
   render() {
     if (this.state.latitude) {
-      // this.saveToFirebaseDB(this.state);
-      console.log(this.state.selectedArea);
+      const games = this.props.gameArea;
+      games.length
+      ? Object.keys(games[0]).forEach(key => console.log('msg ', games[0][key]))
+      : console.log('getting game areas')
       const selectedArea = []
       for (const area in this.state.selectedArea) {
         if (this.state.selectedArea[area] === true) {
           selectedArea.push(area)
         }
       }
-      console.log(selectedArea);
-
       return (
         <View style={Style.container}>
           <MapView
@@ -225,9 +204,8 @@ class SelectGameView extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('state in selectGameView ', state.game)
   return {
-    messages: state.game
+    gameArea: state.game
   }
 }
 
