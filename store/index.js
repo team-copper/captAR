@@ -1,4 +1,6 @@
-import { combineReducers, createStore } from 'redux'
+import { combineReducers, createStore, applyMiddleware } from 'redux'
+import { createLogger } from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
 
 import authenticated from './authenticated'
 
@@ -6,7 +8,7 @@ const reducers = combineReducers({
   authenticated
 })
 
-const store = createStore(reducers);
+const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
 
 export default store;
 export * from './authenticated'

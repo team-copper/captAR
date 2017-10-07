@@ -1,4 +1,3 @@
-import socket from '../socket'
 
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
@@ -15,7 +14,7 @@ let players = [ ]
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,
@@ -62,27 +61,22 @@ export function clearPlayer(playerId){
 export function createPlayerThunk(player){
     console.log("&&&&&&playerthunk")
     createPlayer(player)
-    socket.emit(player)
 }
 
 export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
-    socket.emit(player)
 }
 
 export function getPlayerLocationThunk(player){
     getPlayerLocation(player)
-    socket.emit(player)
 }
 
 export function changePlayerStatusThunk(player){
     changePlayerStatus(player)
-    socket.emit(player)
 }
 
 export function clearPlayerThunk(playerId){
     clearPlayer(playerId)
-    socket.emit(playerId)
 }
 
 // REDUCERS
@@ -101,7 +95,7 @@ export default (state = players, action) => {
         return [...state, action.player]
 
     case CHANGE_PLAYER_STATUS:
-         newState = state.filter(player => player.playerId !== action.player.playerId)    
+         newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state, action.player]
 
     case CLEAR_PLAYER:

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import geolib from "geolib";
-import { Style } from "./index";
+import { Style, GameActionButtonView, CameraView } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model"
@@ -27,7 +27,7 @@ export default class Map extends Component {
       longitude: 0,
       latitude: 0,
       error: null,
-      pressArea: false,
+      enableCapture: false,
       pressFlag: false,
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
@@ -54,8 +54,8 @@ export default class Map extends Component {
 
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
-    this.handleAreaPress = this.handleAreaPress.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
+    this.onCapturePress = this.onCapturePress.bind(this);
   }
 
   componentDidMount() {
@@ -115,7 +115,7 @@ export default class Map extends Component {
     redFlag.setHomeLocation(this.state.redFlag.latitude, this.state.redFlag.longitude);
     redFlag.gameSessionId = this.state.gameSessionId;
     console.log("*****", redFlag)
-    createFlagThunk(redFlag); 
+    createFlagThunk(redFlag);
 
     let blueFlag = new Flag();
     blueFlag.setHomeLocation(this.state.blueFlag.latitude, this.state.blueFlag.longitude);
@@ -150,13 +150,6 @@ export default class Map extends Component {
     );
   };
 
-  handleAreaPress = event => {
-    console.log(event.nativeEvent);
-    !this.state.pressArea
-      ? this.setState({ pressArea: true })
-      : this.setState({ pressArea: false });
-  };
-
   handleFlagPress = event => {
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
@@ -177,92 +170,97 @@ export default class Map extends Component {
     });
   };
 
+  onCapturePress() {
+    !this.state.onCapturePress
+      ? this.setState({ enableCapture: true})
+      : this.setState({ enableCapture: false})
+  }
+
   render() {
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
       return (
-        <MapView
-          style={Style.map}
-          initialRegion={{
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            latitudeDelta: 0.0002305 * 2,
-            longitudeDelta: 0.00010525 * 2
-          }}
-        >
-          <MapView.Polygon
-            name="gameArea"
-            coordinates={this.state.gameAreaCoordinates}
-            fillColor="rgba(0, 0, 0, 0.5)"
-            onPress={event => this.handleAreaPress(event)}
-          />
-          <MapView.Polygon
-            name="redTeamArea"
-            coordinates={this.state.redCoordinates}
-            fillColor="rgba(200, 0, 0, 0.1)"
-          />
-          <MapView.Polygon
-            name="blueTeamArea"
-            coordinates={this.state.blueCoordinates}
-            fillColor="rgba(0, 0, 200, 0.1)"
-          />
-
-          <MapView.Marker
-            name="currentLocation"
-            coordinate={{
+        <View style={Style.container}>
+          <MapView
+            style={Style.map}
+            initialRegion={{
               latitude: this.state.latitude,
-              longitude: this.state.longitude
-            }}
-            title={"Your Location"}
-          >
-            <Image
-              source={require("../assets/person.png")}
-              style={{ height: 25, width: 25 }}
-            />
-          </MapView.Marker>
-
-          <MapView.Marker
-            name="redFlag"
-            coordinate={this.state.redFlag}
-            title={"Red Team Flag"}
-            onPress={event => this.handleFlagPress(event)}
-          >
-            <Image
-              source={require("../assets/redFlag.png")}
-              style={{ height: 25, width: 25 }}
-            />
-          </MapView.Marker>
-
-          <MapView.Marker
-            name="blueFlag"
-            coordinate={this.state.blueFlag}
-            title={"Blue Team Flag"}
-            onPress={event => this.handleFlagPress(event)}
-          >
-            <Image
-              source={require("../assets/blueFlag.png")}
-              style={{ height: 25, width: 25 }}
-            />
-          </MapView.Marker>
-          <View
-            style={{
-              marginTop: 25
+              longitude: this.state.longitude,
+              latitudeDelta: 0.0002305 * 2,
+              longitudeDelta: 0.00010525 * 2
             }}
           >
+            <MapView.Polygon
+              name="gameArea"
+              coordinates={this.state.gameAreaCoordinates}
+              fillColor="rgba(0, 0, 0, 0.5)"
+            />
+            <MapView.Polygon
+              name="redTeamArea"
+              coordinates={this.state.redCoordinates}
+              fillColor="rgba(200, 0, 0, 0.1)"
+            />
+            <MapView.Polygon
+              name="blueTeamArea"
+              coordinates={this.state.blueCoordinates}
+              fillColor="rgba(0, 0, 200, 0.1)"
+            />
+
+            <MapView.Marker
+              name="currentLocation"
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+              }}
+              title={"Your Location"}
+            >
+              <Image
+                source={require("../assets/person.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+
+            <MapView.Marker
+              name="redFlag"
+              coordinate={this.state.redFlag}
+              onPress={event => this.handleFlagPress(event)}
+            >
+              <Image
+                source={require("../assets/redFlag.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+
+            <MapView.Marker
+              name="blueFlag"
+              coordinate={this.state.blueFlag}
+              onPress={event => this.handleFlagPress(event)}
+            >
+              <Image
+                source={require("../assets/blueFlag.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+          </MapView>
+
+          <View style={Style.selectTextContainer}>
             <Text>Latitude: {this.state.latitude}</Text>
             <Text>Longitude: {this.state.longitude}</Text>
-            {this.state.pressArea ? (
-              <Text>You have selected game area</Text>
-            ) : null}
             {this.state.pressFlag ? (
-
               <Text>
                 You are {this.state.flagDistance}m away from that flag
               </Text>
             ) : null}
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-        </MapView>
+
+          { this.state.enableCapture ? <CameraView /> : null }
+
+          <GameActionButtonView
+            onCapturePress = {this.onCapturePress}
+          />
+
+        </View>
       );
     } else {
       return (
