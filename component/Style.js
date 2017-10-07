@@ -13,9 +13,9 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 9,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'center',
     backgroundColor: '#F5FCFF',
   },
   toolbar: {
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
     marginTop: 200,
   },
   selectTextContainer: {
-    marginVertical: 50,
     position: 'absolute',
+    marginVertical: 50,
     alignSelf: 'center',
   },
   ar: {
@@ -89,11 +89,38 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  displayBar: {
+    alignItems: 'center',
+    height: 45,
+    backgroundColor: '#C0C0C0',
+    justifyContent: 'center',
+  },
+  displayFont: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
   cameraPreview: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
   },
+  closeCameraContainer: {
+    position: 'absolute',
+    marginVertical: 10,
+    marginLeft: 375,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    width: 28,
+    height: 30,
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  flagAR: {
+    position: 'absolute',
+    marginVertical: 120,
+    width: 90,
+    height: 90,
+    backgroundColor: 'rgba(0,0,0,0)',
+    alignSelf: 'center',
+  }
 });
 
 export default styles;
