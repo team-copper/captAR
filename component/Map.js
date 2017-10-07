@@ -15,8 +15,6 @@ import geolib from "geolib";
 import { Style, GameActionButtonView, CameraView } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
 import Uuid from "uuid-lib";
-import { Player, Team, Flag } from "../model"
-import { createFlagThunk, createPlayerThunk } from "../store"
 
 export default class Map extends Component {
   constructor(props) {
@@ -115,24 +113,6 @@ export default class Map extends Component {
     //   .then(() => {
     //     this.saveToFirebaseDB(this.state);
     //   });
-    let redFlag = new Flag();
-    redFlag.setHomeLocation(this.state.redFlag.latitude, this.state.redFlag.longitude);
-    redFlag.gameSessionId = this.state.gameSessionId;
-    console.log("*****", redFlag)
-    createFlagThunk(redFlag);
-
-    let blueFlag = new Flag();
-    blueFlag.setHomeLocation(this.state.blueFlag.latitude, this.state.blueFlag.longitude);
-    blueFlag.gameSessionId = this.state.gameSessionId;
-    createFlagThunk(blueFlag);
-
-    let player = new Player();
-    player.setPosition(this.state.latitude, this.state.longitude);
-    player.gameSessionId = this.state.gameSessionId;
-    player.playerId = Uuid.create();
-    player.teamColor = 'red'; // for testing, Oscar assign this to 'blue'
-    console.log("*****player thunk", player)
-    createPlayerThunk(player);
   };
 
   watchPosition = () => {
