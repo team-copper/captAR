@@ -21,11 +21,13 @@ import { Player, Team, Flag } from "../model";
 import {
   createFlagThunk,
   createPlayerThunk,
-  getPlayersLocation
+  getDistanceFromFlagThunk
 } from "../store";
 
 // Parent - Child Component Order:
 // Map -> GameActionButton -> Camera
+
+// Rename to UserGameView?
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +38,7 @@ class Map extends Component {
       latitude: 0,
       error: null,
       enableCapture: false,
+      // Add playerId and team to each user's local state?
       pressFlag: false, // redux state? I am not so sure.
       displayStatus: "", // redux state. Don't worry about this now.
       gameAreaCoordinates: [
@@ -150,22 +153,26 @@ class Map extends Component {
 
   // create CALCULATE_DISTANCE on Flag store and test this part
   handleFlagPress = event => {
+
+    let lat = this.state.latitude, lng = this.state.longitude
+
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
       : this.setState({ pressFlag: false });
 
     this.setState({
-      flagDistance: geolib
-        .getDistance(
-          { latitude: this.state.latitude, longitude: this.state.longitude },
-          {
-            latitude: event.nativeEvent.coordinate.latitude,
-            longitude: event.nativeEvent.coordinate.longitude
-          },
-          1,
-          3
-        )
-        .toFixed(2)
+     flagDistance: getDistanceFromFlagThunk(lat, lng, event)
+      // flagDistance: geolib
+      //   .getDistance(
+      //     { latitude: this.state.latitude, longitude: this.state.longitude },
+      //     {
+      //       latitude: event.nativeEvent.coordinate.latitude,
+      //       longitude: event.nativeEvent.coordinate.longitude
+      //     },
+      //     1,
+      //     3
+      //   )
+      //   .toFixed(2)
     });
   };
 
@@ -177,14 +184,17 @@ class Map extends Component {
   // Enable flag to be captured only when I am inside a flag circle
   // Don't worry about flag and my team color being same/different now
   onCapturePress() {
-    if (
+    // Note: added a 1.5m radius to each flag's circle; increase if necessary
+    if ( // red team &&
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[0].location
-      ) ||
+        this.props.flags[0].location, // red team's flag
+        1.5
+      ) || // blue team &&
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[1].location
+        this.props.flags[1].location, // blue team's flag
+        1.5
       )
     ) {
       this.setState({ enableCapture: true });
@@ -200,11 +210,12 @@ class Map extends Component {
   // Pressing AR image on Camera
   // This is passed down as props to Camera component
   onFlagCapture() {
+    // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
     this.setState({ displayStatus: "Jordan has captured the flag!" });
+    // and change flag's location to that the user (use playerId)
   }
 
   render() {
-    console.log("***WHATISPROPS***", this.props)
     const players = this.props.players;
     const flags = this.props.flags;
 

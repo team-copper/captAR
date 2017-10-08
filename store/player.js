@@ -102,12 +102,14 @@ export function clearPlayer(playerId){
 // THUNKS
 
 export function createPlayerThunk(player){
+    // assign playerId, 1,2,3,4 etc., by order of log-in
     console.log("&&&&&&playerthunk")
     createPlayer(player)
     socket.emit(player)
 }
 
 export function assignPlayerTeamThunk(player){
+    // where playerId is odd, red team, else blue team 
     assignPlayerTeam(player)
     socket.emit(player)
 }

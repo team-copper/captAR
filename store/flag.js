@@ -1,5 +1,6 @@
-import socket from '../socket'
-import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields";
+import socket from "../socket"
+import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
+import geolib from "geolib"
 
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
@@ -103,9 +104,9 @@ export function createFlagThunk(flag){
     
 }
 
-export function getDistanceFromFlagThunk(flag){
+export function getDistanceFromFlagThunk(lat, lng, event){
     geolib.getDistance(
-      { latitude: this.state.latitude, longitude: this.state.longitude },
+      { latitude: lat, longitude: lng },
       {
         latitude: event.nativeEvent.coordinate.latitude,
         longitude: event.nativeEvent.coordinate.longitude
