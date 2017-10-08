@@ -93,8 +93,8 @@ class Map extends Component {
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
           redCoordinates: elevatedAcre.redCoordinates,
           blueCoordinates: elevatedAcre.blueCoordinates,
-          redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-          blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+          // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+          // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
         });
       },
