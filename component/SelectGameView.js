@@ -30,6 +30,7 @@ class SelectGameView extends Component {
       latitude: 0,
       error: null,
       pressArea: false,
+      showButton: false,
       selectedArea: {
         elevatedAcre: false,
         bowlingGreen: false,
@@ -43,7 +44,6 @@ class SelectGameView extends Component {
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
-    this.checkFirebase = this.checkFirebase.bind(this)
   }
 
   componentDidMount() {
@@ -118,25 +118,13 @@ class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
-      this.checkFirebase(id);
+      this.props.fetchGame(id);
+      this.setState({showButton: true})
   };
 
-  checkFirebase = (id) => {
-    const dbName = 'GameArea'+id.toString()
-    firebase.database().ref(`dbName`).once('value')
-      .then(function(snapshot) {
-          var game = snapshot.val();
-          console.log('returned game ', game)
-      })
-      .catch(error => console.log('no game found'))
-  }
-
   render() {
-      const games = this.props.gameArea;
-      // games.length
-      // // ? Object.keys(games[0]).forEach(key => console.log('msg ', games[0][key]))
-      // ? console.log('game returned ', games)
-      // : console.log('getting game areas')
+    // console.log('my state ', this.props.gameArea)
+    this.state.showButton ? console.log('button press ', this.props.gameArea) : console.log('nada')
     if (this.state.latitude) {
       const selectedArea = []
       for (const area in this.state.selectedArea) {

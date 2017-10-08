@@ -54,8 +54,10 @@ export function clearGame(game){
 // THUNKS
 
 export function fetchGameThunk(polyId) {
+    console.log("we're ere")
     return function (dispatch) {
-        firebase.database().ref(`gameArea/${polyId}`).once('value')
+        const dbName = 'GameArea'+polyId.toString();
+        firebase.database().ref(`${dbName}`).once('value')
             .then(function(snapshot) {
                 var game = snapshot.val();
                 dispatch(fetchGame(game))
@@ -66,17 +68,14 @@ export function fetchGameThunk(polyId) {
 
 export function createGameThunk(gameSessionId){
     createGame(gameSessionId)
-    // socket.emit(player)
 }
 
 export function fetchGamePolygonThunk(game){
     fetchGamePolygon(game)
-    // socket.emit(player)
 }
 
 export function clearGameThunk(gameSessionId){
     clearGame(gameSessionId)
-    // socket.emit(player)
 }
 
 // REDUCERS
