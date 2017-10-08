@@ -9,7 +9,7 @@ export default class GameView extends Component {
   render() {
     return (
       <View style={Style.container}>
-        <Map />
+        <Map navigate={this.props.navigation.navigate}/>
       </View>
     )
   }
