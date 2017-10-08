@@ -152,7 +152,7 @@ class Map extends Component {
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
-    // attempted line 107, store > flag.js
+    // attempted on line 165 and in store > flag.js, line 107
   handleFlagPress = event => {
 
     let lat = this.state.latitude, lng = this.state.longitude
@@ -210,10 +210,15 @@ class Map extends Component {
 
   // Pressing AR image on Camera
   // This is passed down as props to Camera component
-  onFlagCapture() {
+  onFlagCapture(player, flag) {
     // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
+    // if (this.state.team === this.props.flags.flagId)
     this.setState({ displayStatus: "Jordan has captured the flag!" });
     // and change flag's location to that the user (use playerId)
+      // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
+        // need dispatch here to have flag's location be the same as the holder
+        // this.props.flags[0].location = this.props.players[whatever index the player is].location
+
   }
 
   render() {
@@ -356,6 +361,14 @@ const mapStateToProps = state => {
   };
 };
 
-const MapContainer = connect(mapStateToProps)(Map);
+const mapDispatchToProps = dispatch => {
+  return {
+    getDistanceFromFlag: (lat, lng, event) => dispatch({
+      type : 'GET_DIST_FROM_FLAG'
+    })
+  }
+}
+
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map);
 
 export default MapContainer;

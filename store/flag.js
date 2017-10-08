@@ -123,7 +123,9 @@ export function getDistanceFromFlagThunk(lat, lng, event){
 }
 
 export function takeFlagThunk(flag){
-    takeFlag(flag)
+    return (dispatch) => {
+        takeFlag(flag)
+    }
     socket.emit(flag)
 }
 
