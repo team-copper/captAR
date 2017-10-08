@@ -22,22 +22,43 @@ class LoginForm extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ email: '', password: '', error: '', loading: false });
-                this.props.isLoggedIn(email);
-                this.props.navigation.navigate("GameView")
+
+                let userToLogin = this.props.users.filter(user => user.email === email)
+                console.log('users', this.props.users)
+                console.log('user to login', userToLogin)
+                if (userToLogin.length === 1) {
+                    console.log('user exists, loggin in')
+                    this.setState({ email: '', password: '', error: '', loading: false });
+                    this.props.isLoggedIn(userToLogin[0]);
+                    this.props.navigation.navigate("GameView")
+                } else {
+                    console.log('users does not exist')
+                    this.setState({ error: 'Email not registered, please use registration. ', loading: false });
+                }
             })
-            .catch(() => {
-                //Login was not successful, let's create a new account
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        this.setState({ email: '', password: '', error: '', loading: false });
-                        this.props.isLoggedIn(email);
-                        this.props.navigation.navigate('GameView');
-                    })
-                    .catch(() => {
-                        this.setState({ error: 'Authentication failed.', loading: false });
-                    });
+            .catch((error) => {
+                this.setState({ error: 'Authentication failed. ', loading: false });
+                console.log("login error: ", error)
             });
     }
+
+    onRegisterPress() {
+        this.setState({ error: '', loading: true });
+
+        const { email, password } = this.state;
+        console.log('logging in with ', email)
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState({ email: '', password: '', error: '', loading: false });
+                this.props.isLoggedIn(email);
+                this.props.navigation.navigate('GameView');
+            })
+            .catch((error) => {
+                this.setState({ error: 'Authentication failed. ', loading: false });
+                console.log("registration error: ", error)
+            });
+    }
+
     renderButtonOrSpinner() {
         if (this.state.loading) {
             return <Text>Loading</Text>;
@@ -77,8 +98,14 @@ const styles = {
     }
 };
 
+const mapStateToProps = (state) => {
+    return {
+      users: state.authenticated.users
+    }
+  }
+
 const mapDispatchToProps = { isLoggedIn }
 
-const LoginFormContainer = connect(null, mapDispatchToProps)(LoginForm)
+const LoginFormContainer = connect(mapStateToProps, mapDispatchToProps)(LoginForm)
 
 export default LoginFormContainer
