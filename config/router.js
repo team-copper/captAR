@@ -16,17 +16,12 @@ export const GameScreen = StackNavigator({
     //         headerLeft: null
     //     }
     // },
-<<<<<<< HEAD
     SelectGameView: {
-        screen: SelectGameView
-=======
-    GameView: {
-        screen: GameView,
+        screen: SelectGameView,
         navigationOptions: {
-            title: 'Enjoy your game!',
+            title: 'Select Your Team',
             headerLeft: null
         }
->>>>>>> master
     }
     // GameView: {
     //     screen: GameView,
