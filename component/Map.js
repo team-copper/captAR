@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style, GameActionButtonView, CameraView } from "./index";
-import { elevatedAcre } from "../assets/presetGameFields";
+import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields";
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
@@ -204,7 +204,9 @@ class Map extends Component {
   }
 
   render() {
+    console.log("***WHATISPROPS***", this.props)
     const players = this.props.players;
+    const flags = this.props.flags;
 
     if (this.state.redFlag.latitude !== 0) {
       // this.saveToFirebaseDB(this.state);
@@ -336,7 +338,10 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  return { players: state.players };
+  return { 
+    players: state.players,
+    flags: state.flags 
+  };
 };
 
 const MapContainer = connect(mapStateToProps)(Map);

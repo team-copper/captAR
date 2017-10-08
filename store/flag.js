@@ -1,4 +1,5 @@
 import socket from '../socket'
+import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields";
 
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
@@ -7,8 +8,31 @@ const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
 const DELETE_FLAG = 'DELETE_FLAG'
 
 // Initial State
+// Note: currently hardcoded; please update to create flags based on player's selected game view / gameId info
+// Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
-let flags = [ ]
+let flags = [ 
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 1,
+        location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; changes to holder's location when 'isTaken' is true
+        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
+        team: 'red',
+        isTaken: false
+    },
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 2,
+        location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+        team: 'blue',
+        isTaken: false
+    },
+
+]
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
@@ -56,6 +80,15 @@ export function deleteFlag(flagId){
 
 export function createFlagThunk(flag){
     console.log("*****", flag)
+    // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
+            // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
+            // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
+    // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
+            // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
+            // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
+    // if selected game view / polygonId === 3, randomly generate flags for batteryPark
+            // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
+            // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
     createFlag(flag)
     console.log("*****AFTER CREATE FLAG*****")
     socket.emit(flag)

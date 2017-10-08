@@ -13,11 +13,13 @@ let players = [
     {
         session: {
             gameId: 1,
-            duration: null, //do we need this?
+            duration: null, //do we need this? - jordan
+            //we can work without it; needed if we want the rounds to be 5 min max - jannine
         },
         playerId: 1,
         location: { latitude: 40.703394, longitude: -74.008622 },
         team: 'red',
+        // after being tagged, instead of forcing a player to their own side, can we pause their game for 10 secs at their current loc?
         hasFlag: false
     },
     {
