@@ -4,18 +4,23 @@ import socket from '../socket'
 const CREATE_PLAYER = 'CREATE_PLAYER'
 const ASSIGN_PLAYER_TEAM = 'ASSIGN_PLAYER_TEAM'
 // save player location --> thunk, save loc to db
-const GET_PLAYER_LOCATION = 'GET_PLAYER_LOCATION'
+const GET_PLAYERS_LOCATION = 'GET_PLAYERS_LOCATION'
 const CHANGE_PLAYER_STATUS = 'CHANGE_PLAYER_STATUS'
 const CLEAR_PLAYER = 'CLEAR_PLAYER'
 
 // Initial State
 
-let players = [ ]
+let players = [
+    { latitude:  40.703394, longitude: -74.008622 },
+    { latitude: 40.703441, longitude: -74.008713 },
+    { latitude: 40.703325, longitude: -74.008456 },
+    { latitude: 40.703258, longitude:  -74.008663 },
+]
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,
@@ -42,8 +47,8 @@ export function assignPlayerTeam(player){
     return action
 }
 
-export function getPlayerLocation(player){
-    const action = {type: GET_PLAYER_LOCATION, player}
+export function getPlayersLocation(){
+    const action = {type: GET_PLAYERS_LOCATION}
     return action
 }
 
@@ -96,12 +101,12 @@ export default (state = players, action) => {
         let newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state, action.player]
 
-    case GET_PLAYER_LOCATION:
-         newState = state.filter(player => player.playerId !== action.player.playerId)
-        return [...state, action.player]
+    case GET_PLAYERS_LOCATION:
+        //  newState = state.filter(player => player.playerId !== action.player.playerId)
+        return [...state]
 
     case CHANGE_PLAYER_STATUS:
-         newState = state.filter(player => player.playerId !== action.player.playerId)    
+         newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state, action.player]
 
     case CLEAR_PLAYER:

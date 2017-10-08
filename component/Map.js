@@ -10,15 +10,16 @@ import {
   Image,
   Dimensions
 } from "react-native";
+import { connect } from 'react-redux';
 import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style, GameActionButtonView, CameraView } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model"
-import { createFlagThunk, createPlayerThunk } from "../store"
+import { createFlagThunk, createPlayerThunk, getPlayersLocation } from "../store"
 
-export default class Map extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -49,9 +50,7 @@ export default class Map extends Component {
         { latitude: 0, longitude: 0 }
       ],
       redFlag: { latitude: 0, longitude: 0 },
-      redFlagCircle: { latitude: 0, longitude: 0  },
       blueFlag: { latitude: 0, longitude: 0 },
-      blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
@@ -66,6 +65,7 @@ export default class Map extends Component {
   componentDidMount() {
     this.getCurrentPosition();
     this.watchPosition();
+    this.getCurrentPosition();
   }
 
   componentWillUnmount() {
@@ -187,6 +187,8 @@ export default class Map extends Component {
   }
 
   render() {
+    const players = this.props.players;
+
     if (this.state.latitude) {
       // this.saveToFirebaseDB(this.state);
       return (
@@ -229,6 +231,19 @@ export default class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+
+            {players.map(player =>
+            <MapView.Marker
+            name="currentLocation"
+            coordinate={player}
+            title={"Your Location"}
+            >
+            <Image
+              source={require("../assets/person.png")}
+              style={{ height: 25, width: 25 }}
+            />
+            </MapView.Marker>
+            )}
 
             <MapView.Marker
               name="redFlag"
@@ -301,3 +316,11 @@ export default class Map extends Component {
     }
   }
 }
+
+const mapStateToProps = state => {
+  return { players: state.players }
+}
+
+const MapContainer = connect(mapStateToProps)(Map);
+
+export default MapContainer;
