@@ -16,8 +16,17 @@ export const GameScreen = StackNavigator({
     //         headerLeft: null
     //     }
     // },
+<<<<<<< HEAD
     SelectGameView: {
         screen: SelectGameView
+=======
+    GameView: {
+        screen: GameView,
+        navigationOptions: {
+            title: 'Enjoy your game!',
+            headerLeft: null
+        }
+>>>>>>> master
     }
     // GameView: {
     //     screen: GameView,
