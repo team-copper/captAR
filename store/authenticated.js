@@ -1,5 +1,3 @@
-import socket from '../socket'
-
 // Action Types
 const IS_LOGGED_IN = 'IS_LOGGED_IN'
 const IS_LOGGED_OUT = 'IS_LOGGED_OUT'

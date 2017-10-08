@@ -1,11 +1,11 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import authenticated from './authenticated'
-import game from './game'
+import players from './player'
 
 const reducers = combineReducers({
   authenticated,
-  game
+  players
 })
 const middleware = applyMiddleware(thunkMiddleware);
 

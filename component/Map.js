@@ -10,16 +10,23 @@ import {
   Image,
   Dimensions
 } from "react-native";
+import { connect } from "react-redux";
 import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style, GameActionButtonView, CameraView } from "./index";
 import { elevatedAcre } from "../assets/presetGameFields";
+import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
-import { Player, Team, Flag } from "../model"
-import { createFlagThunk, createPlayerThunk } from "../store"
-import { connect } from 'react-redux';
+import { Player, Team, Flag } from "../model";
+import {
+  createFlagThunk,
+  createPlayerThunk,
+  getPlayersLocation
+} from "../store";
 
-export default class Map extends Component {
+// Parent - Child Component Order:
+// Map -> GameActionButton -> Camera
+class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -29,8 +36,8 @@ export default class Map extends Component {
       latitude: 0,
       error: null,
       enableCapture: false,
-      pressFlag: false,
-      displayStatus: "",
+      pressFlag: false, // redux state? I am not so sure.
+      displayStatus: "", // redux state. Don't worry about this now.
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
@@ -49,8 +56,10 @@ export default class Map extends Component {
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
+      // when flag is captured and bound to a player,
+      // flag is redux state (flag coordinates === player.location)
       redFlag: { latitude: 0, longitude: 0 },
-      redFlagCircle: { latitude: 0, longitude: 0  },
+      redFlagCircle: { latitude: 0, longitude: 0 },
       blueFlag: { latitude: 0, longitude: 0 },
       blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
@@ -73,17 +82,8 @@ export default class Map extends Component {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  // saveToFirebaseDB(payload) {
-  //   const newMsgRef = firebase
-  //     .database()
-  //     .ref("messages")
-  //     .push();
-  //   payload.id = newMsgRef.key;
-  //   newMsgRef.set(payload);
-  // }
-
   getCurrentPosition = () => {
-    let msg;
+
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -97,33 +97,26 @@ export default class Map extends Component {
           blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
         });
-        console.log(
-          geolib.isPointInside(
-            {
-              latitude: this.state.latitude,
-              longitude: this.state.longitude
-            },
-            this.state.redCoordinates
-          )
-        );
       },
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    // firebase
-    //   .auth()
-    //   .signInAnonymously()
-    //   .then(() => {
-    //     this.saveToFirebaseDB(this.state);
-    //   });
+
+
     let redFlag = new Flag();
-    redFlag.setHomeLocation(this.state.redFlag.latitude, this.state.redFlag.longitude);
+    redFlag.setHomeLocation(
+      this.state.redFlag.latitude,
+      this.state.redFlag.longitude
+    );
     redFlag.gameSessionId = this.state.gameSessionId;
-    console.log("*****", redFlag)
+    console.log("*****", redFlag);
     createFlagThunk(redFlag);
 
     let blueFlag = new Flag();
-    blueFlag.setHomeLocation(this.state.blueFlag.latitude, this.state.blueFlag.longitude);
+    blueFlag.setHomeLocation(
+      this.state.blueFlag.latitude,
+      this.state.blueFlag.longitude
+    );
     blueFlag.gameSessionId = this.state.gameSessionId;
     createFlagThunk(blueFlag);
 
@@ -131,8 +124,8 @@ export default class Map extends Component {
     player.setPosition(this.state.latitude, this.state.longitude);
     player.gameSessionId = this.state.gameSessionId;
     player.playerId = Uuid.create();
-    player.teamColor = 'red'; // for testing, Oscar assign this to 'blue'
-    console.log("*****player thunk", player)
+    player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
+    console.log("*****player thunk", player);
     createPlayerThunk(player);
   };
 
@@ -155,6 +148,7 @@ export default class Map extends Component {
     );
   };
 
+  // create CALCULATE_DISTANCE on Flag store and test this part
   handleFlagPress = event => {
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
@@ -175,20 +169,44 @@ export default class Map extends Component {
     });
   };
 
+  // Pressing capture on action button
+  // CameraView will only render if enableCapture is true
+  // This function passed down as props to GameActionButton component
+
+  // Game Logic:
+  // Enable flag to be captured only when I am inside a flag circle
+  // Don't worry about flag and my team color being same/different now
   onCapturePress() {
-    this.setState({ enableCapture: true})
+    if (
+      geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.state.redFlag
+      ) ||
+      geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.state.blueFlag
+      )
+    ) {
+      this.setState({ enableCapture: true });
+    }
   }
 
+  // Closing render of cameraview component
+  // This is passed down as props to Camera component
   onCloseCamera() {
-    this.setState({ enableCapture: false})
+    this.setState({ enableCapture: false });
   }
 
+  // Pressing AR image on Camera
+  // This is passed down as props to Camera component
   onFlagCapture() {
-    this.setState({ displayStatus: "Jordan has captured the flag!"})
+    this.setState({ displayStatus: "Jordan has captured the flag!" });
   }
 
   render() {
-    if (this.state.latitude) {
+    const players = this.props.players;
+
+    if (this.state.redFlag.latitude !== 0) {
       // this.saveToFirebaseDB(this.state);
       return (
         <View style={Style.container}>
@@ -231,6 +249,23 @@ export default class Map extends Component {
               />
             </MapView.Marker>
 
+            {/* Render every player on map */}
+            {players.map((player, index) => (
+
+              <MapView.Marker
+                name={player.playerId}
+                key={player.playerId}
+                coordinate={player.location}
+                title={index.toString()}
+              >
+                <Image
+                  source={{uri: playerMarkerPath[index]}}
+                  style={{ height: 25, width: 25 }}
+                />
+              </MapView.Marker>
+            ))}
+
+            {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
               coordinate={this.state.redFlag}
@@ -264,33 +299,30 @@ export default class Map extends Component {
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
-
           </MapView>
 
+          {/* display bar in the middle of the view */}
           <View style={Style.displayBar}>
             {this.state.pressFlag ? (
               <Text style={Style.displayFont}>
                 You are {this.state.flagDistance}m away from that flag
               </Text>
-            ) :
-              <Text style={Style.displayFont}>
-                {this.state.displayStatus}
-              </Text>
-            }
+            ) : (
+              <Text style={Style.displayFont}>{this.state.displayStatus}</Text>
+            )}
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
 
-          {this.state.enableCapture
-            ? <CameraView
-                onCloseCamera = {this.onCloseCamera}
-                onFlagCapture = {this.onFlagCapture}
-                />
-            : null}
+          {/* enable/disable cameraview component and passing props */}
+          {this.state.enableCapture ? (
+            <CameraView
+              onCloseCamera={this.onCloseCamera}
+              onFlagCapture={this.onFlagCapture}
+            />
+          ) : null}
 
-          <GameActionButtonView
-            onCapturePress = {this.onCapturePress}
-          />
-
+          {/* enable/disable cameraview component and passing props */}
+          <GameActionButtonView onCapturePress={this.onCapturePress} />
         </View>
       );
     } else {
@@ -302,3 +334,11 @@ export default class Map extends Component {
     }
   }
 }
+
+const mapStateToProps = state => {
+  return { players: state.players };
+};
+
+const MapContainer = connect(mapStateToProps)(Map);
+
+export default MapContainer;

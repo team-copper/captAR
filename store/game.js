@@ -1,4 +1,3 @@
-// import socket from '../socket'
 import firebase from "../firebase";
 
 // Action Types

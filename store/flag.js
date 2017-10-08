@@ -1,5 +1,3 @@
-import socket from '../socket'
-
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
@@ -58,24 +56,20 @@ export function createFlagThunk(flag){
     console.log("*****", flag)
     createFlag(flag)
     console.log("*****AFTER CREATE FLAG*****")
-    socket.emit(flag)
     console.log("*****AFTER EMIT CREATE FLAG*****")
     
 }
 
 export function takeFlagThunk(flag){
     takeFlag(flag)
-    socket.emit(flag)
 }
 
 export function resetFlagThunk(flag){
     resetFlag(flag)
-    socket.emit(flag)
 }
 
 export function deleteFlagThunk(flag){
     deleteFlag(flag)
-    socket.emit(flag)
 }
 
 // REDUCERS
