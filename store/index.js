@@ -3,9 +3,11 @@ import { createLogger } from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 
 import authenticated from './authenticated'
+import players from './player'
 
 const reducers = combineReducers({
-  authenticated
+  authenticated,
+  players
 })
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
