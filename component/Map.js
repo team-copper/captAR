@@ -152,6 +152,7 @@ class Map extends Component {
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
+    // attempted line 107, store > flag.js
   handleFlagPress = event => {
 
     let lat = this.state.latitude, lng = this.state.longitude
@@ -161,18 +162,18 @@ class Map extends Component {
       : this.setState({ pressFlag: false });
 
     this.setState({
-     flagDistance: getDistanceFromFlagThunk(lat, lng, event)
-      // flagDistance: geolib
-      //   .getDistance(
-      //     { latitude: this.state.latitude, longitude: this.state.longitude },
-      //     {
-      //       latitude: event.nativeEvent.coordinate.latitude,
-      //       longitude: event.nativeEvent.coordinate.longitude
-      //     },
-      //     1,
-      //     3
-      //   )
-      //   .toFixed(2)
+    //  flagDistance: getDistanceFromFlagThunk(lat, lng, event)
+      flagDistance: geolib
+        .getDistance(
+          { latitude: this.state.latitude, longitude: this.state.longitude },
+          {
+            latitude: event.nativeEvent.coordinate.latitude,
+            longitude: event.nativeEvent.coordinate.longitude
+          },
+          1,
+          3
+        )
+        .toFixed(2)
     });
   };
 
