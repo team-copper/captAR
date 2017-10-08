@@ -5,10 +5,12 @@ import firebase from "../firebase";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { View } from "react-native";
+import { connect } from 'react-redux'
 import { Style } from "./index";
+import { isLoggedOut } from '../store'
 
 // default position state set as right-hander
-export default class GameActionButtonView extends Component {
+class GameActionButtonView extends Component {
   constructor() {
     super();
     this.state = { position: "right" };
@@ -34,6 +36,7 @@ export default class GameActionButtonView extends Component {
   }
 
   render() {
+    console.log('props in GameActionButton ', this.props)
     return (
       <View
         style={
@@ -76,3 +79,8 @@ export default class GameActionButtonView extends Component {
     );
   }
 }
+
+const mapDispatchToProps = { isLoggedOut }
+
+const GameActionButtonViewContainer = connect(null, mapDispatchToProps)(GameActionButtonView)
+export default GameActionButtonViewContainer;
