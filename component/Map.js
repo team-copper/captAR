@@ -58,10 +58,10 @@ class Map extends Component {
       ],
       // when flag is captured and bound to a player,
       // flag is redux state (flag coordinates === player.location)
-      redFlag: { latitude: 0, longitude: 0 },
-      redFlagCircle: { latitude: 0, longitude: 0 },
-      blueFlag: { latitude: 0, longitude: 0 },
-      blueFlagCircle: { latitude: 0, longitude: 0 },
+      // redFlag: { latitude: 0, longitude: 0 },
+      // redFlagCircle: { latitude: 0, longitude: 0 },
+      // blueFlag: { latitude: 0, longitude: 0 },
+      // blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
@@ -102,11 +102,11 @@ class Map extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
 
-
+    // Note: When I comment the below out, Map.js loads as a blue background
     let redFlag = new Flag();
     redFlag.setHomeLocation(
-      this.state.redFlag.latitude,
-      this.state.redFlag.longitude
+      this.props.flags[0].location.latitude,
+      this.props.flags[0].location.longitude,
     );
     redFlag.gameSessionId = this.state.gameSessionId;
     console.log("*****", redFlag);
@@ -114,8 +114,8 @@ class Map extends Component {
 
     let blueFlag = new Flag();
     blueFlag.setHomeLocation(
-      this.state.blueFlag.latitude,
-      this.state.blueFlag.longitude
+      this.props.flags[1].location.latitude,
+      this.props.flags[1].location.longitude,
     );
     blueFlag.gameSessionId = this.state.gameSessionId;
     createFlagThunk(blueFlag);
@@ -180,11 +180,11 @@ class Map extends Component {
     if (
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.state.redFlag
+        this.props.flags[0].location
       ) ||
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.state.blueFlag
+        this.props.flags[1].location
       )
     ) {
       this.setState({ enableCapture: true });
@@ -208,7 +208,7 @@ class Map extends Component {
     const players = this.props.players;
     const flags = this.props.flags;
 
-    if (this.state.redFlag.latitude !== 0) {
+    if (flags[0].location.latitude !== 0) {
       // this.saveToFirebaseDB(this.state);
       return (
         <View style={Style.container}>
@@ -270,7 +270,7 @@ class Map extends Component {
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
-              coordinate={this.state.redFlag}
+              coordinate={flags[0].location}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -280,14 +280,14 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="redFlagCircle"
-              center={this.state.redFlag}
+              center={flags[0].location}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
 
             <MapView.Marker
               name="blueFlag"
-              coordinate={this.state.blueFlag}
+              coordinate={flags[1].location}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -297,7 +297,7 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="blueFlagCircle"
-              center={this.state.blueFlag}
+              center={flags[1].location}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />

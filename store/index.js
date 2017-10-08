@@ -6,11 +6,11 @@ import flags from './flag'
 
 const reducers = combineReducers({
   authenticated,
-  flags,
   players,
+  flags
 })
 
-const store = (reducers);
+const store = createStore(reducers);
 
 export default store;
 export * from './authenticated'

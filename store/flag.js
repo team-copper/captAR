@@ -3,6 +3,7 @@ import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFie
 
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
+const GET_DIST_FROM_FLAG = 'GET_DIST_FROM_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
 const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
 const DELETE_FLAG = 'DELETE_FLAG'
@@ -12,27 +13,27 @@ const DELETE_FLAG = 'DELETE_FLAG'
 // Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
 let flags = [ 
-    'i am flag'
-    // {
-    //     session: {
-    //         gameId: 1,
-    //     }, 
-    //     flagId: 1,
-    //     // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; changes to holder's location when 'isTaken' is true
-    //     // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
-    //     team: 'red',
-    //     isTaken: false
-    // },
-    // {
-    //     session: {
-    //         gameId: 1,
-    //     }, 
-    //     flagId: 2,
-    //     // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-    //     team: 'blue',
-    //     isTaken: false
-    // },
-
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 1,
+        location: { latitude: 40.703295, longitude: -74.00845 },
+        // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
+        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
+        team: 'red',
+        isTaken: false
+    },
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 2,
+        location: { latitude: 40.703414, longitude: -74.008663 },
+        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+        team: 'blue',
+        isTaken: false
+    },
 ]
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
@@ -60,6 +61,11 @@ Object:
 export function createFlag(flag){
   const action = {type: CREATE_FLAG, flag}
   return action
+}
+
+export function getDistanceFromFlag(flag){
+    const action = {type: GET_DIST_FROM_FLAG, flag}
+    return action
 }
 
 export function takeFlag(flag){
