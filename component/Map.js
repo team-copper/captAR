@@ -56,8 +56,8 @@ class Map extends Component {
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
-      // when flag is captured and bound to a player,
-      // flag is redux state (flag coordinates === player.location)
+    // when flag is captured and bound to a player,
+    // flag is redux state (flag coordinates === player.location)
       // redFlag: { latitude: 0, longitude: 0 },
       // redFlagCircle: { latitude: 0, longitude: 0 },
       // blueFlag: { latitude: 0, longitude: 0 },

@@ -103,6 +103,19 @@ export function createFlagThunk(flag){
     
 }
 
+export function getDistanceFromFlagThunk(flag){
+    geolib.getDistance(
+      { latitude: this.state.latitude, longitude: this.state.longitude },
+      {
+        latitude: event.nativeEvent.coordinate.latitude,
+        longitude: event.nativeEvent.coordinate.longitude
+      },
+      1,
+      3
+    )
+    .toFixed(2)
+}
+
 export function takeFlagThunk(flag){
     takeFlag(flag)
     socket.emit(flag)
@@ -124,6 +137,9 @@ export default (state = flags, action) => {
 
     case CREATE_FLAG:
         return [...state, action.flag]
+
+    case GET_DIST_FROM_FLAG:
+
 
     case TAKE_FLAG:
         let newState = state.filter(flag => flag.flagId !== action.flag.flagId)
