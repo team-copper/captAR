@@ -1,9 +1,11 @@
 import { combineReducers, createStore } from 'redux'
 
 import authenticated from './authenticated'
+import players from './player'
 
 const reducers = combineReducers({
-  authenticated
+  authenticated,
+  players
 })
 
 const store = createStore(reducers);
