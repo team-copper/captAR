@@ -3,7 +3,8 @@
 import firebase from '../firebase';
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+
 import { Style, TitledInput } from "./index";
 import { isLoggedIn, isLoggedOut } from '../store'
 
@@ -17,19 +18,19 @@ class LoginForm extends Component {
         this.setState({ error: '', loading: true });
 
         const { email, password } = this.state;
-        console.log('logging in with ', email , password)
+        console.log('logging in with ', email)
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 this.setState({ email: '', password: '', error: '', loading: false });
-                this.props.isLoggedIn();
+                this.props.isLoggedIn(email);
                 this.props.navigation.navigate("GameView")
             })
             .catch(() => {
                 //Login was not successful, let's create a new account
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => { 
-                        this.setState({ email: '', password: '', error: '', loading: false }); 
-                        this.props.isLoggedIn();
+                    .then(() => {
+                        this.setState({ email: '', password: '', error: '', loading: false });
+                        this.props.isLoggedIn(email);
                         this.props.navigation.navigate('GameView');
                     })
                     .catch(() => {

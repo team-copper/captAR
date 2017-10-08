@@ -11,7 +11,7 @@ let flags = [ ]
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,
@@ -55,9 +55,6 @@ export function deleteFlag(flagId){
 export function createFlagThunk(flag){
     console.log("*****", flag)
     createFlag(flag)
-    console.log("*****AFTER CREATE FLAG*****")
-    console.log("*****AFTER EMIT CREATE FLAG*****")
-    
 }
 
 export function takeFlagThunk(flag){

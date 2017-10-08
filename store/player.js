@@ -107,8 +107,8 @@ export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
 }
 
-export function getPlayersLocationThunk(player){
-    getPlayersLocation(player)
+export function getPlayerLocationThunk(player){
+    getPlayerLocation(player)
 }
 
 export function changePlayerStatusThunk(player){
