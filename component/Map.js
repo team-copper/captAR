@@ -205,7 +205,6 @@ class Map extends Component {
 
   render() {
     const players = this.props.players;
-
     if (this.state.redFlag.latitude !== 0) {
       // this.saveToFirebaseDB(this.state);
       return (
@@ -322,7 +321,7 @@ class Map extends Component {
           ) : null}
 
           {/* enable/disable cameraview component and passing props */}
-          <GameActionButtonView onCapturePress={this.onCapturePress} />
+          <GameActionButtonView navigate={this.props} onCapturePress={this.onCapturePress} />
         </View>
       );
     } else {
