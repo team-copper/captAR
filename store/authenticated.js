@@ -24,7 +24,7 @@ export function isLoggedOutAction(user) {
 export function isLoggedIn(user) {
   return function thunk(dispatch) {
     console.log('key to update: ', user.userId)
-    firebase.database().ref('users/' + user.userId).set({
+    firebase.database().ref('users').child(user.userId).set({
       userId: user.userId,
       email: user.email,
       loggedIn: true
@@ -38,19 +38,19 @@ export function isLoggedIn(user) {
 }
 
 // create new entry with new key
-export function addUser(user) {
+export function addUser(email) {
   return function thunk(dispatch) {
-    console.log('firebase : ', firebase)
     let userKey = firebase.database().ref('users').push().key
     console.log('new key: ', userKey)
-    firebase.database().ref('users/' + userKey).set({
+    let user = {
       userId: userKey,
       email: email,
       loggedIn: true
-    })
+    }
+    firebase.database().ref('users').child(userKey).set(user)
       .then(() => {
         console.log('called the database set')
-        dispatch(addUser(user))
+        dispatch(addUserAction(user))
       })
       .catch(error => console.log(error))
   }
