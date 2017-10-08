@@ -25,7 +25,7 @@ export default class captAR extends Component {
     return (
       <Provider store={store}>
         <View style={Style.container}>
-          <GameView />
+          <GameScreen />
         </View>
       </Provider>
     )

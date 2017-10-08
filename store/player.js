@@ -1,4 +1,3 @@
-import socket from '../socket'
 
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
@@ -102,27 +101,22 @@ export function clearPlayer(playerId){
 export function createPlayerThunk(player){
     console.log("&&&&&&playerthunk")
     createPlayer(player)
-    socket.emit(player)
 }
 
 export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
-    socket.emit(player)
 }
 
-export function getPlayersLocationThunk(player){
-    getPlayersLocation(player)
-    socket.emit(player)
+export function getPlayerLocationThunk(player){
+    getPlayerLocation(player)
 }
 
 export function changePlayerStatusThunk(player){
     changePlayerStatus(player)
-    socket.emit(player)
 }
 
 export function clearPlayerThunk(playerId){
     clearPlayer(playerId)
-    socket.emit(playerId)
 }
 
 // REDUCERS
