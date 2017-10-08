@@ -340,7 +340,7 @@ class Map extends Component {
 const mapStateToProps = state => {
   return { 
     players: state.players,
-    flags: state.flags 
+    flags: state.flags,
   };
 };
 

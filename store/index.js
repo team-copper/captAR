@@ -6,8 +6,8 @@ import flags from './flag'
 
 const reducers = combineReducers({
   authenticated,
+  flags,
   players,
-  flags
 })
 
 const store = (reducers);

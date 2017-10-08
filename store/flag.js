@@ -12,25 +12,26 @@ const DELETE_FLAG = 'DELETE_FLAG'
 // Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
 let flags = [ 
-    {
-        session: {
-            gameId: 1,
-        }, 
-        flagId: 1,
-        // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; changes to holder's location when 'isTaken' is true
-        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
-        team: 'red',
-        isTaken: false
-    },
-    {
-        session: {
-            gameId: 1,
-        }, 
-        flagId: 2,
-        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-        team: 'blue',
-        isTaken: false
-    },
+    'i am flag'
+    // {
+    //     session: {
+    //         gameId: 1,
+    //     }, 
+    //     flagId: 1,
+    //     // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; changes to holder's location when 'isTaken' is true
+    //     // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
+    //     team: 'red',
+    //     isTaken: false
+    // },
+    // {
+    //     session: {
+    //         gameId: 1,
+    //     }, 
+    //     flagId: 2,
+    //     // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+    //     team: 'blue',
+    //     isTaken: false
+    // },
 
 ]
 
