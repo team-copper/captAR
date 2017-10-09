@@ -57,7 +57,7 @@ const CLEAR_PLAYER = 'CLEAR_PLAYER'
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object:
+Object:å
 {
     session: {
         gameId: null,
@@ -141,7 +141,7 @@ export default (state = [], action) => {
 
     case CHANGE_PLAYER_STATUS:
          newState = state.filter(player => player.playerId !== action.player.playerId)
-        return [...state, action.player]
+        return [...newState, action.player]
 
     case CLEAR_PLAYER:
          newState = state.filter(player => player.playerId !== action.playerId)

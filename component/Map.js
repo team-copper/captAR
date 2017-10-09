@@ -69,6 +69,7 @@ class Map extends Component {
     };
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
+    this.checkInside = this.checkInside.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
     this.onCapturePress = this.onCapturePress.bind(this);
     this.onCloseCamera = this.onCloseCamera.bind(this);
@@ -89,8 +90,8 @@ class Map extends Component {
       position => {
         this.setState({
           gameSessionId: Uuid.create(),
-          latitude: 40.703374,
-          longitude: -74.008507,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
           redCoordinates: elevatedAcre.redCoordinates,
           blueCoordinates: elevatedAcre.blueCoordinates,
@@ -134,8 +135,8 @@ class Map extends Component {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
         this.setState({
-          latitude: 40.703374,
-          longitude: -74.008507,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
           error: null
         });
       },
@@ -147,6 +148,26 @@ class Map extends Component {
         distanceFilter: 10
       }
     );
+  };
+
+  checkInside = () => {
+    if (
+      geolib.isPointInCircle(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.props.flags[0].startLocation, // red team's flag
+        2
+      )
+    )
+      this.setState({ displayStatus: "You are near red flag" });
+
+    if (
+      geolib.isPointInCircle(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.props.flags[1].startLocation, // red team's flag
+        2
+      )
+    )
+      this.setState({ displayStatus: "You are near blue flag" });
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
@@ -187,22 +208,21 @@ class Map extends Component {
   // Enable flag to be captured only when I am inside a flag circle
   // Don't worry about flag and my team color being same/different now
   onCapturePress() {
-    // Note: added a 1.5m radius to each flag's circle; increase if necessary
-    // if (
-    //   // red team &&
-    //   geolib.isPointInside(
-    //     { latitude: this.state.latitude, longitude: this.state.longitude },
-    //     this.props.flags[0].location, // red team's flag
-    //     1.5
-    //   ) || // blue team &&
-    //   geolib.isPointInside(
-    //     { latitude: this.state.latitude, longitude: this.state.longitude },
-    //     this.props.flags[1].location, // blue team's flag
-    //     1.5
-    //   )
-    // ) {
+    if (
+      // red team &&
+      geolib.isPointInCircle(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.props.flags[0].startLocation, // red team's flag
+        2
+      ) || // blue team &&
+      geolib.isPointInCircle(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        this.props.flags[1].startLocation, // blue team's flag
+        2
+      )
+    ) {
       this.setState({ enableCapture: true });
-    // }
+    }
   }
 
   // Closing render of cameraview component
@@ -226,9 +246,9 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
+    console.log(this.props);
 
-    if (flags[0].location.latitude !== 0) {
-      // this.saveToFirebaseDB(this.state);
+    if (this.props.localUserKey) {
       return (
         <View style={Style.container}>
           <MapView
@@ -279,7 +299,7 @@ class Map extends Component {
                 title={index.toString()}
               >
                 <Image
-                  source={{ uri: playerMarkerPath[index] }}
+                  source={playerMarkerPath[index]}
                   style={{ height: 25, width: 25 }}
                 />
               </MapView.Marker>
@@ -288,7 +308,7 @@ class Map extends Component {
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
-              coordinate={flags[0].location}
+              coordinate={flags[0].startLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -298,14 +318,14 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="redFlagCircle"
-              center={flags[0].location}
-              radius={1.5}
+              center={flags[0].startLocation}
+              radius={2}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
 
             <MapView.Marker
               name="blueFlag"
-              coordinate={flags[1].location}
+              coordinate={flags[1].startLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -315,8 +335,8 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="blueFlagCircle"
-              center={flags[1].location}
-              radius={1.5}
+              center={flags[1].startLocation}
+              radius={2}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
           </MapView>
@@ -361,7 +381,8 @@ class Map extends Component {
 const mapStateToProps = state => {
   return {
     players: state.players,
-    flags: state.flags
+    flags: state.flags,
+    localUserKey: state.authenticated.localUserKey
   };
 };
 

@@ -7,10 +7,11 @@
   OAR - 2017-10-08
 */
 import firebase from '../firebase'
-import store, { addUserAction, isLoggedInAction } from '../store'
+import store, { addUserAction, isLoggedInAction, resetFlagLocation,
+      changePlayerStatus } from '../store'
 
-function registerSubscriptions() {
-  console.log('registering firebase subscriptions')
+export function registerUserSubscriptions() {
+  console.log('registering user subscriptions')
 
   var userRef = firebase.database().ref('users');
 
@@ -35,4 +36,30 @@ function registerSubscriptions() {
   })
 }
 
-export default registerSubscriptions
+/*
+  Subscribe to game info. Either to all instances of a game
+  area or to one specific instance.
+
+  gameUrl = 'GameArea1' : subscribe to all game instances in GameArea1
+  gameUrl = 'GameArea2/Kw1Z8cX8ygT1EvdUyww' : subscribe to one instance of the
+             game in GameArea2
+*/
+export function registerGameSubscriptions(gameUrl) {
+  console.log('registering game subscriptions')
+
+  var gameRef = firebase.database().ref(gameUrl)
+
+  gameRef.on('value', function(snapshot) {
+    console.log('Received child game info on add: ', snapshot.val())
+    let gameObjects = snapshot.val()
+
+    for (key in gameObjects) {
+      if (key.trim().startsWith('players')){
+        store.dispatch(changePlayerStatus(gameObjects[key]))
+      }
+      if (key.trim().startsWith('flags')){
+        store.dispatch(resetFlagLocation(gameObjects[key]))
+      }
+    }
+  })
+}

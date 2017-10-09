@@ -266,4 +266,4 @@ const SelectGameViewContainer = connect(mapStateToProps, mapDispatchToProps)(Sel
 
 export default SelectGameViewContainer;
 
-const locationArray = [ null, 'elevatedAcre', 'bowlingGreen', 'batteryPark' ]
+const locationArray = [ null, elevatedAcre, bowlingGreen, batteryPark ]
