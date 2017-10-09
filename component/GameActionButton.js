@@ -29,8 +29,9 @@ class GameActionButtonView extends Component {
       .auth()
       .signOut()
       .then(() => {
-        this.props.isLoggedOut();
-        this.props.navigate("LoginForm");
+        // identify user to logout.
+        this.props.isLoggedOut(this.props.localUserKey);
+        this.props.navigation.navigate("LoginForm");
       })
       .catch(error => console.log(error));
   }
@@ -80,7 +81,13 @@ class GameActionButtonView extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+      localUserKey: state.authenticated.localUserKey
+  }
+}
+
 const mapDispatchToProps = { isLoggedOut }
 
-const GameActionButtonViewContainer = connect(null, mapDispatchToProps)(GameActionButtonView)
+const GameActionButtonViewContainer = connect(mapStateToProps, mapDispatchToProps)(GameActionButtonView)
 export default GameActionButtonViewContainer;
