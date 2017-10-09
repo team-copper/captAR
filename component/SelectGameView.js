@@ -123,10 +123,10 @@ class SelectGameView extends Component {
       });
 
     //need to figure out how to run this async function properly
-    // this.props.fetchGame(id);
+    this.props.fetchGame(id);
     // this.setState({showModal: true});
-    this.setState({areaId: id})
-    this.modalView();
+    // this.setState({areaId: id})
+    // this.modalView();
   };
 
   modalView = () => {

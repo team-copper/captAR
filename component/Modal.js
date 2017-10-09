@@ -84,9 +84,6 @@ const mapDispatchToProps = dispatch => {
             // console.log('i am creating ', game)
             const action = createGameThunk(game);
             dispatch(action);
-        },
-        joinGame: playerId => {
-            const action = 
         }
     }
 }
