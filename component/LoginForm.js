@@ -63,21 +63,12 @@ class LoginForm extends Component {
                     value={this.state.password}
                     onChangeText={password => this.setState({ password })}
                 />
-                <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+                <Text style={Style.loginErrorText}>{this.state.error}</Text>
                 {this.renderButtonOrSpinner()}
             </View>
         );
     }
 }
-
-const styles = {
-    errorTextStyle: {
-        color: '#E64A19',
-        alignSelf: 'center',
-        paddingTop: 10,
-        paddingBottom: 10
-    }
-};
 
 const mapStateToProps = (state) => {
     return {
