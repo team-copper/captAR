@@ -13,7 +13,7 @@ import { isLoggedOut } from '../store'
 class GameActionButtonView extends Component {
   constructor() {
     super();
-    this.state = { position: "left" };
+    this.state = { position: "right" };
 
     this.onMessagePress = this.onMessagePress.bind(this);
     this.onLogoutPress = this.onLogoutPress.bind(this);

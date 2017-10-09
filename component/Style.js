@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   displayBar: {
     alignItems: 'center',
-    height: 45,
+    height: 50,
     backgroundColor: '#C0C0C0',
     justifyContent: 'center',
   },
