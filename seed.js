@@ -21,15 +21,19 @@ console.log('Game session generated: ', gameSessionKey)
 let flags = [
   {
       flagId: 1,
-      location: { latitude: 40.703295, longitude: -74.00845 },
       team: 'red',
-      isTaken: false
+      startLocation: { latitude: 40.703295, longitude: -74.00845 },
+      isTaken: false,
+      holder: null,
+      currentLocation: null,
   },
   {
       flagId: 2,
-      location: { latitude: 40.703414, longitude: -74.008663 },
       team: 'blue',
-      isTaken: false
+      startLocation: { latitude: 40.703414, longitude: -74.008663 },
+      isTaken: false,
+      holder: null,
+      currentLocation: null,
   },
 ]
 
