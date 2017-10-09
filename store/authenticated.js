@@ -1,3 +1,6 @@
+"use strict";
+
+
 import firebase from '../firebase'
 
 // Action Types

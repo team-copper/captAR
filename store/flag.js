@@ -1,5 +1,5 @@
+"use strict";
 
-import socket from "../socket"
 import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
 import geolib from "geolib"
 

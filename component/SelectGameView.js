@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import MapView from "react-native-maps";
 import geolib from "geolib";
-import { Style, SelectGameActionButtonView } from "./index";
+import { Style } from "./index";
 import {
   elevatedAcre,
   bowlingGreen,
@@ -95,7 +95,7 @@ class SelectGameView extends Component {
     );
   };
 
-  handleAreaPress = (event, id) => {    
+  handleAreaPress = (event, id) => {
     // console.log(id, 'selected polygon Id');
     // id === 1 : elevatedAcre
     // id === 2 : bowlingGreen
@@ -123,10 +123,10 @@ class SelectGameView extends Component {
       });
 
     //need to figure out how to run this async function properly
-    this.props.fetchGame(id);
+    // this.props.fetchGame(id);
     // this.setState({showModal: true});
-    // this.setState({areaId: id})
-    // this.modalView();
+    this.setState({areaId: id})
+    this.modalView();
   };
 
   modalView = () => {
@@ -134,8 +134,8 @@ class SelectGameView extends Component {
   }
 
   render() {
-    // this.state.showModal 
-    // ? console.log('button press ', this.props.gameArea) 
+    // this.state.showModal
+    // ? console.log('button press ', this.props.gameArea)
     // : console.log('nada');
     if (this.state.latitude) {
       const selectedArea = []
@@ -202,7 +202,6 @@ class SelectGameView extends Component {
             }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-          <SelectGameActionButtonView />
           <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} buttonText={'Create'} gameId={this.state.areaId}/>
         </View>
       );
