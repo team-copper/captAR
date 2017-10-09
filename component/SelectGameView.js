@@ -18,9 +18,10 @@ import {
   bowlingGreen,
   batteryPark
 } from "../assets/presetGameFields";
-import { fetchGameThunk } from '../store';
+import { createFlagThunk, createPlayerThunk, fetchGameThunk } from '../store';
 import { connect } from 'react-redux';
 import ModalView from './Modal';
+import { Player, Team, Flag } from "../model";
 
 class SelectGameView extends Component {
   constructor(props) {
@@ -47,6 +48,8 @@ class SelectGameView extends Component {
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
     this.modalView = this.modalView.bind(this);
+    this.createFlag = this.createFlag.bind(this);
+    this.createPlayer = this.createPlayer.bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +77,7 @@ class SelectGameView extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-  };
+  }
 
   watchPosition = () => {
     this.watchId = navigator.geolocation.watchPosition(
@@ -96,6 +99,8 @@ class SelectGameView extends Component {
   };
 
   handleAreaPress = (event, id) => {
+    this.createFlag(id);
+    this.createPlayer();
     // console.log(id, 'selected polygon Id');
     // id === 1 : elevatedAcre
     // id === 2 : bowlingGreen
@@ -121,13 +126,41 @@ class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
-
-    //need to figure out how to run this async function properly
-    // this.props.fetchGame(id);
-    // this.setState({showModal: true});
-    this.setState({areaId: id})
-    this.modalView();
+    // this.setState({areaId: id})
+    // this.modalView();
+    this.createFlag(id);
   };
+
+  createFlag = (polyId) => {
+    const randNum = Math.floor(Math.random()) * 5;
+    console.log()
+    const coordinates = locationArray[polyId].redFlagSpawn[randNum];
+    let redFlag = new Flag(red, 1);
+    redFlag.startLocation = {
+      latitude: coordinates.latitude,
+      longitude: coordinates.longitude
+    }
+    console.log("*****", redFlag);
+    // createFlagThunk(redFlag);
+
+    // let blueFlag = new Flag();
+    // blueFlag.startLocation(
+    //   this.props.flags[1].location.latitude,
+    //   this.props.flags[1].location.longitude
+    // );
+    // blueFlag.gameSessionId = this.state.gameSessionId;
+    // createFlagThunk(blueFlag);
+  }
+
+  createPlayer = () => {
+    let player = new Player();
+    player.setPosition(this.state.latitude, this.state.longitude);
+    player.gameSessionId = this.state.gameSessionId;
+    player.playerId = Uuid.create();
+    player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
+    console.log("*****player thunk", player);
+    createPlayerThunk(player);
+  }
 
   modalView = () => {
     this.setState({showModal: !this.state.showModal})
@@ -232,3 +265,5 @@ const mapDispatchToProps = dispatch => {
 const SelectGameViewContainer = connect(mapStateToProps, mapDispatchToProps)(SelectGameView);
 
 export default SelectGameViewContainer;
+
+const locationArray = [ null, 'elevatedAcre', 'bowlingGreen', 'batteryPark' ]

@@ -46,12 +46,12 @@ export class Player {
 // }
 
 export class Flag {
-    constructor() {
+    constructor(color, num) {
         // this.gameSessionId = null
-        this.flagId = null
+        this.flagId = num
         this.startLocation = null
         this.currentLocation = null
-        this.team = null
+        this.team = color
         this.isTaken = false
         this.holder = null
     }
