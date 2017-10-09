@@ -9,11 +9,15 @@ const reducers = combineReducers({
   authenticated,
   players
 })
+const middleware = applyMiddleware(thunkMiddleware);
 
-const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
+// const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
+//Anuj notes: disabling createLogger middleware temporarily
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 export default store;
 export * from './authenticated'
 export * from './flag'
 export * from './player'
 export * from './team'
+export * from './game'

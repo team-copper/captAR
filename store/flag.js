@@ -1,4 +1,3 @@
-
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
@@ -56,7 +55,6 @@ export function deleteFlag(flagId){
 export function createFlagThunk(flag){
     console.log("*****", flag)
     createFlag(flag)
-
 }
 
 export function takeFlagThunk(flag){

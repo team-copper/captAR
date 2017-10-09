@@ -18,8 +18,11 @@ import {
   bowlingGreen,
   batteryPark
 } from "../assets/presetGameFields";
+import { fetchGameThunk } from '../store';
+import { connect } from 'react-redux';
+import ModalView from './Modal';
 
-export default class SelectGameView extends Component {
+class SelectGameView extends Component {
   constructor(props) {
     super(props);
 
@@ -28,6 +31,8 @@ export default class SelectGameView extends Component {
       latitude: 0,
       error: null,
       pressArea: false,
+      showModal: false,
+      areaId: null,
       selectedArea: {
         elevatedAcre: false,
         bowlingGreen: false,
@@ -41,6 +46,7 @@ export default class SelectGameView extends Component {
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
+    this.modalView = this.modalView.bind(this);
   }
 
   componentDidMount() {
@@ -51,15 +57,6 @@ export default class SelectGameView extends Component {
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
-
-  // saveToFirebaseDB(payload) {
-  //   const newMsgRef = firebase
-  //     .database()
-  //     .ref("messages")
-  //     .push();
-  //   payload.id = newMsgRef.key;
-  //   newMsgRef.set(payload);
-  // }
 
   getCurrentPosition = () => {
     let msg;
@@ -73,22 +70,10 @@ export default class SelectGameView extends Component {
           batteryParkCoordinates: batteryPark.gameAreaCoordinates,
           error: null
         });
-        // console.log(
-        //   geolib.isPointInside({latitude: this.state.latitude,
-        //     longitude: this.state.longitude},
-        //     this.state.redCoordinates
-        //   )
-        // );
       },
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    // firebase
-    //   .auth()
-    //   .signInAnonymously()
-    //   .then(() => {
-    //     this.saveToFirebaseDB(this.state);
-    //   });
   };
 
   watchPosition = () => {
@@ -110,8 +95,8 @@ export default class SelectGameView extends Component {
     );
   };
 
-  handleAreaPress = (event, id) => {
-    console.log(id, 'selected polygon Id');
+  handleAreaPress = (event, id) => {    
+    // console.log(id, 'selected polygon Id');
     // id === 1 : elevatedAcre
     // id === 2 : bowlingGreen
     // id === 3 : batteryPark
@@ -136,20 +121,29 @@ export default class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
+
+    //need to figure out how to run this async function properly
+    this.props.fetchGame(id);
+    // this.setState({showModal: true});
+    // this.setState({areaId: id})
+    // this.modalView();
   };
 
+  modalView = () => {
+    this.setState({showModal: !this.state.showModal})
+  }
+
   render() {
+    // this.state.showModal 
+    // ? console.log('button press ', this.props.gameArea) 
+    // : console.log('nada');
     if (this.state.latitude) {
-      // this.saveToFirebaseDB(this.state);
-      console.log(this.state.selectedArea);
       const selectedArea = []
       for (const area in this.state.selectedArea) {
         if (this.state.selectedArea[area] === true) {
           selectedArea.push(area)
         }
       }
-      console.log(selectedArea);
-
       return (
         <View style={Style.container}>
           <MapView
@@ -209,6 +203,7 @@ export default class SelectGameView extends Component {
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
           <SelectGameActionButtonView />
+          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} buttonText={'Create'} gameId={this.state.areaId}/>
         </View>
       );
     } else {
@@ -220,3 +215,21 @@ export default class SelectGameView extends Component {
     }
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    gameArea: state.game
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchGame: (polyId) => {
+      dispatch(fetchGameThunk(polyId))
+    }
+  }
+}
+
+const SelectGameViewContainer = connect(mapStateToProps, mapDispatchToProps)(SelectGameView);
+
+export default SelectGameViewContainer;
