@@ -14,7 +14,7 @@ let players = []
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object:
+Object:å
 {
     session: {
         gameId: null,
