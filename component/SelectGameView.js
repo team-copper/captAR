@@ -20,6 +20,7 @@ import {
 } from "../assets/presetGameFields";
 import { fetchGameThunk } from '../store';
 import { connect } from 'react-redux';
+import ModalView from './Modal';
 
 class SelectGameView extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class SelectGameView extends Component {
       error: null,
       pressArea: false,
       showModal: false,
+      areaId: null,
       selectedArea: {
         elevatedAcre: false,
         bowlingGreen: false,
@@ -44,6 +46,7 @@ class SelectGameView extends Component {
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.handleAreaPress = this.handleAreaPress.bind(this);
+    this.modalView = this.modalView.bind(this);
   }
 
   componentDidMount() {
@@ -121,12 +124,16 @@ class SelectGameView extends Component {
 
     //need to figure out how to run this async function properly
     // this.props.fetchGame(id);
-    this.setState({showModal: true});
+    // this.setState({showModal: true});
+    this.setState({areaId: id})
+    this.modalView();
   };
 
+  modalView = () => {
+    this.setState({showModal: !this.state.showModal})
+  }
+
   render() {
-    console.log('all my props in SelectGameView ', this.props)
-    // console.log('my state ', this.props.gameArea)
     // this.state.showModal 
     // ? console.log('button press ', this.props.gameArea) 
     // : console.log('nada');
@@ -196,6 +203,7 @@ class SelectGameView extends Component {
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
           <SelectGameActionButtonView />
+          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} buttonText={'Create'} gameId={this.state.areaId}/>
         </View>
       );
     } else {

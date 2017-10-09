@@ -65,8 +65,13 @@ export function fetchGameThunk(polyId) {
     }
 }
 
-export function createGameThunk(gameSessionId){
-    createGame(gameSessionId)
+export function createGameThunk(game){
+    return function (dispatch) {
+        const dbName = 'GameArea'+game.gameId.toString();
+        firebase.database().ref(`${dbName}`).push().set(game)
+            .then(console.log('player added'))
+            .catch(error => console.log('not added ', error))
+    }
 }
 
 export function fetchGamePolygonThunk(game){
