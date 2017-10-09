@@ -1,12 +1,42 @@
+
+import socket from "../socket"
+import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
+import geolib from "geolib"
+
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'
+const GET_DIST_FROM_FLAG = 'GET_DIST_FROM_FLAG'
 const TAKE_FLAG = 'TAKE_FLAG' // updates taken and holder attribute OR holder can be used as status
 const RESET_FLAG_LOCATION = 'RESET_FLAG_LOCATION'
 const DELETE_FLAG = 'DELETE_FLAG'
 
 // Initial State
+// Note: flags currently hardcoded; please update to create flags based on player's selected game view / gameId info
+// Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
-let flags = [ ]
+let flags = [ 
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 1,
+        location: { latitude: 40.703295, longitude: -74.00845 },
+        // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
+        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
+        team: 'red',
+        isTaken: false
+    },
+    {
+        session: {
+            gameId: 1,
+        }, 
+        flagId: 2,
+        location: { latitude: 40.703414, longitude: -74.008663 },
+        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+        team: 'blue',
+        isTaken: false
+    },
+]
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
@@ -35,6 +65,11 @@ export function createFlag(flag){
   return action
 }
 
+export function getDistanceFromFlag(flag){
+    const action = {type: GET_DIST_FROM_FLAG, flag}
+    return action
+}
+
 export function takeFlag(flag){
     const action = {type: TAKE_FLAG, flag}
     return action
@@ -54,11 +89,37 @@ export function deleteFlag(flagId){
 
 export function createFlagThunk(flag){
     console.log("*****", flag)
+    // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
+            // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
+            // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
+    // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
+            // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
+            // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
+    // if selected game view / polygonId === 3, randomly generate flags for batteryPark
+            // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
+            // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
     createFlag(flag)
 }
 
+// attempted to create CALCULATE_DISTANCE on Flag store and test this part
+export function getDistanceFromFlagThunk(lat, lng, event){
+    return (dispatch) => {
+        const dist = geolib.getDistance(
+          { latitude: lat, longitude: lng },
+          {
+            latitude: event.nativeEvent.coordinate.latitude,
+            longitude: event.nativeEvent.coordinate.longitude
+          },
+          1,
+          3
+        )
+        .toFixed(2);
+        dispatch(getDistanceFromFlag(dist))
+    }
+}
+
 export function takeFlagThunk(flag){
-    takeFlag(flag)
+
 }
 
 export function resetFlagThunk(flag){
@@ -75,6 +136,9 @@ export default (state = flags, action) => {
 
     case CREATE_FLAG:
         return [...state, action.flag]
+
+    case GET_DIST_FROM_FLAG:
+
 
     case TAKE_FLAG:
         let newState = state.filter(flag => flag.flagId !== action.flag.flagId)

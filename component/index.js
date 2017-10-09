@@ -15,8 +15,8 @@ export { default as Style } from "./Style";
 
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Provider} from 'react-redux'
-import { Style } from './';
+import { Provider } from 'react-redux'
+import { Style, Main, GameView, LoginForm, SelectGameView } from './';
 import store from '../store'
 import { GameScreen } from '../config/router'
 

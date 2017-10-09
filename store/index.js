@@ -4,10 +4,12 @@ import thunkMiddleware from 'redux-thunk'
 
 import authenticated from './authenticated'
 import players from './player'
+import flags from './flag'
 
 const reducers = combineReducers({
   authenticated,
-  players
+  players,
+  flags
 })
 const middleware = applyMiddleware(thunkMiddleware);
 

@@ -12,11 +12,13 @@ let players = [
     {
         session: {
             gameId: 1,
-            duration: null, //do we need this?
+            duration: null, //do we need this? - jordan
+            // Re: we can work without it; only needed if we want the rounds to be 5 min max - jannine
         },
         playerId: 1,
         location: { latitude: 40.703394, longitude: -74.008622 },
         team: 'red',
+        // Question: after being tagged, instead of forcing a player to their own side, can we pause their game for 10 secs at their current loc?
         hasFlag: false
     },
     {
@@ -99,11 +101,13 @@ export function clearPlayer(playerId){
 // THUNKS
 
 export function createPlayerThunk(player){
+    // assign playerId, 1,2,3,4 etc., by order of log-in
     console.log("&&&&&&playerthunk")
     createPlayer(player)
 }
 
 export function assignPlayerTeamThunk(player){
+    // where playerId is odd, red team, else blue team 
     assignPlayerTeam(player)
 }
 

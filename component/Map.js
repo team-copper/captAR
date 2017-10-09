@@ -14,18 +14,20 @@ import { connect } from "react-redux";
 import MapView from "react-native-maps";
 import geolib from "geolib";
 import { Style, GameActionButtonView, CameraView } from "./index";
-import { elevatedAcre } from "../assets/presetGameFields";
+import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields";
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
 import {
   createFlagThunk,
   createPlayerThunk,
-  getPlayersLocation
+  getDistanceFromFlagThunk
 } from "../store";
 
 // Parent - Child Component Order:
 // Map -> GameActionButton -> Camera
+
+// Rename to UserGameView?
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +38,7 @@ class Map extends Component {
       latitude: 0,
       error: null,
       enableCapture: false,
+      // Add playerId and team to each user's local state?
       pressFlag: false, // redux state? I am not so sure.
       displayStatus: "", // redux state. Don't worry about this now.
       gameAreaCoordinates: [
@@ -56,12 +59,12 @@ class Map extends Component {
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
-      // when flag is captured and bound to a player,
-      // flag is redux state (flag coordinates === player.location)
-      redFlag: { latitude: 0, longitude: 0 },
-      redFlagCircle: { latitude: 0, longitude: 0 },
-      blueFlag: { latitude: 0, longitude: 0 },
-      blueFlagCircle: { latitude: 0, longitude: 0 },
+    // when flag is captured and bound to a player,
+    // flag is redux state (flag coordinates === player.location)
+      // redFlag: { latitude: 0, longitude: 0 },
+      // redFlagCircle: { latitude: 0, longitude: 0 },
+      // blueFlag: { latitude: 0, longitude: 0 },
+      // blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
@@ -93,8 +96,8 @@ class Map extends Component {
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
           redCoordinates: elevatedAcre.redCoordinates,
           blueCoordinates: elevatedAcre.blueCoordinates,
-          redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-          blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+          // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+          // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
         });
       },
@@ -102,11 +105,11 @@ class Map extends Component {
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
 
-
+    // Note: When I comment the below out, Map.js loads as a blue background
     let redFlag = new Flag();
     redFlag.setHomeLocation(
-      this.state.redFlag.latitude,
-      this.state.redFlag.longitude
+      this.props.flags[0].location.latitude,
+      this.props.flags[0].location.longitude,
     );
     redFlag.gameSessionId = this.state.gameSessionId;
     console.log("*****", redFlag);
@@ -114,8 +117,8 @@ class Map extends Component {
 
     let blueFlag = new Flag();
     blueFlag.setHomeLocation(
-      this.state.blueFlag.latitude,
-      this.state.blueFlag.longitude
+      this.props.flags[1].location.latitude,
+      this.props.flags[1].location.longitude,
     );
     blueFlag.gameSessionId = this.state.gameSessionId;
     createFlagThunk(blueFlag);
@@ -149,24 +152,33 @@ class Map extends Component {
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
+    // attempted on line 165 and in store > flag.js, line 107
   handleFlagPress = event => {
+
+    let lat = this.state.latitude, lng = this.state.longitude
+
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
       : this.setState({ pressFlag: false });
+      
+    this.props.getDistanceFromFlag(lat, lng, event)
 
-    this.setState({
-      flagDistance: geolib
-        .getDistance(
-          { latitude: this.state.latitude, longitude: this.state.longitude },
-          {
-            latitude: event.nativeEvent.coordinate.latitude,
-            longitude: event.nativeEvent.coordinate.longitude
-          },
-          1,
-          3
-        )
-        .toFixed(2)
-    });
+    this.setState({pressFlag: !this.state.pressFlag})
+
+    // this.setState({
+    //  flagDistance: getDistanceFromFlagThunk(lat, lng, event)
+    //   // flagDistance: geolib
+    //   //   .getDistance(
+    //   //     { latitude: this.state.latitude, longitude: this.state.longitude },
+    //   //     {
+    //   //       latitude: event.nativeEvent.coordinate.latitude,
+    //   //       longitude: event.nativeEvent.coordinate.longitude
+    //   //     },
+    //   //     1,
+    //   //     3
+    //   //   )
+    //   //   .toFixed(2)
+    // });
   };
 
   // Pressing capture on action button
@@ -177,14 +189,17 @@ class Map extends Component {
   // Enable flag to be captured only when I am inside a flag circle
   // Don't worry about flag and my team color being same/different now
   onCapturePress() {
-    if (
+    // Note: added a 1.5m radius to each flag's circle; increase if necessary
+    if ( // red team &&
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.state.redFlag
-      ) ||
+        this.props.flags[0].location, // red team's flag
+        1.5
+      ) || // blue team &&
       geolib.isPointInside(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.state.blueFlag
+        this.props.flags[1].location, // blue team's flag
+        1.5
       )
     ) {
       this.setState({ enableCapture: true });
@@ -199,13 +214,22 @@ class Map extends Component {
 
   // Pressing AR image on Camera
   // This is passed down as props to Camera component
-  onFlagCapture() {
+  onFlagCapture(player, flag) {
+    // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
+      // if (this.state.team === this.props.flags.flagId)
     this.setState({ displayStatus: "Jordan has captured the flag!" });
+    // and change flag's location to that the user (use playerId)
+      // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
+        // need dispatch here to have flag's location be the same as the holder
+        // this.props.flags[0].location = this.props.players[whatever index the player is].location
+
   }
 
   render() {
     const players = this.props.players;
-    if (this.state.redFlag.latitude !== 0) {
+    const flags = this.props.flags;
+
+    if (flags[0].location.latitude !== 0) {
       // this.saveToFirebaseDB(this.state);
       return (
         <View style={Style.container}>
@@ -267,7 +291,7 @@ class Map extends Component {
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
-              coordinate={this.state.redFlag}
+              coordinate={flags[0].location}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -277,14 +301,14 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="redFlagCircle"
-              center={this.state.redFlag}
+              center={flags[0].location}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
 
             <MapView.Marker
               name="blueFlag"
-              coordinate={this.state.blueFlag}
+              coordinate={flags[1].location}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -294,7 +318,7 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="blueFlagCircle"
-              center={this.state.blueFlag}
+              center={flags[1].location}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
@@ -335,9 +359,21 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  return { players: state.players };
+  return { 
+    players: state.players,
+    flags: state.flags,
+  };
 };
 
-const MapContainer = connect(mapStateToProps)(Map);
+const mapDispatchToProps = dispatch => {
+  return {
+    getDistanceFromFlag: (lat, lng, event) => {
+      const action = getDistanceFromFlagThunk()
+      dispatch(action)
+    }
+  }
+}
+
+const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map);
 
 export default MapContainer;

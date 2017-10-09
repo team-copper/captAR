@@ -1,4 +1,4 @@
-"user strict";
+"use strict";
 
 const redPlayer1 =
   "https://www.dropbox.com/s/hggyi2r22soloqw/redPlayer1.png?raw=1";
