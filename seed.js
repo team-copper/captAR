@@ -34,7 +34,8 @@ let flags = [
 ]
 
 for (let i = 0; i < flags.length; i++){
-  firebase.database().ref('GameArea2').child(gameSessionKey + '/flags').set(flags[i])
+    let flagKey = firebase.database().ref('GameArea1' + gameSessionKey + '/flags').push().key
+    firebase.database().ref('GameArea2').child(gameSessionKey + '/flags' + flagKey).set(flags[i])
 }
 console.log('Flags generated')
 
@@ -66,7 +67,8 @@ let players = [
 ]
 
 for (let i = 0; i < players.length; i++){
-  firebase.database().ref('GameArea2').child(gameSessionKey + '/players').set(players[i])
+    let playerKey = firebase.database().ref('GameArea1' + gameSessionKey + '/players').push().key
+    firebase.database().ref('GameArea2').child(gameSessionKey + '/players' + playerKey).set(players[i])
 }
 
 console.log('Players generated')
