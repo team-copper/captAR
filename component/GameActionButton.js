@@ -13,7 +13,7 @@ import { isLoggedOut } from '../store'
 class GameActionButtonView extends Component {
   constructor() {
     super();
-    this.state = { position: "right" };
+    this.state = { position: "left" };
 
     this.onMessagePress = this.onMessagePress.bind(this);
     this.onLogoutPress = this.onLogoutPress.bind(this);
@@ -30,8 +30,8 @@ class GameActionButtonView extends Component {
       .signOut()
       .then(() => {
         // identify user to logout.
-        this.props.isLoggedOut(this.props.localUserKey);
-        this.props.navigation.navigate("LoginForm");
+        isLoggedOut(this.props.localUserKey);
+        this.props.navigate("LoginForm");
       })
       .catch(error => console.log(error));
   }

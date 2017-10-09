@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 
 export default class GameView extends Component {
   render() {
+    console.log(this.props);
     return (
       <View style={Style.container}>
-        <Map navigate={this.props.navigation.navigate}/>
+        <Map navigate={this.props.navigation.navigate} />
       </View>
     )
   }

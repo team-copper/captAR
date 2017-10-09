@@ -1,3 +1,4 @@
+"use strict";
 
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
@@ -107,7 +108,7 @@ export function createPlayerThunk(player){
 }
 
 export function assignPlayerTeamThunk(player){
-    // where playerId is odd, red team, else blue team 
+    // where playerId is odd, red team, else blue team
     assignPlayerTeam(player)
 }
 

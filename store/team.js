@@ -1,3 +1,5 @@
+"use strict";
+
 // Action Types
 const CREATE_TEAM = 'CREATE_TEAM'
 const CLEAR_TEAM = 'CLEAR_TEAM'
@@ -9,7 +11,7 @@ let teams = [ ]
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,
