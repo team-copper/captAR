@@ -72,7 +72,6 @@ class Map extends Component {
       flagDistance: 0
     };
 
-    this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.watchPosition = this.watchPosition.bind(this);
     this.checkInside = this.checkInside.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
@@ -82,19 +81,17 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.getCurrentPosition();
-    this.watchPosition();
+    this.watchPosition()
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
   }
 
-  getCurrentPosition = () => {
-    navigator.geolocation.getCurrentPosition(
+  watchPosition = () => {
+    this.watchId = navigator.geolocation.watchPosition(
       position => {
         this.setState({
-          gameSessionId: Uuid.create(),
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
@@ -106,10 +103,14 @@ class Map extends Component {
         });
       },
       error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0,
+        distanceFilter: 0.5
+      }
     );
 
-    // Note: When I comment the below out, Map.js loads as a blue background
     let redFlag = new Flag();
     redFlag.setHomeLocation(
       this.props.flags[0].startLocation.latitude,
@@ -134,25 +135,6 @@ class Map extends Component {
     player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
     console.log("*****player thunk", player);
     createPlayerThunk(player);
-  };
-
-  watchPosition = () => {
-    this.watchId = navigator.geolocation.watchPosition(
-      position => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null
-        });
-      },
-      error => this.setState({ error: error.message }),
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 1000,
-        distanceFilter: 10
-      }
-    );
   };
 
   checkInside = () => {
@@ -371,6 +353,12 @@ class Map extends Component {
             navigate={this.props.navigate}
             onCapturePress={this.onCapturePress}
           />
+          <View style={Style.selectTextContainer}>
+            <Text>
+              {this.state.latitude}
+              {this.state.longitude}
+            </Text>
+        </View>
         </View>
       );
     } else {
