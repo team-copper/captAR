@@ -14,8 +14,8 @@ export function isLoggedInAction(user) {
   return { type: IS_LOGGED_IN, user }
 }
 
-export function isLoggedOutAction(user) {
-  return { type: IS_LOGGED_OUT, user }
+export function isLoggedOutAction(localUserKey) {
+  return { type: IS_LOGGED_OUT, localUserKey }
 }
 
 // Thunks
@@ -49,23 +49,23 @@ export function addUser(email) {
     }
     firebase.database().ref('users').child(userKey).set(user)
       .then(() => {
-        console.log('called the database set')
-        dispatch(addUserAction(user))
+        console.log('user added')
+        // commented out as subscription and
+        // this have race condition.
+        //dispatch(addUserAction(user))
       })
       .catch(error => console.log(error))
   }
 }
 
 // Thunks
-export function isLoggedOut() {
+export function isLoggedOut(localUserKey) {
   return function thunk(dispatch) {
-    console.log('key to update: ', this.state.localUserKey)
-    let userToLogout = this.state.users.filter(user => user.userId === this.state.localUserKey)
-    userToLogout.loggedIn = false
-    firebase.database().ref('users/' + this.state.localUserKey).set(userToLogout)
+    console.log('key to update: ', localUserKey)
+    let userRef = firebase.database().ref('users').child(localUserKey).update({loggedIn: false})
       .then(() => {
         console.log('called the database set')
-        dispatch(isLoggedInAction(userToLogout))
+        dispatch(isLoggedOutAction(localUserKey))
       })
       .catch(error => console.log(error))
   }
@@ -81,20 +81,19 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
       let users = [...state.users, action.user]
-      let newState = Object.assign({}, state)
-      newState.users = users
-      return newState
+      return {localUserKey: action.user.userId, users}
 
     case IS_LOGGED_IN:
       let newStateUsers = state.users.filter(user => user.email !== action.user.email)
-      users = [...newStateUsers, action.user]
-      return {localUserKey: action.user.userId, users}
+      newStateUsers.push(action.user)
+      return {localUserKey: action.user.userId, users: newStateUsers}
 
     case IS_LOGGED_OUT:
-      newStateUsers = state.filter(user => user.email !== action.user.email)
-      users = [...newStateUsers, action.user]
-      newState = Object.assign({}, state)
-      newState.users = users
+      let userToLogout = state.users.filter(user => user.userId === action.localUserKey)
+      newStateUsers = state.users.filter(user => user.userId !== action.localUserKey)
+      newStateUsers.push(userToLogout)
+      let newState = Object.assign({}, state)
+      newState.users = newStateUsers
       return newState
 
     default:
