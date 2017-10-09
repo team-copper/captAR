@@ -3,7 +3,7 @@ import { Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback } fro
 import { Label, Item, Input } from 'native-base';
 import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
-import styles from "./Style";
+import { Style } from './index';
 import { Game } from '../model';
 import { createGameThunk } from '../store';
 
@@ -31,14 +31,14 @@ class ModalView extends Component {
 
     _renderButton = (text) => (
         <TouchableOpacity onPress={this.createGame}>
-          <View style={styles.button}>
+          <View style={Style.button}>
             <Text>{text}</Text>
           </View>
         </TouchableOpacity>
       );
-    
+
     _renderModalContent = () => (
-        <View style={styles.modalContent}>
+        <View style={Style.modalContent}>
             <Item fixedlabel>
                 {/* <Input style={styles.input} placeholder="Your next remainder" onChangeText={updatedText => this.props.updateRemainder(updatedText)} /> */}
                 <Text>Have fun playing captAR!</Text>

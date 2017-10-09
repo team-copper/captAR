@@ -3,22 +3,23 @@ export class Game {
     constructor() {
         this.gameId = null
         this.players = []
+        this.flags = []
         this.onSession = false
     }
 }
 
 export class Player {
     constructor() {
-        this.gameSessionId = null
+        // this.gameSessionId = null
         this.playerId = null
-        this.position = null
-        this.teamColor = null
-        this.tagged = false
+        this.location = null
+        this.team = null
+        // this.tagged = false
         this.hasFlag = false
     }
 
     setPosition = function(inLatitude, inLongitude) {
-        this.position = {latitude: inLatitude, longitude: inLongitude}
+        this.location = {latitude: inLatitude, longitude: inLongitude}
     }
     
     capturedFlag = function() {
@@ -35,32 +36,33 @@ export class Player {
     }
 }
 
-export class Team {
-    constructor() {
-        this.gameSessionId = null
-        this.teamId = null
-        this.teamName = null
-        this.teamColor = null
-    }
-}
+// export class Team {
+//     constructor() {
+//         this.gameSessionId = null
+//         this.teamId = null
+//         this.teamName = null
+//         this.teamColor = null
+//     }
+// }
 
 export class Flag {
     constructor() {
-        this.gameSessionId = null
-        this.homeLocation = null
+        // this.gameSessionId = null
+        this.flagId = null
+        this.startLocation = null
         this.currentLocation = null
-        this.teamId = null
-        this.taken = false
-        this.holderId = null
+        this.team = null
+        this.isTaken = false
+        this.holder = null
     }
 
     setHomeLocation = function(inLatitude, inLongitude) {
-        this.homeLocation = {latitude: inLatitude, longitude: inLongitude}
+        this.startLocation = {latitude: inLatitude, longitude: inLongitude}
     }
     
     flagTaken = function(player) {
-        this.taken = true;
-        this.holderId = player.playerId;
+        this.isTaken = true;
+        this.holder = player.playerId;
         this.currentLocation = player.position;
     }
 }

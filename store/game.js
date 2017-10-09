@@ -1,3 +1,5 @@
+"use strict";
+
 import firebase from "../firebase";
 
 // Action Types
@@ -13,7 +15,7 @@ let games = [ ]
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,

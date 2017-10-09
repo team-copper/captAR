@@ -47,20 +47,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18
   },
+  loginErrorText: {
+    color: '#E64A19',
+    alignSelf: 'center',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
   image: {
     width: 100,
     height: 100
   },
   actionButtonRight: {
     position: 'absolute',
-    marginVertical: 550,
-    marginLeft: 220,
+    bottom: 0,
+    left: 210,
     width: 200,
     height: 200,
   },
   actionButtonLeft: {
     position: 'absolute',
-    marginVertical: 550,
+    bottom: 0,
     width: 200,
     height: 200,
   },
@@ -91,7 +97,7 @@ const styles = StyleSheet.create({
   },
   displayBar: {
     alignItems: 'center',
-    height: 45,
+    height: 50,
     backgroundColor: '#C0C0C0',
     justifyContent: 'center',
   },
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   input: {
-    width : '75%',
+    width: '75%',
   }
 });
 

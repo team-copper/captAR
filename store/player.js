@@ -1,3 +1,4 @@
+"use strict";
 
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'

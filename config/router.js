@@ -13,21 +13,21 @@ export const GameScreen = StackNavigator({
         screen: LoginForm,
         navigationOptions: {
             title: 'Sign-Up/Login',
-            headerLeft: null
+            header: null
         }
     },
     SelectGameView: {
         screen: SelectGameView,
         navigationOptions: {
-            title: 'Select Your Team',
-            headerLeft: null
+            title: 'SelectGameView',
+            header: null
         }
     },
     GameView: {
         screen: GameView,
         navigationOptions: {
-            title: 'Select Your Team',
-            headerLeft: null
+            title: 'GameView',
+            header: null,
         }
     }
 });

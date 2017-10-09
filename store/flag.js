@@ -1,3 +1,4 @@
+"use strict";
 
 import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
 import geolib from "geolib"
@@ -13,27 +14,27 @@ const DELETE_FLAG = 'DELETE_FLAG'
 // Note: flags currently hardcoded; please update to create flags based on player's selected game view / gameId info
 // Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
+
+// from seed.js fed into Firebase
 let flags = [
     {
-        session: {
-            gameId: 1,
-        },
         flagId: 1,
-        location: { latitude: 40.703295, longitude: -74.00845 },
+        team: 'red',
+        startLocation: { latitude: 40.703295, longitude: -74.00845 },
         // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
         // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
-        team: 'red',
-        isTaken: false
+        isTaken: false,
+        holder: null,
+        currentLocation: null,
     },
     {
-        session: {
-            gameId: 1,
-        },
         flagId: 2,
-        location: { latitude: 40.703414, longitude: -74.008663 },
-        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
         team: 'blue',
-        isTaken: false
+        startLocation: { latitude: 40.703414, longitude: -74.008663 },
+        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+        isTaken: false,
+        holder: null,
+        currentLocation: null,
     },
 ]
 
