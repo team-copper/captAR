@@ -111,8 +111,8 @@ class Map extends Component {
     // Note: When I comment the below out, Map.js loads as a blue background
     let redFlag = new Flag();
     redFlag.setHomeLocation(
-      this.props.flags[0].location.latitude,
-      this.props.flags[0].location.longitude
+      this.props.flags[0].startLocation.latitude,
+      this.props.flags[0].startLocation.longitude
     );
     redFlag.gameSessionId = this.state.gameSessionId;
     console.log("*****", redFlag);
@@ -120,8 +120,8 @@ class Map extends Component {
 
     let blueFlag = new Flag();
     blueFlag.setHomeLocation(
-      this.props.flags[1].location.latitude,
-      this.props.flags[1].location.longitude
+      this.props.flags[1].startLocation.latitude,
+      this.props.flags[1].startLocation.longitude
     );
     blueFlag.gameSessionId = this.state.gameSessionId;
     createFlagThunk(blueFlag);
@@ -231,9 +231,9 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
+    console.log(players, flags)
 
-    if (flags[0].location.latitude !== 0) {
-      // this.saveToFirebaseDB(this.state);
+    if (flags[0].startLocation.latitude !== 0) {
       return (
         <View style={Style.container}>
           <MapView
@@ -284,7 +284,7 @@ class Map extends Component {
                 title={index.toString()}
               >
                 <Image
-                  source={{ uri: playerMarkerPath[index] }}
+                  source={playerMarkerPath[index]}
                   style={{ height: 25, width: 25 }}
                 />
               </MapView.Marker>
@@ -293,7 +293,7 @@ class Map extends Component {
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
-              coordinate={flags[0].location}
+              coordinate={flags[0].startLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -303,14 +303,14 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="redFlagCircle"
-              center={flags[0].location}
+              center={flags[0].startLocation}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
 
             <MapView.Marker
               name="blueFlag"
-              coordinate={flags[1].location}
+              coordinate={flags[1].startLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -320,7 +320,7 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="blueFlagCircle"
-              center={flags[1].location}
+              center={flags[1].startLocation}
               radius={1.5}
               fillColor="rgba(200, 0, 0, 0.3)"
             />

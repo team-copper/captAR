@@ -1,27 +1,20 @@
 "use strict";
 
-const redPlayer1 =
-  "https://www.dropbox.com/s/hggyi2r22soloqw/redPlayer1.png?raw=1";
+const redPlayer1 = require('../assets/redPlayer1.png');
 
-const redPlayer2 =
-  "https://www.dropbox.com/s/gaur5qdnkm2rh25/redPlayer2.png?raw=1";
+const redPlayer2 = require('../assets/redPlayer2.png');
 
-const redPlayer3 =
-  "https://www.dropbox.com/s/ss95lkmd96n4tn3/redPlayer3.png?raw=1";
+const redPlayer3 = require('../assets/redPlayer3.png');
 
-const redPlayer4 =
-  "https://www.dropbox.com/s/wdcchat4rrpcy9p/redPlayer4.png?raw=1";
+const redPlayer4 = require('../assets/redPlayer4.png');
 
-const bluePlayer1 =
-  "https://www.dropbox.com/s/tb1ypvdz2zejvqi/bluePlayer1.png?raw=1";
-const bluePlayer2 =
-  "https://www.dropbox.com/s/rv9g3ne6hfv2vki/bluePlayer2.png?raw=1";
+const bluePlayer1 = require('../assets/bluePlayer1.png');
 
-const bluePlayer3 =
-  "https://www.dropbox.com/s/66e2x96v6xsuw5m/bluePlayer3.png?raw=1";
+const bluePlayer2 = require('../assets/bluePlayer2.png');
 
-const bluePlayer4 =
-  "https://www.dropbox.com/s/x8nxk3jdq2fo907/bluePlayer4.png?raw=1";
+const bluePlayer3 = require('../assets/bluePlayer3.png');
+
+const bluePlayer4 = require('../assets/bluePlayer4.png');
 
 const playerMarkerPath = [
   redPlayer1,
