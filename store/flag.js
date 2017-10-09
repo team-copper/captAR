@@ -107,8 +107,7 @@ export function createFlagThunk(flag){
 // attempted to create CALCULATE_DISTANCE on Flag store and test this part
 export function getDistanceFromFlagThunk(lat, lng, event){
     return (dispatch) => {
-        dispatch(
-        geolib.getDistance(
+        const dist = geolib.getDistance(
           { latitude: lat, longitude: lng },
           {
             latitude: event.nativeEvent.coordinate.latitude,
@@ -117,8 +116,8 @@ export function getDistanceFromFlagThunk(lat, lng, event){
           1,
           3
         )
-        .toFixed(2)
-    )
+        .toFixed(2);
+        dispatch(getDistanceFromFlag(dist))
     }
 }
 

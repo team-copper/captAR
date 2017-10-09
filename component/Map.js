@@ -160,21 +160,25 @@ class Map extends Component {
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
       : this.setState({ pressFlag: false });
+      
+    this.props.getDistanceFromFlag(lat, lng, event)
 
-    this.setState({
+    this.setState({pressFlag: !this.state.pressFlag})
+
+    // this.setState({
     //  flagDistance: getDistanceFromFlagThunk(lat, lng, event)
-      flagDistance: geolib
-        .getDistance(
-          { latitude: this.state.latitude, longitude: this.state.longitude },
-          {
-            latitude: event.nativeEvent.coordinate.latitude,
-            longitude: event.nativeEvent.coordinate.longitude
-          },
-          1,
-          3
-        )
-        .toFixed(2)
-    });
+    //   // flagDistance: geolib
+    //   //   .getDistance(
+    //   //     { latitude: this.state.latitude, longitude: this.state.longitude },
+    //   //     {
+    //   //       latitude: event.nativeEvent.coordinate.latitude,
+    //   //       longitude: event.nativeEvent.coordinate.longitude
+    //   //     },
+    //   //     1,
+    //   //     3
+    //   //   )
+    //   //   .toFixed(2)
+    // });
   };
 
   // Pressing capture on action button
@@ -212,7 +216,7 @@ class Map extends Component {
   // This is passed down as props to Camera component
   onFlagCapture(player, flag) {
     // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
-    // if (this.state.team === this.props.flags.flagId)
+      // if (this.state.team === this.props.flags.flagId)
     this.setState({ displayStatus: "Jordan has captured the flag!" });
     // and change flag's location to that the user (use playerId)
       // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
@@ -363,9 +367,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getDistanceFromFlag: (lat, lng, event) => dispatch({
-      type : 'GET_DIST_FROM_FLAG'
-    })
+    getDistanceFromFlag: (lat, lng, event) => {
+      const action = getDistanceFromFlagThunk()
+      dispatch(action)
+    }
   }
 }
 
