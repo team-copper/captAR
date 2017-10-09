@@ -16,27 +16,7 @@ const DELETE_FLAG = 'DELETE_FLAG'
 
 
 // from seed.js fed into Firebase
-let flags = [
-    {
-        flagId: 1,
-        team: 'red',
-        startLocation: { latitude: 40.703295, longitude: -74.00845 },
-        // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
-        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
-        isTaken: false,
-        holder: null,
-        currentLocation: null,
-    },
-    {
-        flagId: 2,
-        team: 'blue',
-        startLocation: { latitude: 40.703414, longitude: -74.008663 },
-        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-        isTaken: false,
-        holder: null,
-        currentLocation: null,
-    },
-]
+let flags = []
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
 

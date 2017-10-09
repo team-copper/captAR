@@ -10,7 +10,7 @@ import { isLoggedIn, addUser } from '../store'
 class LoginForm extends Component {
     constructor(props) {
         super(props)
-        this.state = { email: '', password: '', error: '', loading: false };
+        this.state = { email: 'arata.clan@gmail.com', password: 'arata200', error: '', loading: false };
     }
 
     onLoginPress() {
@@ -31,7 +31,7 @@ class LoginForm extends Component {
                     this.props.addUser(email);
                 }
 
-                this.props.navigation.navigate('SelectGameView')
+                this.props.navigation.navigate('GameView')
             })
             .catch((error) => {
                 this.setState({ error: 'Authentication failed. ', loading: false });
