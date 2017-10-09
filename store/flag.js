@@ -14,6 +14,7 @@ const DELETE_FLAG = 'DELETE_FLAG'
 // Note: flags currently hardcoded; please update to create flags based on player's selected game view / gameId info
 // Question: will the player's selected game view choice (e.g., elevatedAcre) be held in session.gameId?
 
+
 // from seed.js fed into Firebase
 let flags = [
     {

@@ -1,8 +1,9 @@
 import { AppRegistry } from 'react-native';
 import captAR from './component'
-import registerSubscriptions from './subscriptions'
+import { registerUserSubscriptions, registerGameSubscriptions } from './subscriptions'
 
 // Firebase setup
-registerSubscriptions()
+registerUserSubscriptions()
+registerGameSubscriptions('GameArea2/-Kw1Z8cX8ygT1EvdUyww')
 
 AppRegistry.registerComponent('captAR', () => captAR);

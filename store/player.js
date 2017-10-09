@@ -98,7 +98,7 @@ export default (state = players, action) => {
 
     case CHANGE_PLAYER_STATUS:
          newState = state.filter(player => player.playerId !== action.player.playerId)
-        return [...state, action.player]
+        return [...newState, action.player]
 
     case CLEAR_PLAYER:
          newState = state.filter(player => player.playerId !== action.playerId)
