@@ -1,4 +1,3 @@
-import socket from '../socket'
 
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
@@ -105,28 +104,23 @@ export function createPlayerThunk(player){
     // assign playerId, 1,2,3,4 etc., by order of log-in
     console.log("&&&&&&playerthunk")
     createPlayer(player)
-    socket.emit(player)
 }
 
 export function assignPlayerTeamThunk(player){
     // where playerId is odd, red team, else blue team 
     assignPlayerTeam(player)
-    socket.emit(player)
 }
 
-export function getPlayersLocationThunk(player){
-    getPlayersLocation(player)
-    socket.emit(player)
+export function getPlayerLocationThunk(player){
+    getPlayerLocation(player)
 }
 
 export function changePlayerStatusThunk(player){
     changePlayerStatus(player)
-    socket.emit(player)
 }
 
 export function clearPlayerThunk(playerId){
     clearPlayer(playerId)
-    socket.emit(playerId)
 }
 
 // REDUCERS

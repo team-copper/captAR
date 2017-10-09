@@ -1,4 +1,12 @@
 
+export class Game {
+    constructor() {
+        this.gameId = null
+        this.players = []
+        this.onSession = false
+    }
+}
+
 export class Player {
     constructor() {
         this.gameSessionId = null

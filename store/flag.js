@@ -1,3 +1,4 @@
+
 import socket from "../socket"
 import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
 import geolib from "geolib"
@@ -40,7 +41,7 @@ let flags = [
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
 /*
-Object: 
+Object:
 {
     session: {
         gameId: null,
@@ -98,10 +99,6 @@ export function createFlagThunk(flag){
             // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
             // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
     createFlag(flag)
-    console.log("*****AFTER CREATE FLAG*****")
-    socket.emit(flag)
-    console.log("*****AFTER EMIT CREATE FLAG*****")
-    
 }
 
 // attempted to create CALCULATE_DISTANCE on Flag store and test this part
@@ -122,20 +119,15 @@ export function getDistanceFromFlagThunk(lat, lng, event){
 }
 
 export function takeFlagThunk(flag){
-    return (dispatch) => {
-        takeFlag(flag)
-    }
-    socket.emit(flag)
+
 }
 
 export function resetFlagThunk(flag){
     resetFlag(flag)
-    socket.emit(flag)
 }
 
 export function deleteFlagThunk(flag){
     deleteFlag(flag)
-    socket.emit(flag)
 }
 
 // REDUCERS

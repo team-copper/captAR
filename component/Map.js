@@ -345,7 +345,7 @@ class Map extends Component {
           ) : null}
 
           {/* enable/disable cameraview component and passing props */}
-          <GameActionButtonView onCapturePress={this.onCapturePress} />
+          <GameActionButtonView navigate={this.props} onCapturePress={this.onCapturePress} />
         </View>
       );
     } else {

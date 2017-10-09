@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  loginContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
   body: {
     flex: 9,
     flexDirection:'column',
@@ -15,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   toolbar: {
-        height: 56,
+    height: 56,
     backgroundColor: '#e9eaed',
   },
   textInput: {
@@ -116,6 +120,26 @@ const styles = StyleSheet.create({
     height: 90,
     backgroundColor: 'rgba(0,0,0,0)',
     alignSelf: 'center',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  button: {
+    backgroundColor: 'lightblue',
+    padding: 12,
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  input: {
+    width : '75%',
   }
 });
 
