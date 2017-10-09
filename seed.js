@@ -18,19 +18,24 @@ firebase.database().ref('GameArea2').child(gameSessionKey).set({
 })
 console.log('Game session generated: ', gameSessionKey)
 
+// from seed.js fed into Firebase
 let flags = [
-  {
-      flagId: 1,
-      location: { latitude: 40.703295, longitude: -74.00845 },
-      team: 'red',
-      isTaken: false
-  },
-  {
-      flagId: 2,
-      location: { latitude: 40.703414, longitude: -74.008663 },
-      team: 'blue',
-      isTaken: false
-  },
+    {
+        flagId: 1,
+        team: 'red',
+        startLocation: { latitude: 40.703295, longitude: -74.00845 },
+        isTaken: false,
+        holder: null,
+        currentLocation: null,
+    },
+    {
+        flagId: 2,
+        team: 'blue',
+        startLocation: { latitude: 40.703414, longitude: -74.008663 },
+        isTaken: false,
+        holder: null,
+        currentLocation: null,
+    },
 ]
 
 for (let i = 0; i < flags.length; i++){
