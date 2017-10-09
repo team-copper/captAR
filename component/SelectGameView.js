@@ -30,7 +30,7 @@ class SelectGameView extends Component {
       latitude: 0,
       error: null,
       pressArea: false,
-      showButton: false,
+      showModal: false,
       selectedArea: {
         elevatedAcre: false,
         bowlingGreen: false,
@@ -92,7 +92,7 @@ class SelectGameView extends Component {
     );
   };
 
-  handleAreaPress = (event, id) => {
+  handleAreaPress = (event, id) => {    
     // console.log(id, 'selected polygon Id');
     // id === 1 : elevatedAcre
     // id === 2 : bowlingGreen
@@ -118,13 +118,18 @@ class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
-      this.props.fetchGame(id);
-      this.setState({showButton: true})
+
+    //need to figure out how to run this async function properly
+    // this.props.fetchGame(id);
+    this.setState({showModal: true});
   };
 
   render() {
+    console.log('all my props in SelectGameView ', this.props)
     // console.log('my state ', this.props.gameArea)
-    this.state.showButton ? console.log('button press ', this.props.gameArea) : console.log('nada')
+    // this.state.showModal 
+    // ? console.log('button press ', this.props.gameArea) 
+    // : console.log('nada');
     if (this.state.latitude) {
       const selectedArea = []
       for (const area in this.state.selectedArea) {

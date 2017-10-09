@@ -53,15 +53,15 @@ export function clearGame(game){
 // THUNKS
 
 export function fetchGameThunk(polyId) {
-    console.log("we're ere")
     return function (dispatch) {
         const dbName = 'GameArea'+polyId.toString();
         firebase.database().ref(`${dbName}`).once('value')
             .then(function(snapshot) {
                 var game = snapshot.val();
+                console.log('data from server ', game)
                 dispatch(fetchGame(game))
             })
-            .catch(error => console.log('no message found'))
+            .catch(error => console.log('no message found ', error))
     }
 }
 
