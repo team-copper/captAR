@@ -12,6 +12,8 @@ const CLEAR_GAME = 'CLEAR_GAME' // after game ends, clear game session
 
 let initialState = {
     gameId: null,
+    gameArea: null,
+    gameLocation: {latitude: null, longitude: null},
     games: []
 }
 

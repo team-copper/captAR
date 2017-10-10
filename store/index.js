@@ -17,9 +17,9 @@ const reducers = combineReducers({
 })
 const middleware = applyMiddleware(thunkMiddleware);
 
-const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
+// const store = createStore(reducers, applyMiddleware(thunkMiddleware, createLogger()));
 //Anuj notes: disabling createLogger middleware temporarily
-// const store = createStore(reducers, applyMiddleware(thunkMiddleware));
+const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 export default store;
 export * from './authenticated'
