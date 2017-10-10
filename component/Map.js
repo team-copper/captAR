@@ -29,7 +29,9 @@ import { registerUserSubscriptions, registerGameSubscriptions } from '../subscri
 class Map extends Component {
   constructor(props) {
     super(props);
-
+    // const games = Object.keys(this.props.game[0]);
+    // const currentGame = games.slice(-1)[0];
+    // registerGameSubscriptions(`GameArea1/${currentGame}`);
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -70,7 +72,7 @@ class Map extends Component {
 
   componentDidMount() {
     this.watchPosition();
-    setInterval(this.checkInside, 100);
+    setInterval(this.checkInside, 1000);
   }
 
   componentWillUnmount() {
@@ -80,12 +82,21 @@ class Map extends Component {
   watchPosition = () => {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
+        // reference to gameId might change
+        if (this.props.gameId === 1) {
+          const area = elevatedAcre
+        } else if (this.props.gameId === 2) {
+          const area = bowlingGreen
+        } else if (this.props.gameId === 3) {
+          const area = batteryParl
+        }
+
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
-          redCoordinates: elevatedAcre.redCoordinates,
-          blueCoordinates: elevatedAcre.blueCoordinates,
+          gameAreaCoordinates: area.gameAreaCoordinates,
+          redCoordinates: area.redCoordinates,
+          blueCoordinates: area.blueCoordinates,
           // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
           // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
@@ -216,11 +227,12 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
+    console.log(this.props, 'props');
 
-    if (this.props.localUserKey) {
-      updatePlayerLocationThunk(
-        {latitude: this.state.latitude, longitude: this.state.longitude}
-      );
+    if (this.props.flags.length === 2) {
+      // updatePlayerLocationThunk(
+      //   {latitude: this.state.latitude, longitude: this.state.longitude}, myId
+      // );
 
       return (
         <View style={Style.container}>
