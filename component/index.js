@@ -2,7 +2,7 @@
 
 export { default as Main } from "./Main";
 export { default as LoginForm } from "./LoginForm";
-export { default as App } from "./app";
+export { default as OAuthLoginForm } from "./OAuthLoginForm";
 export { default as TitledInput } from "./TitledInput";
 export { default as SelectGameView } from "./SelectGameView";
 export { default as SelectGameActionButtonView } from "./SelectGameActionButton";
