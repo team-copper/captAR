@@ -102,30 +102,30 @@ class Map extends Component {
       }
     );
 
-    let redFlag = new Flag();
-    redFlag.setHomeLocation(
-      this.props.flags[0].startLocation.latitude,
-      this.props.flags[0].startLocation.longitude
-    );
-    redFlag.gameSessionId = this.state.gameSessionId;
-    console.log("*****", redFlag);
-    createFlagThunk(redFlag);
+    // let redFlag = new Flag();
+    // redFlag.setHomeLocation(
+    //   this.props.flags[0].startLocation.latitude,
+    //   this.props.flags[0].startLocation.longitude
+    // );
+    // redFlag.gameSessionId = this.state.gameSessionId;
+    // console.log("*****", redFlag);
+    // createFlagThunk(redFlag);
 
-    let blueFlag = new Flag();
-    blueFlag.setHomeLocation(
-      this.props.flags[1].startLocation.latitude,
-      this.props.flags[1].startLocation.longitude
-    );
-    blueFlag.gameSessionId = this.state.gameSessionId;
-    createFlagThunk(blueFlag);
+    // let blueFlag = new Flag();
+    // blueFlag.setHomeLocation(
+    //   this.props.flags[1].startLocation.latitude,
+    //   this.props.flags[1].startLocation.longitude
+    // );
+    // blueFlag.gameSessionId = this.state.gameSessionId;
+    // createFlagThunk(blueFlag);
 
-    let player = new Player();
-    player.setPosition(this.state.latitude, this.state.longitude);
-    player.gameSessionId = this.state.gameSessionId;
-    player.playerId = Uuid.create();
-    player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
-    console.log("*****player thunk", player);
-    createPlayerThunk(player);
+    // let player = new Player();
+    // player.setPosition(this.state.latitude, this.state.longitude);
+    // player.gameSessionId = this.state.gameSessionId;
+    // player.playerId = Uuid.create();
+    // player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
+    // console.log("*****player thunk", player);
+    // createPlayerThunk(player);
   };
 
   getCurrentPosition = () => {
@@ -243,11 +243,11 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    console.log('Map flags ', this.props.flags);
 
     // this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
 
     if (this.props.flags.length === 2) {
+      console.log('Map flags ', this.props.flags);
       return (
         <View style={Style.container}>
           <MapView

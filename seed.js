@@ -63,7 +63,7 @@ let game = {
     gameId: 3,
     gameFirebaseKey: gameSessionKey,
     flags: flags,
-    player: players
+    players: players
 }
 
 firebase.database().ref('GameArea2').child(gameSessionKey).set(game)

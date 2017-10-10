@@ -11,9 +11,6 @@ const CLEAR_GAME = 'CLEAR_GAME' // after game ends, clear game session
 // Initial State
 
 let initialState = {
-    gameId: null,
-    gameArea: null,
-    gameLocation: {latitude: null, longitude: null},
     games: []
 }
 
@@ -33,8 +30,8 @@ export function fetchGamePolygon(game){
     return action
 }
 
-export function clearGame(game){
-    const action = {type: CLEAR_GAME, game}
+export function clearGame(){
+    const action = {type: CLEAR_GAME}
     return action
 }
 
@@ -46,6 +43,7 @@ export function fetchGameThunk(polyId) {
         firebase.database().ref(`${dbName}`).once('value')
             .then(function(snapshot) {
                 var game = snapshot.val();
+                console.log('this is ', typeof game)
                 dispatch(fetchGame(game))
             })
             .catch(error => console.log('no message found ', error))
@@ -58,7 +56,6 @@ export function createGameThunk(game){
         const firebasedb = firebase.database().ref(`${dbName}`);
         const gameKey = firebasedb.push().key;
         game.gameFirebaseKey = gameKey;
-        console.log('my game is this ', game)
         firebasedb.child(gameKey).set(game)
             .then(console.log('player added'))
             .catch(error => console.log('not added ', error))
@@ -73,7 +70,7 @@ export function addPlayerThunk(player){
         // const playerKey = firebasedb.push().key;
         console.log('my game is this ', player)
         firebasedb.child(player.playerId-1).set(player)
-            .then(console.log('player added'))
+            .then(console.log('player added')) 
             .catch(error => console.log('not added ', error))
     }
 }
@@ -101,7 +98,6 @@ export default (state = initialState.games, action) => {
 
     case CLEAR_GAME:
         return [ ]
-
     default:
         return state;
   }

@@ -12,13 +12,13 @@ export const GameScreen = StackNavigator({
     //         header: null
     //     }
     // },
-    // SelectGameView: {
-    //     screen: SelectGameView,
-    //     navigationOptions: {
-    //         title: 'SelectGameView',
-    //         header: null
-    //     }
-    // },
+    SelectGameView: {
+        screen: SelectGameView,
+        navigationOptions: {
+            title: 'SelectGameView',
+            header: null
+        }
+    },
     GameView: {
         screen: GameView,
         navigationOptions: {

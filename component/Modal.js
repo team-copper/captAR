@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 import { connect } from 'react-redux';
 import { Style } from './index';
 import { Game, Player } from '../model';
-import { createGameThunk, clearPlayer, deleteFlag, addPlayerThunk } from '../store';
+import { createGameThunk, clearPlayer, deleteFlag, clearGame, addPlayerThunk } from '../store';
 
 class ModalView extends Component {
 
@@ -17,6 +17,7 @@ class ModalView extends Component {
         this._renderJoinButton = this._renderJoinButton.bind(this);
         this.createGame = this.createGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
+        this.goBack = this.goBack.bind(this);
     }
 
     createGame = () => {
@@ -139,15 +140,21 @@ class ModalView extends Component {
             </Item>
           {this._renderCreateButton('Create Game') }
           
-            {this._renderJoinButton('Join Game') }
+          {this._renderJoinButton('Join Game') }
         </View>
       );
 
+    goBack = () => {
+        this.props.modalView();
+        this.props.clearStore();
+    }
+
     render() {
+        console.log('view from modal ', this.props.games)
         const isModalVisible = this.props.isModalVisible;
         return (
             <View>
-            <TouchableWithoutFeedback onPress={this.props.modalView}>
+            <TouchableWithoutFeedback onPress={this.goBack}>
             <Modal
                 isVisible={isModalVisible}
                 backdropColor={'#336E7B'}
@@ -188,6 +195,7 @@ const mapDispatchToProps = dispatch => {
         clearStore: () => {
             dispatch(clearPlayer());
             dispatch(deleteFlag());
+            dispatch(clearGame());
         }
     }
 }
