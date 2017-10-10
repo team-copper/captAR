@@ -28,9 +28,9 @@ export function changePlayerStatus(player){
     const action = {type: CHANGE_PLAYER_STATUS, player}
     return action
 }
-
-export function clearPlayer(playerId){
-    const action = {type: CLEAR_PLAYER, playerId}
+//this updated to clear all players from store
+export function clearPlayer(){
+    const action = {type: CLEAR_PLAYER}
     return action
 }
 
@@ -42,6 +42,7 @@ export function createPlayerThunk(player){
 }
 
 export function assignPlayerTeamThunk(player){
+    // where playerId is odd, red team, else blue team
     assignPlayerTeam(player)
 }
 
@@ -77,8 +78,8 @@ export default (state = [], action) => {
         return [...newState, action.player]
 
     case CLEAR_PLAYER:
-         newState = state.filter(player => player.playerId !== action.playerId)
-        return newState
+        //  newState = state.filter(player => player.playerId !== action.playerId)
+        return []
 
     default:
         return state;

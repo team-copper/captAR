@@ -44,7 +44,6 @@ export function fetchGameThunk(polyId) {
         firebase.database().ref(`${dbName}`).once('value')
             .then(function(snapshot) {
                 var game = snapshot.val();
-                console.log('data from server ', game)
                 dispatch(fetchGame(game))
             })
             .catch(error => console.log('no message found ', error))
@@ -59,6 +58,19 @@ export function createGameThunk(game){
         game.gameFirebaseKey = gameKey;
         console.log('my game is this ', game)
         firebasedb.child(gameKey).set(game)
+            .then(console.log('player added'))
+            .catch(error => console.log('not added ', error))
+    }
+}
+
+export function addPlayerThunk(player){
+    return function (dispatch) {
+        // const dbName = 'GameArea'+game.gameId.toString();
+        // const firebasedb = firebase.database().ref(`${dbName}`);
+        const firebasedb = firebase.database().ref(`/GameArea3/-Kw2qe5BQSLsVDe6gjGH/players`);
+        // const playerKey = firebasedb.push().key;
+        console.log('my game is this ', player)
+        firebasedb.child(player.playerId).set(player)
             .then(console.log('player added'))
             .catch(error => console.log('not added ', error))
     }

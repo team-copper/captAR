@@ -7,7 +7,7 @@ export class Game {
         this.gameId = null
         this.players = []
         this.flags = []
-        this.onSession = true
+        // this.onSession = true
     }
 }
 

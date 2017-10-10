@@ -79,9 +79,9 @@ export function resetFlagLocation(flag){
     const action = {type: RESET_FLAG_LOCATION, flag}
     return action
 }
-
-export function deleteFlag(flagId){
-    const action = {type: DELETE_FLAG, flagId}
+//updated to delete all flag
+export function deleteFlag(){
+    const action = {type: DELETE_FLAG}
     return action
 }
 
@@ -149,8 +149,8 @@ export default (state = [], action) => {
         return [...newState, action.flag]
 
     case DELETE_FLAG:
-         newState = state.filter(flag => flag.flagId !== action.flagId)
-        return newState
+        //  newState = state.filter(flag => flag.flagId !== action.flagId)
+        return []
 
     default:
         return state;

@@ -100,7 +100,8 @@ class SelectGameView extends Component {
   };
 
   handleAreaPress = (event, id) => {
-    this.setState({areaId: id})
+    this.props.fetchGame(id);
+    this.setState({areaId: id});
     this.createFlag(id);
     this.createPlayer();
     if (id === 1)
@@ -227,7 +228,7 @@ class SelectGameView extends Component {
             }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} navigate={this.props.navigation.navigate} areaId={this.state.areaId}/>
+          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} navigate={this.props.navigation.navigate} areaId={this.state.areaId} latitude={this.state.latitude} longitude={this.state.longitude}/>
         </View>
       );
     } else {
