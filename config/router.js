@@ -9,19 +9,20 @@ import { LoginForm, GameView, SelectGameView } from '../component';
 // import {SelectGameView} from '../component/SelectGameView';
 
 export const GameScreen = StackNavigator({
-    LoginForm: {
-        screen: LoginForm,
+    // LoginForm: {
+    //     screen: LoginForm,
+    //     navigationOptions: {
+    //         title: 'Sign-Up/Login',
+    //         header: null
+    //     }
+    // },
+    SelectGameView: {
+        screen: SelectGameView,
         navigationOptions: {
-            title: 'Sign-Up/Login',
+            title: 'SelectGameView',
             header: null
         }
     },
-    // SelectGameView: {
-    //     screen: SelectGameView,
-    //     navigationOptions: {
-    //         title: 'SelectGameView',
-    //         header: null
-    //     }
     GameView: {
         screen: GameView,
         navigationOptions: {

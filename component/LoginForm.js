@@ -31,7 +31,7 @@ class LoginForm extends Component {
                     this.props.addUser(email);
                 }
 
-                this.props.navigation.navigate('GameView')
+                this.props.navigation.navigate('SelectGameView')
             })
             .catch((error) => {
                 this.setState({ error: 'Authentication failed. ', loading: false });
