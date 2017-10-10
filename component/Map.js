@@ -382,7 +382,7 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('view from Map.js ', state.game)
+  console.log('view from Map.js ', state.fla)
   return {
     players: state.players,
     flags: state.flags,

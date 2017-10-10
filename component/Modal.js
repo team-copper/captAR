@@ -42,6 +42,7 @@ class ModalView extends Component {
         player.team = player.playerId%2 ? "red" : "blue";
         this.props.clearStore();
         this.props.joinGame(player);
+        this.props.navigate("GameView");
     }
 
     _renderCreateButton = (text) => (

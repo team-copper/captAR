@@ -67,10 +67,10 @@ export function addPlayerThunk(player){
     return function (dispatch) {
         // const dbName = 'GameArea'+game.gameId.toString();
         // const firebasedb = firebase.database().ref(`${dbName}`);
-        const firebasedb = firebase.database().ref(`/GameArea3/-Kw2qe5BQSLsVDe6gjGH/players`);
+        const firebasedb = firebase.database().ref(`/GameArea3/-Kw5kOK5-vXMLrT7R6rp/players`);
         // const playerKey = firebasedb.push().key;
         console.log('my game is this ', player)
-        firebasedb.child(player.playerId).set(player)
+        firebasedb.child(player.playerId-1).set(player)
             .then(console.log('player added'))
             .catch(error => console.log('not added ', error))
     }
