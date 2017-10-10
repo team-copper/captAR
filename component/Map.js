@@ -22,13 +22,14 @@ import {
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
-import { getDistanceFromFlagThunk } from "../store";
+import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
 import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
 
 
 class Map extends Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -70,6 +71,8 @@ class Map extends Component {
   componentDidMount() {
     this.watchPosition();
     setInterval(this.checkInside, 1000);
+    setInterval(this.props.updatePlayerLocation, 1000);
+    // this.props.updatePlayerLocation(99, 99);
   }
 
   componentWillUnmount() {
@@ -121,7 +124,7 @@ class Map extends Component {
         2
       )
     ) {
-      this.setState({ displayStatus: "You are near red flag" });
+      this.setState({ displayStatus: "Red flag nearby" });
     } else {
       this.setState({ displayStatus: "" });
     }
@@ -214,9 +217,10 @@ class Map extends Component {
 
   render() {
     const players = this.props.players;
-    const flags = this.props.flags
-    ;
+    const flags = this.props.flags;
+
     if (this.props.localUserKey) {
+
       return (
         <View style={Style.container}>
           <MapView
@@ -364,7 +368,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getDistanceFromFlag: (lat, lng, event) => {
-      const action = getDistanceFromFlagThunk();
+      const action = getDistanceFromFlagThunk(lat, lng, event);
+      dispatch(action);
+    },
+    updatePlayerLocation: (latitude, longitude) => {
+      const action = updatePlayerLocationThunk({latitude: 99, longitude: 99});
       dispatch(action);
     }
   };
