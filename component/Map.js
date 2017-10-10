@@ -22,17 +22,23 @@ import {
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
+<<<<<<< HEAD
 import { getDistanceFromFlagThunk } from "../store";
 import { registerGameSubscriptions } from '../subscriptions'
+=======
+import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
+import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
+>>>>>>> master
 
-// Parent - Child Component Order:
-// Map -> GameActionButton -> Camera
 
-// Rename to UserGameView?
 class Map extends Component {
   constructor(props) {
     super(props);
+<<<<<<< HEAD
     registerGameSubscriptions(`/GameArea3/-Kw5kOK5-vXMLrT7R6rp`);
+=======
+    
+>>>>>>> master
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -61,6 +67,7 @@ class Map extends Component {
       flagDistance: 0
     };
 
+
     this.watchPosition = this.watchPosition.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.checkInside = this.checkInside.bind(this);
@@ -73,6 +80,8 @@ class Map extends Component {
   componentDidMount() {
     this.watchPosition();
     setInterval(this.checkInside, 1000);
+    setInterval(this.props.updatePlayerLocation, 1000);
+    // this.props.updatePlayerLocation(99, 99);
   }
 
   componentWillUnmount() {
@@ -101,6 +110,7 @@ class Map extends Component {
         distanceFilter: 0.5
       }
     );
+<<<<<<< HEAD
 
     // let redFlag = new Flag();
     // redFlag.setHomeLocation(
@@ -126,6 +136,8 @@ class Map extends Component {
     // player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
     // console.log("*****player thunk", player);
     // createPlayerThunk(player);
+=======
+>>>>>>> master
   };
 
   getCurrentPosition = () => {
@@ -149,7 +161,7 @@ class Map extends Component {
         2
       )
     ) {
-      this.setState({ displayStatus: "You are near red flag" });
+      this.setState({ displayStatus: "Red flag nearby" });
     } else {
       this.setState({ displayStatus: "" });
     }
@@ -395,7 +407,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getDistanceFromFlag: (lat, lng, event) => {
-      const action = getDistanceFromFlagThunk();
+      const action = getDistanceFromFlagThunk(lat, lng, event);
+      dispatch(action);
+    },
+    updatePlayerLocation: (latitude, longitude) => {
+      const action = updatePlayerLocationThunk({latitude: 99, longitude: 99});
       dispatch(action);
     }
   };

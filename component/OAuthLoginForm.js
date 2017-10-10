@@ -59,14 +59,14 @@ class OAuthLoginForm extends Component {
       SafariView.dismiss();
     }
 
-    this.props.navigation.navigate('SelectGameView')
+    this.props.navigation.navigate('GameView')
   };
 
   // Handle Login with Facebook button tap
-  loginWithFacebook = () => this.openURL('http://localhost:8080/auth/facebook/callback');
+  loginWithFacebook = () => this.openURL('https://captar.herokuapp.com/auth/facebook/callback');
 
   // Handle Login with Google button tap
-  loginWithGoogle = () => this.openURL('http://localhost:8080/auth/google/callback');
+  loginWithGoogle = () => this.openURL('https://captar.herokuapp.com/auth/google/callback');
 
   // Open URL in a browser
   openURL = (url) => {
