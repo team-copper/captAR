@@ -37,14 +37,12 @@ class Map extends Component {
     super(props);
 
     this.state = {
-      gameSessionId: null,
-      longitude: 0,
       latitude: 0,
+      longitude: 0,
       error: null,
       enableCapture: false,
-      // Add playerId and team to each user's local state?
-      pressFlag: false, // redux state? I am not so sure.
-      displayStatus: "", // redux state. Don't worry about this now.
+      pressFlag: false,
+      displayStatus: "",
       gameAreaCoordinates: [
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 },
@@ -63,16 +61,11 @@ class Map extends Component {
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
-      // when flag is captured and bound to a player,
-      // flag is redux state (flag coordinates === player.location)
-      // redFlag: { latitude: 0, longitude: 0 },
-      // redFlagCircle: { latitude: 0, longitude: 0 },
-      // blueFlag: { latitude: 0, longitude: 0 },
-      // blueFlagCircle: { latitude: 0, longitude: 0 },
       flagDistance: 0
     };
 
     this.watchPosition = this.watchPosition.bind(this);
+    this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.checkInside = this.checkInside.bind(this);
     this.handleFlagPress = this.handleFlagPress.bind(this);
     this.onCapturePress = this.onCapturePress.bind(this);
@@ -81,7 +74,8 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.watchPosition()
+    this.watchPosition();
+    setInterval(this.checkInside, 1000);
   }
 
   componentWillUnmount() {
@@ -137,6 +131,19 @@ class Map extends Component {
     createPlayerThunk(player);
   };
 
+  getCurrentPosition = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      },
+      error => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  };
+
   checkInside = () => {
     if (
       geolib.isPointInCircle(
@@ -144,17 +151,23 @@ class Map extends Component {
         this.props.flags[0].startLocation, // red team's flag
         2
       )
-    )
+    ) {
       this.setState({ displayStatus: "You are near red flag" });
+    } else {
+      this.setState({ displayStatus: "" });
+    }
 
     if (
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[1].startLocation, // red team's flag
+        this.props.flags[1].startLocation, // blue team's flag
         2
       )
-    )
+    ) {
       this.setState({ displayStatus: "You are near blue flag" });
+    } else {
+      this.setState({ displayStatus: "" });
+    }
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
@@ -233,7 +246,6 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    console.log(this.props);
 
     if (this.props.localUserKey) {
       return (
@@ -324,7 +336,7 @@ class Map extends Component {
               name="blueFlagCircle"
               center={flags[1].startLocation}
               radius={2}
-              fillColor="rgba(200, 0, 0, 0.3)"
+              fillColor="rgba(0, 0, 200, 0.3)"
             />
           </MapView>
 
@@ -339,7 +351,6 @@ class Map extends Component {
             )}
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-
           {/* enable/disable cameraview component and passing props */}
           {this.state.enableCapture ? (
             <CameraView
@@ -352,13 +363,14 @@ class Map extends Component {
           <GameActionButtonView
             navigate={this.props.navigate}
             onCapturePress={this.onCapturePress}
+            getCurrentPosition={this.getCurrentPosition}
           />
           <View style={Style.selectTextContainer}>
             <Text>
               {this.state.latitude}
               {this.state.longitude}
             </Text>
-        </View>
+          </View>
         </View>
       );
     } else {

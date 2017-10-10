@@ -57,15 +57,15 @@ class GameActionButtonView extends Component {
             position={this.state.position}
             onPress={() => this.props.onCapturePress()}
           >
-            <Icon name="md-radio-button-on" style={Style.actionButtonIcon} />
+            <Icon name="ios-flag" style={Style.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item
             buttonColor="#FF6347"
-            title="Message"
+            title="Current Location"
             position={this.state.position}
-            onPress={() => this.onMessagePress()}
+            onPress={() => this.props.getCurrentPosition()}
           >
-            <Icon name="md-mail" style={Style.actionButtonIcon} />
+            <Icon name="ios-locate-outline" style={Style.actionButtonIcon} />
           </ActionButton.Item>
           <ActionButton.Item
             buttonColor="#778899"

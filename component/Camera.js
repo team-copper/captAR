@@ -11,17 +11,7 @@ import { isLoggedOut } from '../store'
 class CameraView extends Component {
   constructor() {
     super();
-    this.state = {
-      insideFlag: true
-    };
-    this.takePicture = this.takePicture.bind(this);
     this.onFlagARPress = this.onFlagARPress.bind(this);
-  }
-
-  takePicture() {
-    this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
   }
 
   onFlagARPress() {
@@ -41,15 +31,11 @@ class CameraView extends Component {
             <Text style={Style.closeCameraContainer}> X</Text>
           </TouchableOpacity>
 
-          {this.state.insideFlag
-            ? <TouchableOpacity onPress={() => this.onFlagARPress()}>
-                <Image
-                  style={Style.flagAR}
-                  source={require("../assets/redFlag.png")}
-                />
-              </TouchableOpacity>
-            : null
-          }
+          <TouchableOpacity onPress={() => this.onFlagARPress()}>
+            <Image
+              style={Style.flagAR}
+              source={require("../assets/redFlag.png")} />
+          </TouchableOpacity>
 
         </Camera>
     )
