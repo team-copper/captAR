@@ -1,9 +1,7 @@
 'use strict';
 
 export { default as Main } from "./Main";
-export { default as LoginForm } from "./LoginForm";
 export { default as OAuthLoginForm } from "./OAuthLoginForm";
-export { default as TitledInput } from "./TitledInput";
 export { default as SelectGameView } from "./SelectGameView";
 export { default as SelectGameActionButtonView } from "./SelectGameActionButton";
 export { default as GameView } from "./GameView";
@@ -15,7 +13,7 @@ export { default as Style } from "./Style";
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux'
-import { Style, Main, GameView, LoginForm, SelectGameView } from './';
+import { Style, Main, GameView, SelectGameView } from './';
 import store from '../store'
 import { GameScreen } from '../config/router'
 
