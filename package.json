@@ -19,6 +19,7 @@
     "react-native-elements": "^0.17.0",
     "react-native-maps": "^0.16.4",
     "react-native-modal": "^4.0.0",
+    "react-native-safari-view": "^2.1.0",
     "react-native-swipe-gestures": "^1.0.2",
     "react-native-swipeout": "^2.2.2",
     "react-native-vector-icons": "^4.4.0",
