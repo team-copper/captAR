@@ -7,8 +7,10 @@
   OAR - 2017-10-08
 */
 import firebase from '../firebase'
-import store, { addUserAction, isLoggedInAction, resetFlagLocation,
-      changePlayerStatus } from '../store'
+import store, {
+  addUserAction, isLoggedInAction, resetFlagLocation,
+  changePlayerStatus
+} from '../store'
 
 export function registerUserSubscriptions() {
   console.log('registering user subscriptions')
@@ -47,19 +49,26 @@ export function registerUserSubscriptions() {
 export function registerGameSubscriptions(gameUrl) {
   console.log('registering game subscriptions')
 
-  var gameRef = firebase.database().ref(gameUrl)
+  var gameFlagsRef = firebase.database().ref(gameUrl + '/flags')
 
-  gameRef.on('value', function(snapshot) {
+  gameFlagsRef.on('value', function (snapshot) {
     console.log('Received child game info on add: ', snapshot.val())
     let gameObjects = snapshot.val()
 
     for (key in gameObjects) {
-      if (key.trim().startsWith('players')){
-        store.dispatch(changePlayerStatus(gameObjects[key]))
-      }
-      if (key.trim().startsWith('flags')){
-        store.dispatch(resetFlagLocation(gameObjects[key]))
-      }
+      store.dispatch(resetFlagLocation(gameObjects[key]))
+    }
+  })
+
+  var gamePlayersRef = firebase.database().ref(gameUrl + '/players')
+
+  gamePlayersRef.on('value', function (snapshot) {
+    console.log('Received child game info on add: ', snapshot.val())
+    let gameObjects = snapshot.val()
+
+    for (key in gameObjects) {
+      store.dispatch(changePlayerStatus(gameObjects[key]))
+
     }
   })
 }
