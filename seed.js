@@ -11,12 +11,12 @@ var config = {
 
   firebase.initializeApp(config);
 
-// create game session
-let gameSessionKey = firebase.database().ref('GameArea1').push().key
-firebase.database().ref('GameArea2').child(gameSessionKey).set({
-  name: 'GameArea2 Session'
-})
-console.log('Game session generated: ', gameSessionKey)
+// // create game session
+// let gameSessionKey = firebase.database().ref('GameArea1').push().key
+// firebase.database().ref('GameArea2').child(gameSessionKey).set({
+//   name: 'GameArea2 Session'
+// })
+// console.log('Game session generated: ', gameSessionKey)
 
 // from seed.js fed into Firebase
 let flags = [
@@ -25,45 +25,37 @@ let flags = [
         team: 'red',
         startLocation: { latitude: 40.703295, longitude: -74.00845 },
         isTaken: false,
-        holder: null,
         currentLocation: null,
-    },
-    {
+    }, {
         flagId: 2,
         team: 'blue',
         startLocation: { latitude: 40.703414, longitude: -74.008663 },
         isTaken: false,
-        holder: null,
         currentLocation: null,
-    },
+    }
 ]
-
-for (let i = 0; i < flags.length; i++){
-    let flagKey = firebase.database().ref('GameArea1' + gameSessionKey + '/flags').push().key
-    firebase.database().ref('GameArea2').child(gameSessionKey + '/flags' + flagKey).set(flags[i])
-}
-console.log('Flags generated')
 
 let players = [
   {
+      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
       playerId: 1,
       location: { latitude: 40.703394, longitude: -74.008622 },
       team: 'red',
       hasFlag: false
-  },
-  {
+  }, {
+      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
       playerId: 2,
       location: { latitude: 40.703441, longitude: -74.008713 },
       team: 'blue',
       hasFlag: false
-  },
-  {
+  }, {
+      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
       playerId: 3,
       location: { latitude: 40.703325, longitude: -74.008456 },
       team: 'red',
       hasFlag: false
-  },
-  {
+  }, {
+      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
       playerId: 4,
       location: { latitude: 40.703258, longitude:  -74.008663 },
       team: 'blue',
@@ -71,9 +63,12 @@ let players = [
   }
 ]
 
-for (let i = 0; i < players.length; i++){
-    let playerKey = firebase.database().ref('GameArea1' + gameSessionKey + '/players').push().key
-    firebase.database().ref('GameArea2').child(gameSessionKey + '/players' + playerKey).set(players[i])
+let game = {
+    gameId: 3,
+    gameFirebaseKey: "-Kw5oIAnUj1o2j2vk45w",
+    flags: flags,
+    player: players
 }
 
-console.log('Players generated')
+let gameKey = game.gameFirebaseKey;
+firebase.database().ref('GameArea2').child(gameKey).set();

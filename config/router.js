@@ -5,13 +5,13 @@ import { StackNavigator } from 'react-navigation';
 import { OAuthLoginForm, GameView, SelectGameView } from '../component';
 
 export const GameScreen = StackNavigator({
-    OAuthLoginForm: {
-        screen: OAuthLoginForm,
-        navigationOptions: {
-            title: 'Sign-Up/Login',
-            header: null
-        }
-    },
+    // OAuthLoginForm: {
+    //     screen: OAuthLoginForm,
+    //     navigationOptions: {
+    //         title: 'Sign-Up/Login',
+    //         header: null
+    //     }
+    // },
     // SelectGameView: {
     //     screen: SelectGameView,
     //     navigationOptions: {

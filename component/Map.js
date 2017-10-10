@@ -32,7 +32,7 @@ import { registerGameSubscriptions } from '../subscriptions'
 class Map extends Component {
   constructor(props) {
     super(props);
-
+    registerGameSubscriptions(`/GameArea3/-Kw5kOK5-vXMLrT7R6rp`);
     this.state = {
       gameSessionId: null,
       longitude: 0,
@@ -80,7 +80,7 @@ class Map extends Component {
   componentDidMount() {
     this.getCurrentPosition();
     this.watchPosition();
-    registerGameSubscriptions(`GameArea3/-Kw5kOK5-vXMLrT7R6rp`);
+    // registerGameSubscriptions(`GameArea3/-Kw5kOK5-vXMLrT7R6rp`);
   }
 
   componentWillUnmount() {
@@ -248,144 +248,138 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    flags.length ? console.log('Map flags ', this.props.flags) : console.log('no flag')
+    console.log('Map flags ', this.props.flags);
+
+    // this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
+
+    if (this.props.flags.length === 2) {
+      return (
+        <View style={Style.container}>
+          <MapView
+            style={Style.map}
+            initialRegion={{
+              latitude: 40.703374,
+              longitude: -74.008507,
+              latitudeDelta: 0.0002305 * 2,
+              longitudeDelta: 0.00010525 * 2
+            }}
+          >
+            <MapView.Polygon
+              name="gameArea"
+              coordinates={this.state.gameAreaCoordinates}
+              fillColor="rgba(0, 0, 0, 0.5)"
+            />
+            <MapView.Polygon
+              name="redTeamArea"
+              coordinates={this.state.redCoordinates}
+              fillColor="rgba(200, 0, 0, 0.1)"
+            />
+            <MapView.Polygon
+              name="blueTeamArea"
+              coordinates={this.state.blueCoordinates}
+              fillColor="rgba(0, 0, 200, 0.1)"
+            />
+
+            <MapView.Marker
+              name="currentLocation"
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+              }}
+              title={"Your Location"}
+            >
+              <Image
+                source={require("../assets/person.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+
+            {/* Render every player on map */}
+            {players.map((player, index) => (
+              <MapView.Marker
+                name={player.playerId}
+                key={player.playerId}
+                coordinate={player.location}
+                title={index.toString()}
+              >
+                <Image
+                  source={playerMarkerPath[index]}
+                  style={{ height: 25, width: 25 }}
+                />
+              </MapView.Marker>
+            ))}
+
+            {/* Needs to bind flag coordinate to holder cooridnate */}
+            <MapView.Marker
+              name="redFlag"
+              coordinate={flags[0].startLocation}
+              onPress={event => this.handleFlagPress(event)}
+            >
+              <Image
+                source={require("../assets/redFlag.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+            <MapView.Circle
+              name="redFlagCircle"
+              center={flags[0].startLocation}
+              radius={2}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
+
+            <MapView.Marker
+              name="blueFlag"
+              coordinate={flags[1].startLocation}
+              onPress={event => this.handleFlagPress(event)}
+            >
+              <Image
+                source={require("../assets/blueFlag.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+            <MapView.Circle
+              name="blueFlagCircle"
+              center={flags[1].startLocation}
+              radius={2}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
+          </MapView>
+
+          {/* display bar in the middle of the view */}
+          <View style={Style.displayBar}>
+            {this.state.pressFlag ? (
+              <Text style={Style.displayFont}>
+                You are {this.state.flagDistance}m away from that flag
+              </Text>
+            ) : (
+              <Text style={Style.displayFont}>{this.state.displayStatus}</Text>
+            )}
+            {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+          </View>
+
+          {/* enable/disable cameraview component and passing props */}
+          {this.state.enableCapture ? (
+            <CameraView
+              onCloseCamera={this.onCloseCamera}
+              onFlagCapture={this.onFlagCapture}
+            />
+          ) : null}
+
+          {/* enable/disable cameraview component and passing props */}
+          <GameActionButtonView
+            navigate={this.props.navigate}
+            onCapturePress={this.onCapturePress}
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <Text>Enable GPS</Text>
+        </View>
+      );
+    }
   }
-
-  // render() {
-  //   const players = this.props.players;
-  //   const flags = this.props.flags;
-  //   console.log('Map flags ', this.props);
-
-  //   // this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
-
-  //   if (this.props.localUserKey) {
-  //     return (
-  //       <View style={Style.container}>
-  //         <MapView
-  //           style={Style.map}
-  //           initialRegion={{
-  //             latitude: 40.703374,
-  //             longitude: -74.008507,
-  //             latitudeDelta: 0.0002305 * 2,
-  //             longitudeDelta: 0.00010525 * 2
-  //           }}
-  //         >
-  //           <MapView.Polygon
-  //             name="gameArea"
-  //             coordinates={this.state.gameAreaCoordinates}
-  //             fillColor="rgba(0, 0, 0, 0.5)"
-  //           />
-  //           <MapView.Polygon
-  //             name="redTeamArea"
-  //             coordinates={this.state.redCoordinates}
-  //             fillColor="rgba(200, 0, 0, 0.1)"
-  //           />
-  //           <MapView.Polygon
-  //             name="blueTeamArea"
-  //             coordinates={this.state.blueCoordinates}
-  //             fillColor="rgba(0, 0, 200, 0.1)"
-  //           />
-
-  //           <MapView.Marker
-  //             name="currentLocation"
-  //             coordinate={{
-  //               latitude: this.state.latitude,
-  //               longitude: this.state.longitude
-  //             }}
-  //             title={"Your Location"}
-  //           >
-  //             <Image
-  //               source={require("../assets/person.png")}
-  //               style={{ height: 25, width: 25 }}
-  //             />
-  //           </MapView.Marker>
-
-  //           {/* Render every player on map */}
-  //           {players.map((player, index) => (
-  //             <MapView.Marker
-  //               name={player.playerId}
-  //               key={player.playerId}
-  //               coordinate={player.location}
-  //               title={index.toString()}
-  //             >
-  //               <Image
-  //                 source={playerMarkerPath[index]}
-  //                 style={{ height: 25, width: 25 }}
-  //               />
-  //             </MapView.Marker>
-  //           ))}
-
-  //           {/* Needs to bind flag coordinate to holder cooridnate */}
-  //           <MapView.Marker
-  //             name="redFlag"
-  //             coordinate={flags[0].startLocation}
-  //             onPress={event => this.handleFlagPress(event)}
-  //           >
-  //             <Image
-  //               source={require("../assets/redFlag.png")}
-  //               style={{ height: 25, width: 25 }}
-  //             />
-  //           </MapView.Marker>
-  //           <MapView.Circle
-  //             name="redFlagCircle"
-  //             center={flags[0].startLocation}
-  //             radius={2}
-  //             fillColor="rgba(200, 0, 0, 0.3)"
-  //           />
-
-  //           <MapView.Marker
-  //             name="blueFlag"
-  //             coordinate={flags[1].startLocation}
-  //             onPress={event => this.handleFlagPress(event)}
-  //           >
-  //             <Image
-  //               source={require("../assets/blueFlag.png")}
-  //               style={{ height: 25, width: 25 }}
-  //             />
-  //           </MapView.Marker>
-  //           <MapView.Circle
-  //             name="blueFlagCircle"
-  //             center={flags[1].startLocation}
-  //             radius={2}
-  //             fillColor="rgba(200, 0, 0, 0.3)"
-  //           />
-  //         </MapView>
-
-  //         {/* display bar in the middle of the view */}
-  //         <View style={Style.displayBar}>
-  //           {this.state.pressFlag ? (
-  //             <Text style={Style.displayFont}>
-  //               You are {this.state.flagDistance}m away from that flag
-  //             </Text>
-  //           ) : (
-  //             <Text style={Style.displayFont}>{this.state.displayStatus}</Text>
-  //           )}
-  //           {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
-  //         </View>
-
-  //         {/* enable/disable cameraview component and passing props */}
-  //         {this.state.enableCapture ? (
-  //           <CameraView
-  //             onCloseCamera={this.onCloseCamera}
-  //             onFlagCapture={this.onFlagCapture}
-  //           />
-  //         ) : null}
-
-  //         {/* enable/disable cameraview component and passing props */}
-  //         <GameActionButtonView
-  //           navigate={this.props.navigate}
-  //           onCapturePress={this.onCapturePress}
-  //         />
-  //       </View>
-  //     );
-  //   } else {
-  //     return (
-  //       <View>
-  //         <Text>Enable GPS</Text>
-  //       </View>
-  //     );
-  //   }
-  // }
 }
 
 const mapStateToProps = state => {
