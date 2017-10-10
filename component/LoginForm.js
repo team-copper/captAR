@@ -10,7 +10,7 @@ import { isLoggedIn, addUser } from '../store'
 class LoginForm extends Component {
     constructor(props) {
         super(props)
-        this.state = { email: '', password: '', error: '', loading: false };
+        this.state = { email: 'arata.clan@gmail.com', password: 'arata200', error: '', loading: false };
     }
 
     onLoginPress() {

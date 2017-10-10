@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "seed": "node seed"
   },
   "dependencies": {
     "firebase": "^4.4.0",
@@ -15,6 +16,7 @@
     "react-native": "0.48.4",
     "react-native-action-button": "^2.8.0",
     "react-native-camera": "^0.10.0",
+    "react-native-elements": "^0.17.0",
     "react-native-maps": "^0.16.4",
     "react-native-modal": "^4.0.0",
     "react-native-safari-view": "^2.1.0",

@@ -16,27 +16,27 @@ const DELETE_FLAG = 'DELETE_FLAG'
 
 
 // from seed.js fed into Firebase
-let flags = [
-    {
-        flagId: 1,
-        team: 'red',
-        startLocation: { latitude: 40.703295, longitude: -74.00845 },
-        // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
-        // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
-        isTaken: false,
-        holder: null,
-        currentLocation: null,
-    },
-    {
-        flagId: 2,
-        team: 'blue',
-        startLocation: { latitude: 40.703414, longitude: -74.008663 },
-        // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-        isTaken: false,
-        holder: null,
-        currentLocation: null,
-    },
-]
+// let flags = [
+//     {
+//         flagId: 1,
+//         team: 'red',
+//         startLocation: { latitude: 40.703295, longitude: -74.00845 },
+//         // location: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)], // randomly generated start point; change to holder's location when 'isTaken' is true
+//         // Note: must switch location to bowlingGreen, batteryPark, or elevatedAcre based on player selection; please update proposed logic in createFlagThunk() (line 81)
+//         isTaken: false,
+//         holder: null,
+//         currentLocation: null,
+//     },
+//     {
+//         flagId: 2,
+//         team: 'blue',
+//         startLocation: { latitude: 40.703414, longitude: -74.008663 },
+//         // location: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+//         isTaken: false,
+//         holder: null,
+//         currentLocation: null,
+//     },
+// ]
 
 // HAVE SESSION/GAME ID on every object, duration, gameID
 
@@ -79,27 +79,27 @@ export function resetFlagLocation(flag){
     const action = {type: RESET_FLAG_LOCATION, flag}
     return action
 }
-
-export function deleteFlag(flagId){
-    const action = {type: DELETE_FLAG, flagId}
+//updated to delete all flag
+export function deleteFlag(){
+    const action = {type: DELETE_FLAG}
     return action
 }
 
 // THUNKS
 
-export function createFlagThunk(flag){
-    console.log("*****", flag)
-    // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
-            // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
-            // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
-    // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
-            // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
-            // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
-    // if selected game view / polygonId === 3, randomly generate flags for batteryPark
-            // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
-            // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
-    createFlag(flag)
-}
+// export function createFlagThunk(flag){
+//     console.log("*****", flag)
+//     // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
+//             // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
+//             // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
+//     // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
+//             // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
+//             // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
+//     // if selected game view / polygonId === 3, randomly generate flags for batteryPark
+//             // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
+//             // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
+//     createFlag(flag)
+// }
 
 // attempted to create CALCULATE_DISTANCE on Flag store and test this part
 export function getDistanceFromFlagThunk(lat, lng, event){
@@ -131,7 +131,7 @@ export function deleteFlagThunk(flag){
 }
 
 // REDUCERS
-export default (state = flags, action) => {
+export default (state = [], action) => {
   switch (action.type) {
 
     case CREATE_FLAG:
@@ -149,8 +149,8 @@ export default (state = flags, action) => {
         return [...newState, action.flag]
 
     case DELETE_FLAG:
-         newState = state.filter(flag => flag.flagId !== action.flagId)
-        return newState
+        //  newState = state.filter(flag => flag.flagId !== action.flagId)
+        return []
 
     default:
         return state;
