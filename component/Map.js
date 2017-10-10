@@ -25,14 +25,11 @@ import { Player, Team, Flag } from "../model";
 import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
 import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
 
-// Parent - Child Component Order:
-// Map -> GameActionButton -> Camera
 
-// Rename to UserGameView?
 class Map extends Component {
   constructor(props) {
     super(props);
-    registerGameSubscriptions(`GameArea2/-Kw6geKIdPlOnE54l7Sj`);
+    
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -60,6 +57,7 @@ class Map extends Component {
       ],
       flagDistance: 0
     };
+
 
     this.watchPosition = this.watchPosition.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
@@ -221,9 +219,8 @@ class Map extends Component {
     const players = this.props.players;
     const flags = this.props.flags;
 
-    // this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
+    if (this.props.localUserKey) {
 
-    if (this.props.flags.length===2) {
       return (
         <View style={Style.container}>
           <MapView
@@ -360,7 +357,6 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('view from Map.js ', state.fla)
   return {
     players: state.players,
     flags: state.flags,
