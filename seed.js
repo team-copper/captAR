@@ -11,12 +11,8 @@ var config = {
 
   firebase.initializeApp(config);
 
-// // create game session
-// let gameSessionKey = firebase.database().ref('GameArea1').push().key
-// firebase.database().ref('GameArea2').child(gameSessionKey).set({
-//   name: 'GameArea2 Session'
-// })
-// console.log('Game session generated: ', gameSessionKey)
+// create game session
+let gameSessionKey = firebase.database().ref('GameArea1').push().key
 
 // from seed.js fed into Firebase
 let flags = [
@@ -65,10 +61,11 @@ let players = [
 
 let game = {
     gameId: 3,
-    gameFirebaseKey: "-Kw5oIAnUj1o2j2vk45w",
+    gameFirebaseKey: gameSessionKey,
     flags: flags,
     player: players
 }
 
-let gameKey = game.gameFirebaseKey;
-firebase.database().ref('GameArea2').child(gameKey).set();
+firebase.database().ref('GameArea2').child(gameSessionKey).set(game)
+    .then(console.log('success'))
+    .catch(error => console.log(error))
