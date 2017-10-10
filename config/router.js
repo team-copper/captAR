@@ -2,15 +2,11 @@
 
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { LoginForm, GameView, SelectGameView } from '../component';
-
-// import { LoginForm } from '../component/LoginForm';
-// import { GameView } from '../component/GameView';
-// import {SelectGameView} from '../component/SelectGameView';
+import { OAuthLoginForm, GameView, SelectGameView } from '../component';
 
 export const GameScreen = StackNavigator({
-    LoginForm: {
-        screen: LoginForm,
+    OAuthLoginForm: {
+        screen: OAuthLoginForm,
         navigationOptions: {
             title: 'Sign-Up/Login',
             header: null

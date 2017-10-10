@@ -10,8 +10,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SafariView from 'react-native-safari-view';
+import { connect } from 'react-redux'
+import { Style, TitledInput } from './index';
+import { isLoggedIn, addUser } from '../store'
 
-export default class App extends Component {
+class OAuthLoginForm extends Component {
 
   state = {
     user: undefined, // user has not logged in yet
@@ -41,9 +44,22 @@ export default class App extends Component {
       // Decode the user string and parse it into JSON
       user: JSON.parse(decodeURI(user_string))
     });
+
+    console.log('User: ', this.state.user)
+
+    let userToLogin = this.props.users.filter(user => user.email === this.state.user.email)
+
+    if (userToLogin.length === 1) {
+      this.props.isLoggedIn(userToLogin[0]);
+    } else if (userToLogin.length === 0) {
+      this.props.addUser(this.state.user.email);
+    }
+
     if (Platform.OS === 'ios') {
       SafariView.dismiss();
     }
+
+    this.props.navigation.navigate('SelectGameView')
   };
 
   // Handle Login with Facebook button tap
@@ -118,6 +134,18 @@ export default class App extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+      users: state.authenticated.users
+  }
+}
+
+const mapDispatchToProps = { isLoggedIn, addUser }
+
+const OAuthLoginFormContainer = connect(mapStateToProps, mapDispatchToProps)(OAuthLoginForm)
+
+export default OAuthLoginFormContainer
 
 const iconStyles = {
   borderRadius: 10,
