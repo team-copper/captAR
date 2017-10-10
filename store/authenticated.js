@@ -75,7 +75,7 @@ export function isLoggedOut(localUserKey) {
 }
 
 let initialState = {
-  localUserKey: 'AnujKey - only for test',
+  localUserKey: null,
   users: []
 }
 

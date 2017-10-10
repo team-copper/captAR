@@ -87,19 +87,19 @@ export function deleteFlag(flagId){
 
 // THUNKS
 
-export function createFlagThunk(flag){
-    console.log("*****", flag)
-    // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
-            // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
-            // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
-    // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
-            // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
-            // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
-    // if selected game view / polygonId === 3, randomly generate flags for batteryPark
-            // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
-            // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
-    createFlag(flag)
-}
+// export function createFlagThunk(flag){
+//     console.log("*****", flag)
+//     // if selected game view / polygonId === 1, randomly generate flags for elevatedAcre
+//             // elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)]
+//             // elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)]
+//     // if selected game view / polygonId === 2, randomly generate flags for bowlingGreen
+//             // bowlingGreen.redFlagSpawn[Math.floor(Math.random() * 3)]
+//             // bowlingGreen.blueFlagSpawn[Math.floor(Math.random() * 3)]
+//     // if selected game view / polygonId === 3, randomly generate flags for batteryPark
+//             // batteryPark.redFlagSpawn[Math.floor(Math.random() * 5)]
+//             // batteryPark.blueFlagSpawn[Math.floor(Math.random() * 5)]
+//     createFlag(flag)
+// }
 
 // attempted to create CALCULATE_DISTANCE on Flag store and test this part
 export function getDistanceFromFlagThunk(lat, lng, event){

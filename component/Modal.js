@@ -17,12 +17,14 @@ class ModalView extends Component {
     }
 
     createGame = () => {
-        this.props.modalView();
         const game = new Game();
-        game.gameId = this.props.gameId;
-        game.players = [this.props.currentPlayerKey];
-        game.onSession = true;
+        game.gameId = this.props.areaId;
+        game.flags = this.props.flags;
+        game.players = this.props.players;
+        console.log('this is my new game ', game);
         this.props.createGame(game);
+        this.props.modalView();
+        this.props.navigate("GameView");
     }
 
     joinGame = () => {
@@ -40,7 +42,6 @@ class ModalView extends Component {
     _renderModalContent = () => (
         <View style={Style.modalContent}>
             <Item fixedlabel>
-                {/* <Input style={styles.input} placeholder="Your next remainder" onChangeText={updatedText => this.props.updateRemainder(updatedText)} /> */}
                 <Text>Have fun playing captAR!</Text>
             </Item>
           {this._renderButton('Create Game') }
@@ -49,7 +50,6 @@ class ModalView extends Component {
 
     render() {
         const isModalVisible = this.props.isModalVisible;
-        const buttonText = this.props.buttonText;
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.props.modalView}>
@@ -74,14 +74,14 @@ class ModalView extends Component {
 
 const mapStateToProps = state => {
     return {
-        currentPlayerKey: state.authenticated.localUserKey
+        flags: state.flags,
+        players: state.players
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         createGame : game => {
-            // console.log('i am creating ', game)
             const action = createGameThunk(game);
             dispatch(action);
         }

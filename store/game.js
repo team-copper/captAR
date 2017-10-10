@@ -10,26 +10,10 @@ const CLEAR_GAME = 'CLEAR_GAME' // after game ends, clear game session
 
 // Initial State
 
-let games = [ ]
-
-// HAVE SESSION/GAME ID on every object, duration, gameID
-
-/*
-Object:
-{
-    session: {
-        gameId: null,
-        duration: null,
-    }
-    playerId: null,
-    location: {
-        position: { latitude: null, longitude: null }
-    },
-    team: null, // red/blue
-    tagged: null, // true/false
-    hasFlag: null, // true/false
+let initialState = {
+    gameId: null,
+    games: []
 }
-*/
 
 // Action Creators
 export function fetchGame(game){
@@ -70,7 +54,11 @@ export function fetchGameThunk(polyId) {
 export function createGameThunk(game){
     return function (dispatch) {
         const dbName = 'GameArea'+game.gameId.toString();
-        firebase.database().ref(`${dbName}`).push().set(game)
+        const firebasedb = firebase.database().ref(`${dbName}`);
+        const gameKey = firebasedb.push().key;
+        game.gameFirebaseKey = gameKey;
+        console.log('my game is this ', game)
+        firebasedb.child(gameKey).set(game)
             .then(console.log('player added'))
             .catch(error => console.log('not added ', error))
     }
@@ -85,7 +73,7 @@ export function clearGameThunk(gameSessionId){
 }
 
 // REDUCERS
-export default (state = games, action) => {
+export default (state = initialState.games, action) => {
   switch (action.type) {
 
     case FETCH_GAME:

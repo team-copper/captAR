@@ -18,7 +18,7 @@ import {
   bowlingGreen,
   batteryPark
 } from "../assets/presetGameFields";
-import { createFlagThunk, createPlayerThunk, fetchGameThunk } from '../store';
+import { fetchGameThunk, createFlag, createPlayer } from '../store';
 import { connect } from 'react-redux';
 import ModalView from './Modal';
 import { Player, Team, Flag } from "../model";
@@ -33,6 +33,7 @@ class SelectGameView extends Component {
       error: null,
       pressArea: false,
       showModal: false,
+      flags: null,
       areaId: null,
       selectedArea: {
         elevatedAcre: false,
@@ -99,12 +100,9 @@ class SelectGameView extends Component {
   };
 
   handleAreaPress = (event, id) => {
+    this.setState({areaId: id})
     this.createFlag(id);
     this.createPlayer();
-    // console.log(id, 'selected polygon Id');
-    // id === 1 : elevatedAcre
-    // id === 2 : bowlingGreen
-    // id === 3 : batteryPark
     if (id === 1)
       this.setState((state) => {
         (!this.state.selectedArea.elevatedAcre)
@@ -126,40 +124,37 @@ class SelectGameView extends Component {
           : state.selectedArea.batteryPark = false
         return state
       });
-    // this.setState({areaId: id})
-    // this.modalView();
-    this.createFlag(id);
+    this.modalView();
   };
 
   createFlag = (polyId) => {
     const randNum = Math.floor(Math.random()) * 5;
-    console.log()
-    const coordinates = locationArray[polyId].redFlagSpawn[randNum];
-    let redFlag = new Flag(red, 1);
+    const redCoordinates = locationArray[polyId].redFlagSpawn[randNum];
+    let redFlag = new Flag('red', 1);
     redFlag.startLocation = {
-      latitude: coordinates.latitude,
-      longitude: coordinates.longitude
+      latitude: redCoordinates.latitude,
+      longitude: redCoordinates.longitude
     }
-    console.log("*****", redFlag);
-    // createFlagThunk(redFlag);
-
-    // let blueFlag = new Flag();
-    // blueFlag.startLocation(
-    //   this.props.flags[1].location.latitude,
-    //   this.props.flags[1].location.longitude
-    // );
-    // blueFlag.gameSessionId = this.state.gameSessionId;
-    // createFlagThunk(blueFlag);
+    this.props.createFlag(redFlag)
+    const blueCoordinates = locationArray[polyId].blueFlagSpawn[randNum];
+    let blueFlag = new Flag('blue', 2);
+    blueFlag.startLocation = {
+      latitude: blueCoordinates.latitude,
+      longitude: blueCoordinates.longitude
+    }
+    this.props.createFlag(blueFlag)
   }
 
   createPlayer = () => {
     let player = new Player();
-    player.setPosition(this.state.latitude, this.state.longitude);
-    player.gameSessionId = this.state.gameSessionId;
-    player.playerId = Uuid.create();
-    player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
-    console.log("*****player thunk", player);
-    createPlayerThunk(player);
+    player.playerKey = this.props.currentPlayerKey;
+    player.location = {
+      latitude: this.state.latitude, 
+      longitude: this.state.longitude
+    };
+    player.playerId = this.props.players.length+1;
+    player.team = player.playerId%2 ? "red" : "blue"; // for testing, Oscar assign this to 'blue'
+    this.props.createPlayer(player);
   }
 
   modalView = () => {
@@ -167,9 +162,6 @@ class SelectGameView extends Component {
   }
 
   render() {
-    // this.state.showModal
-    // ? console.log('button press ', this.props.gameArea)
-    // : console.log('nada');
     if (this.state.latitude) {
       const selectedArea = []
       for (const area in this.state.selectedArea) {
@@ -235,7 +227,7 @@ class SelectGameView extends Component {
             }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} buttonText={'Create'} gameId={this.state.areaId}/>
+          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} navigate={this.props.navigation.navigate} areaId={this.state.areaId}/>
         </View>
       );
     } else {
@@ -250,7 +242,9 @@ class SelectGameView extends Component {
 
 const mapStateToProps = state => {
   return {
-    gameArea: state.game
+    currentPlayerKey: state.authenticated.localUserKey,
+    gameArea: state.game,
+    players: state.players
   }
 }
 
@@ -258,6 +252,12 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchGame: (polyId) => {
       dispatch(fetchGameThunk(polyId))
+    },
+    createFlag: flag => {
+        dispatch(createFlag(flag))
+    },
+    createPlayer: player => {
+      dispatch(createPlayer(player))
     }
   }
 }
