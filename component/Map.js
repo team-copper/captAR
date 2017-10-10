@@ -29,7 +29,7 @@ import { registerUserSubscriptions, registerGameSubscriptions } from '../subscri
 class Map extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -70,9 +70,7 @@ class Map extends Component {
 
   componentDidMount() {
     this.watchPosition();
-    setInterval(this.checkInside, 1000);
-    setInterval(this.props.updatePlayerLocation, 1000);
-    // this.props.updatePlayerLocation(99, 99);
+    setInterval(this.checkInside, 100);
   }
 
   componentWillUnmount() {
@@ -220,6 +218,9 @@ class Map extends Component {
     const flags = this.props.flags;
 
     if (this.props.localUserKey) {
+      updatePlayerLocationThunk(
+        {latitude: this.state.latitude, longitude: this.state.longitude}
+      );
 
       return (
         <View style={Style.container}>
@@ -365,18 +366,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getDistanceFromFlag: (lat, lng, event) => {
-      const action = getDistanceFromFlagThunk(lat, lng, event);
-      dispatch(action);
-    },
-    updatePlayerLocation: (latitude, longitude) => {
-      const action = updatePlayerLocationThunk({latitude: 99, longitude: 99});
-      dispatch(action);
-    }
-  };
-};
+const mapDispatchToProps = { getDistanceFromFlagThunk };
 
 const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map);
 

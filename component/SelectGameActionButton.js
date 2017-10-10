@@ -31,7 +31,7 @@ export default class SelectGameActionButtonView extends Component {
       .signOut()
       .then(() => {
         this.props.isLoggedOut();
-        this.props.navigate("LoginForm");
+        this.props.navigate("OAuthLoginForm");
       })
       .catch(error => console.log(error));
   }

@@ -48,12 +48,15 @@ export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
 }
 
-export function updatePlayerLocationThunk(location){
+export function updatePlayerLocationThunk({latitude, longitude}){
     console.log("*****THUNK ME*****")
     // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
-    firebase.database().ref('GameArea2/-Kw6geKIdPlOnE54l7Sj/players/0/location').update(location)
+    firebase.database()
+        .ref('GameArea2/-Kw6geKIdPlOnE54l7Sj/players/1')
+        .update({location: {latitude, longitude}})
     // .then(() => firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({longitude}))
-    .then(console.log('location updated'))
+    .then(() => console.log('location updated'))
+    .catch(error => console.log(error))
     // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
  }
 
