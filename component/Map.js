@@ -22,11 +22,8 @@ import {
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
-import {
-  createFlagThunk,
-  createPlayerThunk,
-  getDistanceFromFlagThunk
-} from "../store";
+import { getDistanceFromFlagThunk } from "../store";
+import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
 
 // Parent - Child Component Order:
 // Map -> GameActionButton -> Camera
@@ -247,6 +244,8 @@ class Map extends Component {
     const players = this.props.players;
     const flags = this.props.flags;
 
+    this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
+
     if (this.props.localUserKey) {
       return (
         <View style={Style.container}>
@@ -384,10 +383,12 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log('view from Map.js ', state.fla)
   return {
     players: state.players,
     flags: state.flags,
-    localUserKey: state.authenticated.localUserKey
+    localUserKey: state.authenticated.localUserKey,
+    game: state.game
   };
 };
 

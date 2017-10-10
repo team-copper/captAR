@@ -8,28 +8,6 @@ const GET_PLAYERS_LOCATION = 'GET_PLAYERS_LOCATION'
 const CHANGE_PLAYER_STATUS = 'CHANGE_PLAYER_STATUS'
 const CLEAR_PLAYER = 'CLEAR_PLAYER'
 
-// Initial State (currently hardcoded)
-let players = []
-
-// HAVE SESSION/GAME ID on every object, duration, gameID
-
-/*
-Object:å
-{
-    session: {
-        gameId: null,
-        duration: null,
-    }
-    playerId: null,
-    location: {
-        position: { latitude: null, longitude: null }
-    },
-    team: null, // red/blue
-    tagged: null, // true/false
-    hasFlag: null, // true/false
-}
-*/
-
 // Action Creators
 export function createPlayer(player){
   const action = {type: CREATE_PLAYER, player}
@@ -50,16 +28,15 @@ export function changePlayerStatus(player){
     const action = {type: CHANGE_PLAYER_STATUS, player}
     return action
 }
-
-export function clearPlayer(playerId){
-    const action = {type: CLEAR_PLAYER, playerId}
+//this updated to clear all players from store
+export function clearPlayer(){
+    const action = {type: CLEAR_PLAYER}
     return action
 }
 
 // THUNKS
 
 export function createPlayerThunk(player){
-    // assign playerId, 1,2,3,4 etc., by order of log-in
     console.log("&&&&&&playerthunk")
     createPlayer(player)
 }
@@ -82,7 +59,7 @@ export function clearPlayerThunk(playerId){
 }
 
 // REDUCERS
-export default (state = players, action) => {
+export default (state = [], action) => {
   switch (action.type) {
 
     case CREATE_PLAYER:
@@ -101,8 +78,8 @@ export default (state = players, action) => {
         return [...newState, action.player]
 
     case CLEAR_PLAYER:
-         newState = state.filter(player => player.playerId !== action.playerId)
-        return newState
+        //  newState = state.filter(player => player.playerId !== action.playerId)
+        return []
 
     default:
         return state;
