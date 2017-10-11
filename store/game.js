@@ -60,7 +60,7 @@ export function addPlayerThunk(player, areaId, gameKey){
         const dbName = 'GameArea'+areaId.toString();
         const firebasedb = firebase.database().ref(`/${dbName}/${gameKey}/players`);
         firebasedb.child(player.playerId).set(player)
-            .then(console.log('player added')) 
+            .then(console.log('player added'))
             .catch(error => console.log('not added ', error))
         dispatch(createGame(gameKey, areaId))
     }
