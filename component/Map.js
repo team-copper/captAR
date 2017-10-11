@@ -343,7 +343,6 @@ class Map extends Component {
               fillColor="rgba(0, 0, 200, 0.1)"
             />
 
-            {/*
             <MapView.Marker
               name="currentLocation"
               coordinate={{
@@ -357,7 +356,6 @@ class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
-            */}
 
             {/* Render every player on map */}
             {players.map((player, index) => (
