@@ -71,4 +71,15 @@ export function registerGameSubscriptions(gameUrl) {
 
     }
   })
+
+  var gameFlagsRef = firebase.database().ref(gameUrl + '/game')
+
+  gameFlagsRef.on('value', function (snapshot) {
+    console.log('Received child game info on add: ', snapshot.val())
+    let gameObjects = snapshot.val()
+
+    for (key in gameObjects) {
+      store.dispatch(resetFlagLocation(gameObjects[key]))
+    }
+  })
 }

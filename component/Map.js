@@ -60,7 +60,6 @@ class Map extends Component {
       flagDistance: 0
     };
 
-
     this.watchPosition = this.watchPosition.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.checkInside = this.checkInside.bind(this);
@@ -82,13 +81,15 @@ class Map extends Component {
   watchPosition = () => {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
+        let area = ''
         // reference to gameId might change
+        // Re: I got a scope issue "Can't find variable 'area'" ; refactored the pseudocode
         if (this.props.gameId === 1) {
-          const area = elevatedAcre
+          area = 'elevatedAcre'
         } else if (this.props.gameId === 2) {
-          const area = bowlingGreen
+          area = 'bowlingGreen'
         } else if (this.props.gameId === 3) {
-          const area = batteryParl
+          area = 'batteryPark'
         }
 
         this.setState({
@@ -227,7 +228,7 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    console.log(this.props, 'props');
+    console.log("*****", this.props, 'props');
 
     if (this.props.flags.length === 2) {
       // updatePlayerLocationThunk(
@@ -370,6 +371,7 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("&&&", state.game)
   return {
     players: state.players,
     flags: state.flags,
