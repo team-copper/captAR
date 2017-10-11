@@ -23,7 +23,7 @@ class ModalView extends Component {
         this.joinGame = this.joinGame.bind(this);
         this.goBack = this.goBack.bind(this);
         this.clearStore = this.clearStore.bind(this);
-        // this.createArray = this.createArray.bind(this);
+        this.createArray = this.createArray.bind(this);
     }
 
     //cearStore break into components
@@ -82,11 +82,13 @@ class ModalView extends Component {
                 <Text>Have fun playing captAR!</Text>
             </Item>
           {this._renderCreateButton('Create Game') }
-          {this._renderJoinButton('Join Game') }
-          {/* {this.state.playersArray[0].length 
-          ? this._renderJoinButton('Join Game') 
+          {this.props.currentGames && this.props.currentGames.length
+          ? <View>
+              <Text>There are ${this.props.currentGames[0].length} in this area. Would you like to join?</Text>
+                {this._renderJoinButton('Join Game')} 
+            </View>
           : <View></View>
-          }      */}
+          }     
         </View>
       );
 
@@ -95,20 +97,25 @@ class ModalView extends Component {
         this.clearStore();
     }
 
-    // createArray = () => {
-    //     const currentGames = this.props.currentGames;
-    //     const keys = Object.keys(currentGames);
-    //     const playersArray = keys.map(key => (
-    //         currentGames[key].players.length
-    //     ))
-    //     const gameArray = [keys, playersArray]
-    //     console.log(" my array in Modal ", gameArray)
-    // }
+    createArray = () => {
+        console.log('i am called')
+        const currentGames = this.props.currentGames;
+        console.log('current ', currentGames)
+        const keys = Object.keys(currentGames);
+        console.log('keys ', keys)
+        const playersArray = keys.map(key => (
+            currentGames[key].players.length
+        ))
+        const gameArray = [keys, playersArray]
+        this.setState({playersArray: gameArray})
+    }
+
+    componentWillUpdate() {
+        this.createArray()
+    }
 
     render() {
-        // console.log('view from modal ', this.props.games)
         const isModalVisible = this.props.isModalVisible;
-        // this.createArray();
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.goBack}>

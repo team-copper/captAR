@@ -170,13 +170,14 @@ class SelectGameView extends Component {
     const firebasedb = firebase.database().ref(`${dbName}`);
     firebasedb.once('value')
         .then(snapshot =>  {
-            this.setState({ currentGames: snapshot.val() })
+            const receivedData = snapshot.val();
+            console.log('i got this ', receivedData)
+            this.setState({ currentGames: receivedData })
         })
         .catch(error => console.log('no message found ', error))
 }
 
   render() {
-    console.log('my players ', this.props.players)
     if (this.state.latitude) {
       const selectedArea = []
       for (const area in this.state.selectedArea) {
