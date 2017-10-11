@@ -309,8 +309,10 @@ class Map extends Component {
     const flags = this.props.flags;
     const game = this.props.game;
     const me = players.filter(player => player.playerKey === this.props.localUserKey)
-    const myId = me[0].playerId
-    const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
+
+    if(me[0].playerId !== undefined) {
+      const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + me[0].playerId;
+    }
 
     if (this.props.flags.length === 2 && me.length === 1) {
       // update my location to firebase
@@ -345,20 +347,6 @@ class Map extends Component {
               fillColor="rgba(0, 0, 200, 0.1)"
             />
 
-            <MapView.Marker
-              name="currentLocation"
-              coordinate={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude
-              }}
-              title={"Your Location"}
-            >
-              <Image
-                source={require("../assets/person.png")}
-                style={{ height: 25, width: 25 }}
-              />
-            </MapView.Marker>
-
             {/* Render every player on map */}
             {players.map((player, index) => (
               <MapView.Marker
@@ -372,6 +360,21 @@ class Map extends Component {
                 />
               </MapView.Marker>
             ))}
+
+            <MapView.Marker
+              name="currentLocation"
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+              }}
+              title={"Your Location"}
+            >
+            <Image
+              source={require("../assets/person.png")}
+              style={{ height: 25, width: 25 }}
+            />
+            </MapView.Marker>
+
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
