@@ -312,7 +312,7 @@ class Map extends Component {
 
     let firebasePath = '';
 
-    if (me[0].playerId !== undefined) {
+    if (me !== undefined) {
       firebasePath = 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + me[0].playerId;
 
       updatePlayerLocationThunk(firebasePath,
