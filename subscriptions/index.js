@@ -9,7 +9,7 @@
 import firebase from '../firebase'
 import store, {
   addUserAction, isLoggedInAction, resetFlagLocation,
-  changePlayerStatus
+  changePlayerStatus, fetchGame
 } from '../store'
 
 export function registerUserSubscriptions() {
@@ -69,6 +69,20 @@ export function registerGameSubscriptions(gameUrl) {
     for (key in gameObjects) {
       store.dispatch(changePlayerStatus(gameObjects[key]))
 
+    }
+  })
+
+  var gameRef = firebase.database().ref(gameUrl)
+
+  gameRef.on('value', function (snapshot) {
+    console.log('Received child game info on add: ', snapshot.val())
+    let gameObjects = snapshot.val()
+
+    // for (key in gameObjects) {
+    //   store.dispatch(fetchGame(gameObjects[key]))
+    // }
+    for (key in gameObjects) {
+      key === 'gameId' ? store.dispatch(fetchGame(gameObjects[key])) : console.log("###no gameId")
     }
   })
 }

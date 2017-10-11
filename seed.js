@@ -33,25 +33,25 @@ let flags = [
 
 let players = [
   {
-      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
+      playerKey: "-Kw6WMuMon0sLlAvdwD0",
       playerId: 1,
       location: { latitude: 40.703394, longitude: -74.008622 },
       team: 'red',
       hasFlag: false
   }, {
-      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
+      playerKey: "-Kw6i3o4waw4nvoMGalr",
       playerId: 2,
       location: { latitude: 40.703441, longitude: -74.008713 },
       team: 'blue',
       hasFlag: false
   }, {
-      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
+      playerKey: "-Kw6ia9oZqCwG-09MyAP",
       playerId: 3,
       location: { latitude: 40.703325, longitude: -74.008456 },
       team: 'red',
       hasFlag: false
   }, {
-      playerKey: "-Kw1yPEE1ijRvD8DhOCf",
+      playerKey: "-Kw7D5kZNpnIYXeDO6Sv",
       playerId: 4,
       location: { latitude: 40.703258, longitude:  -74.008663 },
       team: 'blue',
@@ -60,7 +60,7 @@ let players = [
 ]
 
 let game = {
-    gameId: 3,
+    gameId: 1,
     gameFirebaseKey: gameSessionKey,
     flags: flags,
     players: players

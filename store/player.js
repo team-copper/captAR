@@ -39,7 +39,6 @@ export function clearPlayer(){
 // THUNKS
 
 export function createPlayerThunk(player){
-    console.log("&&&&&&playerthunk")
     createPlayer(player)
 }
 
@@ -48,6 +47,7 @@ export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
 }
 
+// also pass myId to refer to my user object in Firebase.
 export function updatePlayerLocationThunk({latitude, longitude}){
     console.log("*****THUNK ME*****")
     // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
