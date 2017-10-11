@@ -172,6 +172,34 @@ class Map extends Component {
     } else {
       this.setState({ displayStatus: "" });
     }
+
+    let team = '';
+    let playerHasFlag = false;
+    
+    for (let i=0; i<this.props.players.length; i++) {
+      if (this.props.localUserKey === this.props.players[i].playerKey) {
+        team = this.props.players[i].team
+        playerHasFlag = this.props.players[i].hasFlag
+      }
+    }
+
+    // TEAM WIN LOGIC: if red player has red flag and is inside the red territory, red team wins
+    if (
+      playerHasFlag === true && team === 'red' && geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        redCoordinates
+      )
+    ) { 
+      this.setState({ displayStatus: "Red Team Wins!"})
+    } else if (
+      playerHasFlag === true && team === 'blue' && geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        blueCoordinates
+      )
+    ) {
+      this.setState({ displayStatus: "Blue Team Wins!"})
+    }
+    
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
