@@ -229,8 +229,6 @@ class Map extends Component {
       // );
 
     if (this.props.flags.length === 2) {
-      console.log('Map flags ', this.props.flags);
-      console.log('this is my game ', this.props.game)
       return (
         <View style={Style.container}>
           <MapView
