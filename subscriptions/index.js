@@ -9,7 +9,7 @@
 import firebase from '../firebase'
 import store, {
   addUserAction, isLoggedInAction, resetFlagLocation,
-  changePlayerStatus
+  changePlayerStatus, fetchGame
 } from '../store'
 
 export function registerUserSubscriptions() {
@@ -72,14 +72,14 @@ export function registerGameSubscriptions(gameUrl) {
     }
   })
 
-  var gameFlagsRef = firebase.database().ref(gameUrl + '/game')
+  var gameRef = firebase.database().ref(gameUrl + '/gameId')
 
-  gameFlagsRef.on('value', function (snapshot) {
+  gameRef.on('value', function (snapshot) {
     console.log('Received child game info on add: ', snapshot.val())
     let gameObjects = snapshot.val()
 
     for (key in gameObjects) {
-      store.dispatch(resetFlagLocation(gameObjects[key]))
+      store.dispatch(fetchGame(gameObjects[key]))
     }
   })
 }
