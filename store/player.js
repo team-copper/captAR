@@ -49,7 +49,6 @@ export function assignPlayerTeamThunk(player){
 
 // also pass myId to refer to my user object in Firebase.
 export function updatePlayerLocationThunk(firebasePath, { latitude, longitude }){
-    console.log("*****THUNK ME*****")
     firebase.database()
         .ref(firebasePath)
         .update({location: {latitude, longitude}})

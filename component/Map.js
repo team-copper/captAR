@@ -90,11 +90,12 @@ class Map extends Component {
 
     }
     this.watchPosition();
-    setInterval(this.checkInside, 1000);
+    setInterval(this.checkInside, 100);
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
+    clearInterval(this.checkInside);
   }
 
   watchPosition = () => {
@@ -308,21 +309,14 @@ class Map extends Component {
     const flags = this.props.flags;
     const game = this.props.game;
     const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
+    const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
 
-    const tmp = 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
-
-    let firebasePath = '';
-
-    if (!tmp.includes('undefined')) {
-      firebasePath = tmp.trim();
-    }
-    console.log(firebasePath);
-    // update my location to firebase
     if (this.props.flags.length === 2) {
       // update my location to firebase
       updatePlayerLocationThunk(firebasePath,
         {latitude: this.state.latitude, longitude: this.state.longitude}
       );
+
       return (
         <View style={Style.container}>
           <MapView
@@ -366,16 +360,6 @@ class Map extends Component {
             </MapView.Marker>
             */}
 
-            <MapView.Circle
-              name="me"
-              center={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude
-              }}
-              radius={2}
-              fillColor="rgba(0, 200, 0, 0.5)"
-              />
-
             {/* Render every player on map */}
             {players.map((player, index) => (
               <MapView.Marker
@@ -389,7 +373,6 @@ class Map extends Component {
                 />
               </MapView.Marker>
             ))}
-
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
