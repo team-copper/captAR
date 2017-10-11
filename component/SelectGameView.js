@@ -18,10 +18,11 @@ import {
   bowlingGreen,
   batteryPark
 } from "../assets/presetGameFields";
-import { fetchGameThunk, createFlag, createPlayer } from '../store';
+import { createFlag, createPlayer } from '../store';
 import { connect } from 'react-redux';
 import ModalView from './Modal';
 import { Player, Team, Flag } from "../model";
+import { registerGameSubscriptions } from '../subscriptions'
 
 class SelectGameView extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class SelectGameView extends Component {
       showModal: false,
       flags: null,
       areaId: null,
+      currentGames: [],
       selectedArea: {
         elevatedAcre: false,
         bowlingGreen: false,
@@ -56,7 +58,6 @@ class SelectGameView extends Component {
   componentDidMount() {
     this.getCurrentPosition();
     this.watchPosition();
-    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -101,7 +102,7 @@ class SelectGameView extends Component {
   };
 
   handleAreaPress = (event, id) => {
-    this.props.fetchGame(id);
+    this.fetchGame(id);
     this.setState({areaId: id});
     this.createFlag(id);
     this.createPlayer();
@@ -154,14 +155,27 @@ class SelectGameView extends Component {
       latitude: this.state.latitude,
       longitude: this.state.longitude
     };
-    player.playerId = this.props.players.length+1;
-    player.team = player.playerId%2 ? "red" : "blue"; // for testing, Oscar assign this to 'blue'
+    player.playerId = 0;
+    player.team = player.playerId%2 ? "blue" : "red";
     this.props.createPlayer(player);
   }
 
   modalView = () => {
     this.setState({showModal: !this.state.showModal})
   }
+
+  fetchGame = polyId => {
+    let gamesFound = "";
+    const dbName = 'GameArea'+polyId.toString();
+    const firebasedb = firebase.database().ref(`${dbName}`);
+    firebasedb.once('value')
+        .then(snapshot =>  {
+            const receivedData = snapshot.val();
+            console.log('i got this ', receivedData)
+            this.setState({ currentGames: receivedData })
+        })
+        .catch(error => console.log('no message found ', error))
+}
 
   render() {
     if (this.state.latitude) {
@@ -229,7 +243,7 @@ class SelectGameView extends Component {
             }
             {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
           </View>
-          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} navigate={this.props.navigation.navigate} areaId={this.state.areaId} latitude={this.state.latitude} longitude={this.state.longitude}/>
+          <ModalView isModalVisible={this.state.showModal} modalView={this.modalView} navigate={this.props.navigation.navigate} areaId={this.state.areaId} latitude={this.state.latitude} longitude={this.state.longitude} currentGames={this.state.currentGames}/>
         </View>
       );
     } else {
@@ -252,9 +266,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchGame: (polyId) => {
-      dispatch(fetchGameThunk(polyId))
-    },
     createFlag: flag => {
         dispatch(createFlag(flag))
     },
