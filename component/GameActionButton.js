@@ -31,7 +31,7 @@ class GameActionButtonView extends Component {
       .then(() => {
         // identify user to logout.
         isLoggedOut(this.props.localUserKey);
-        this.props.navigate("LoginForm");
+        this.props.navigate("OAuthLoginForm");
       })
       .catch(error => console.log(error));
   }

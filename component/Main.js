@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { View } from 'react-native'
-import { Style, LoginForm, GameView } from './';
+import { Style, GameView } from './';
 
 class Main extends Component {
   render() {
