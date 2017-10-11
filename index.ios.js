@@ -4,6 +4,7 @@ import { registerUserSubscriptions, registerGameSubscriptions } from './subscrip
 
 // Firebase setup
 registerUserSubscriptions()
-registerGameSubscriptions(`GameArea2/-Kw707DYaLU5_pZ2BPpr`);
+// registerGameSubscriptions(`GameArea2/${currentGame}`);
+registerGameSubscriptions(`GameArea2/-Kw8-Wp9_NtKh-AhcMru`);
 
 AppRegistry.registerComponent('captAR', () => captAR);
