@@ -305,13 +305,12 @@ class Map extends Component {
   }
 
   render() {
-    const players = this.props.players;
-    const flags = this.props.flags;
-    const game = this.props.game;
-    const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
-    const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
-    console.log(this.props, myId)
     if (this.props.flags.length === 2) {
+      const players = this.props.players;
+      const flags = this.props.flags;
+      const game = this.props.game;
+      const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
+      const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
       // update my location to firebase
       updatePlayerLocationThunk(firebasePath,
         {latitude: this.state.latitude, longitude: this.state.longitude}
