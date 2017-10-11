@@ -29,7 +29,9 @@ import { registerUserSubscriptions, registerGameSubscriptions } from '../subscri
 class Map extends Component {
   constructor(props) {
     super(props);
-
+    // const games = Object.keys(this.props.game[0]);
+    // const currentGame = games.slice(-1)[0];
+    // registerGameSubscriptions(`GameArea1/${currentGame}`);
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -58,7 +60,6 @@ class Map extends Component {
       flagDistance: 0
     };
 
-
     this.watchPosition = this.watchPosition.bind(this);
     this.getCurrentPosition = this.getCurrentPosition.bind(this);
     this.checkInside = this.checkInside.bind(this);
@@ -70,7 +71,7 @@ class Map extends Component {
 
   componentDidMount() {
     this.watchPosition();
-    setInterval(this.checkInside, 100);
+    setInterval(this.checkInside, 1000);
   }
 
   componentWillUnmount() {
@@ -80,12 +81,23 @@ class Map extends Component {
   watchPosition = () => {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
+        let area = ''
+        // reference to gameId might change
+        // Re: I got a scope issue "Can't find variable 'area'" ; refactored the pseudocode
+        if (this.props.gameId === 1) {
+          area = 'elevatedAcre'
+        } else if (this.props.gameId === 2) {
+          area = 'bowlingGreen'
+        } else if (this.props.gameId === 3) {
+          area = 'batteryPark'
+        }
+
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
-          redCoordinates: elevatedAcre.redCoordinates,
-          blueCoordinates: elevatedAcre.blueCoordinates,
+          gameAreaCoordinates: area.gameAreaCoordinates,
+          redCoordinates: area.redCoordinates,
+          blueCoordinates: area.blueCoordinates,
           // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
           // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
           error: null
@@ -216,11 +228,12 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
+    console.log("*****", this.props, 'props');
 
-    if (this.props.localUserKey) {
-      updatePlayerLocationThunk(
-        {latitude: this.state.latitude, longitude: this.state.longitude}
-      );
+    if (this.props.flags.length === 2) {
+      // updatePlayerLocationThunk(
+      //   {latitude: this.state.latitude, longitude: this.state.longitude}, myId
+      // );
 
       return (
         <View style={Style.container}>
@@ -358,6 +371,7 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("&&&", state.game)
   return {
     players: state.players,
     flags: state.flags,
