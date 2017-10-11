@@ -52,7 +52,7 @@ class Map extends Component {
         { latitude: 0, longitude: 0 },
         { latitude: 0, longitude: 0 }
       ],
-      flagDistance: 0
+      flagDistance: 0,
     };
 
     this.watchPosition = this.watchPosition.bind(this);
@@ -79,24 +79,46 @@ class Map extends Component {
         let area = ''
         // reference to gameId might change
         // Re: I got a scope issue "Can't find variable 'area'" ; refactored the pseudocode
-        if (this.props.gameId === 1) {
-          area = 'elevatedAcre'
-        } else if (this.props.gameId === 2) {
-          area = 'bowlingGreen'
-        } else if (this.props.gameId === 3) {
-          area = 'batteryPark'
-        }
+        if (this.props.game[0] === 1) {
 
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          gameAreaCoordinates: area.gameAreaCoordinates,
-          redCoordinates: area.redCoordinates,
-          blueCoordinates: area.blueCoordinates,
-          // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-          // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-          error: null
-        });
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
+            redCoordinates: elevatedAcre.redCoordinates,
+            blueCoordinates: elevatedAcre.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        } else if (this.props.game[0] === 2) {
+
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: bowlingGreen.gameAreaCoordinates,
+            redCoordinates: bowlingGreen.redCoordinates,
+            blueCoordinates: bowlingGreen.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        } else if (this.props.game[0] === 3) {
+
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: batteryPark.gameAreaCoordinates,
+            redCoordinates: batteryPark.redCoordinates,
+            blueCoordinates: batteryPark.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        }
       },
       error => this.setState({ error: error.message }),
       {
@@ -141,40 +163,67 @@ class Map extends Component {
         2
       )
     ) {
-      this.setState({ displayStatus: "You are near blue flag" });
+      this.setState({ displayStatus: "Blue flag nearby" });
     } else {
       this.setState({ displayStatus: "" });
     }
+
+    let team = '';
+    let playerHasFlag = false;
+    
+    for (let i=0; i<this.props.players.length; i++) {
+      if (this.props.localUserKey === this.props.players[i].playerKey) {
+        team = this.props.players[i].team
+        playerHasFlag = this.props.players[i].hasFlag
+      }
+    }
+
+    // TEAM WIN LOGIC: if red player has red flag and is inside the red territory, red team wins
+    if (
+      playerHasFlag === true && team === 'red' && geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        redCoordinates
+      )
+    ) { 
+      this.setState({ displayStatus: "Red Team Wins!"})
+    } else if (
+      playerHasFlag === true && team === 'blue' && geolib.isPointInside(
+        { latitude: this.state.latitude, longitude: this.state.longitude },
+        blueCoordinates
+      )
+    ) {
+      this.setState({ displayStatus: "Blue Team Wins!"})
+    }
+    
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
   // attempted on line 165 and in store > flag.js, line 107
   handleFlagPress = event => {
-    let lat = this.state.latitude,
-      lng = this.state.longitude;
+    // let lat = this.state.latitude,
+    //   lng = this.state.longitude;
+    // this.props.getDistanceFromFlag(lat, lng, event);
+    // this.setState({ pressFlag: !this.state.pressFlag });
 
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
       : this.setState({ pressFlag: false });
 
-    this.props.getDistanceFromFlag(lat, lng, event);
 
-    this.setState({ pressFlag: !this.state.pressFlag });
-
-    // this.setState({
+    this.setState({
     //  flagDistance: getDistanceFromFlagThunk(lat, lng, event)
-    //   // flagDistance: geolib
-    //   //   .getDistance(
-    //   //     { latitude: this.state.latitude, longitude: this.state.longitude },
-    //   //     {
-    //   //       latitude: event.nativeEvent.coordinate.latitude,
-    //   //       longitude: event.nativeEvent.coordinate.longitude
-    //   //     },
-    //   //     1,
-    //   //     3
-    //   //   )
-    //   //   .toFixed(2)
-    // });
+      flagDistance: geolib
+        .getDistance(
+          { latitude: this.state.latitude, longitude: this.state.longitude },
+          {
+            latitude: event.nativeEvent.coordinate.latitude,
+            longitude: event.nativeEvent.coordinate.longitude
+          },
+          1,
+          3
+        )
+        .toFixed(2)
+    });
   };
 
   // Pressing capture on action button
@@ -184,14 +233,26 @@ class Map extends Component {
   // Game Logic:
   // Enable flag to be captured only when I am inside a flag circle
   // Don't worry about flag and my team color being same/different now
+  // Re: added team logic
   onCapturePress() {
+
+    let team = '';
+
+    for (let i=0; i<this.props.players.length; i++) {
+      if (this.props.localUserKey === this.props.players[i].playerKey) {
+        team = this.props.players[i].team
+      }
+    }
+
     if (
-      // red team &&
+      team === 'red' &&
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
         this.props.flags[0].startLocation, // red team's flag
         2
-      ) || // blue team &&
+      ) 
+      ||
+      team == 'blue' &&
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
         this.props.flags[1].startLocation, // blue team's flag
@@ -200,6 +261,7 @@ class Map extends Component {
     ) {
       this.setState({ enableCapture: true });
     }
+
   }
 
   // Closing render of cameraview component
@@ -213,13 +275,46 @@ class Map extends Component {
   onFlagCapture(player, flag) {
     // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
     // if (this.state.team === this.props.flags.flagId)
-    this.setState({ displayStatus: "Jordan has captured the flag!" });
     // and change flag's location to that the user (use playerId)
     // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
     // need dispatch here to have flag's location be the same as the holder
     // this.props.flags[0].location = this.props.players[whatever index the player is].location
-  }
 
+    let playerTeam = '';
+    
+    for (let i=0; i<this.props.players.length; i++) {
+      if (this.props.localUserKey === this.props.players[i].playerKey) {
+        playerTeam = this.props.players[i].team
+      }
+    }
+
+    let flagRedTeam = this.props.flags[0].team
+    let flagRedId = this.props.flags[0].flagId
+    let flagRedLoc = this.props.flags[0].currentLocation.latitude
+    let flagBlueTeam = this.props.flags[1].team
+    let flagBlueId = this.props.flags[1].flagId
+    let flagBlueLoc = this.props.flags[1].currentLocation.latitude
+
+    if (playerTeam === flagRedTeam || playerTeam === flagBlueTeam) { 
+      // ex: red player on red team captures red flag
+      this.setState({ 
+        displayStatus: `${playerTeam}` + " has captured the flag!" ,
+        // INSERT THUNK THAT UPDATES FLAG LOCATION as PLAYER LOC
+
+      });
+    }
+
+    if ((playerTeam !== flagRedTeam && flagRedLoc !== 0) || (playerTeam !== flagBlueTeam && flagBlueLoc !== 0)) { // && flag's current location is not null
+      // ex: red player intercepts blue flag from blue team member
+      this.setState({ 
+        displayStatus: `${playerTeam}` + " team has intercepted the flag!" ,
+        // THUNK: FLAG LOCATION returns to HOME LOC
+        // show 10 second modal to block phone interactions?
+      });
+    }
+
+  }
+  
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
@@ -366,7 +461,6 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("&&&", state.game)
   return {
     players: state.players,
     flags: state.flags,
