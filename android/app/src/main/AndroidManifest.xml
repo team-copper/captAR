@@ -18,7 +18,8 @@
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:theme="@style/AppTheme">
-      <activity
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCW_1Mq6Th0sMVOPLu-V7B5BLFi1nMkn0Y"/>
+        <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -35,7 +36,6 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCW_1Mq6Th0sMVOPLu-V7B5BLFi1nMkn0Y"/>
     </application>
 
 </manifest>
