@@ -7,43 +7,57 @@ import { connect } from 'react-redux';
 import { Style } from './index';
 import { Game, Player } from '../model';
 import { createGameThunk, clearPlayer, deleteFlag, clearGame, addPlayerThunk } from '../store';
+import { registerGameSubscriptions } from '../subscriptions'
 
 class ModalView extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            playersArray: []
+        }
         this._renderCreateButton = this._renderCreateButton.bind(this);
         this._renderModalContent = this._renderModalContent.bind(this);
         this._renderJoinButton = this._renderJoinButton.bind(this);
         this.createGame = this.createGame.bind(this);
         this.joinGame = this.joinGame.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.clearStore = this.clearStore.bind(this);
+        // this.createArray = this.createArray.bind(this);
     }
+
+    //cearStore break into components
 
     createGame = () => {
         const game = new Game();
         game.gameId = this.props.areaId;
         game.flags = this.props.flags;
         game.players = this.props.players;
-        console.log('this is my new game ', game);
         this.props.createGame(game);
         this.props.modalView();
-        this.props.clearStore();
+        this.clearStore();
         this.props.navigate("GameView");
     }
 
     joinGame = () => {
+        const areaId = this.props.areaId;
         const player = new Player();
         player.playerKey = this.props.currentPlayerKey;
         player.location = {
             latitude: this.props.latitude,
             longitude: this.props.longitude
         };
-        player.playerId = this.props.players.length+1;
-        player.team = player.playerId%2 ? "red" : "blue";
-        this.props.clearStore();
-        this.props.joinGame(player);
+        player.playerId = 1;
+        player.team = player.playerId%2 ? "blue" : "red";
+        this.props.joinGame(areaId, player);
+        this.props.modalView();
+        this.clearStore();
         this.props.navigate("GameView");
+    }
+
+    clearStore = () => {
+        this.props.clearPlayer()
+        this.props.deleteFlag()
     }
 
     _renderCreateButton = (text) => (
@@ -62,96 +76,39 @@ class ModalView extends Component {
         </TouchableOpacity>
       );
 
-    // _renderModalContent = () => (
-    //     <View style={Style.modalContent}>
-    //         <Item fixedlabel>
-    //             <Text>Have fun playing captAR!</Text>
-    //         </Item>
-    //       {this._renderCreateButton('Create Game') }
-          
-    //       {this.props.games.length ? 
-    //         <View>
-    //             <Text>Or join the game below!</Text>
-    //             <List>
-    //                 Object.keys(this.props.games).map(key => (
-    //                     <FlatList
-    //                         data={this.props.games}
-    //                         renderItem={({ item }) => (
-    //                             <ListItem
-    //                                 title={Object.keys(this.props.games[item])}
-    //                             />
-    //                         )}
-    //                     />
-    //                 ))
-    //             </List>
-    //             {this._renderJoinButton('Join Game') }
-    //         </View>
-    //         : <View></View>
-    //       }
-    //     </View>
-    //   );
-
-    // _renderModalContent = () => (
-    //     <View style={Style.modalContent}>       
-    //       {this.props.games.length ? 
-    //         <View>
-    //             {/* <Text>Or join the game below!</Text> */}
-    //             <List>
-    //                 <FlatList
-    //                     data={Object.keys(this.props.games)}
-    //                     renderItem={({ item }) => (
-    //                         console.log('game props ', this.props.games, ' and item ', Object.keys(this.props.games[item]))
-                            
-    //                     )}
-    //                 />
-    //             </List>
-    //             {this._renderJoinButton('Join Game') }
-    //         </View>
-    //         : <View></View>
-    //       }
-    //     </View>
-    //   );
-
-    // _renderModalContent = () => (
-    //     <View style={Style.modalContent}>
-    //         <Item fixedlabel>
-    //             <Text>Have fun playing captAR!</Text>
-    //         </Item>
-    //       {this._renderCreateButton('Create Game') }
-          
-    //       {this.props.games.length ? 
-    //       <Text>Hello</Text>
-    //         {/* <ScrollView>
-    //             this.props.games.map(game => (
-    //                 <View key={Object.keys(1)}>
-    //                     <Text>{game}</Text>
-    //                 </View>
-    //             ))
-    //         </ScrollView> */}
-    //         : <View></View>
-    //       }
-    //     </View>
-    //   );
-
     _renderModalContent = () => (
         <View style={Style.modalContent}>
             <Item fixedlabel>
                 <Text>Have fun playing captAR!</Text>
             </Item>
           {this._renderCreateButton('Create Game') }
-          
           {this._renderJoinButton('Join Game') }
+          {/* {this.state.playersArray[0].length 
+          ? this._renderJoinButton('Join Game') 
+          : <View></View>
+          }      */}
         </View>
       );
 
     goBack = () => {
         this.props.modalView();
-        this.props.clearStore();
+        this.clearStore();
     }
 
+    // createArray = () => {
+    //     const currentGames = this.props.currentGames;
+    //     const keys = Object.keys(currentGames);
+    //     const playersArray = keys.map(key => (
+    //         currentGames[key].players.length
+    //     ))
+    //     const gameArray = [keys, playersArray]
+    //     console.log(" my array in Modal ", gameArray)
+    // }
+
     render() {
-        console.log('view from modal ', this.props.games)
+        // console.log('view from modal ', this.props.games)
         const isModalVisible = this.props.isModalVisible;
+        // this.createArray();
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.goBack}>
@@ -185,18 +142,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        createGame : game => {
-            const action = createGameThunk(game);
-            dispatch(action);
+        createGame: game => {
+            dispatch(createGameThunk(game))},
+        joinGame: (areaId, game) => {
+            dispatch(addPlayerThunk(areaId, game))
         },
-        joinGame: player => {
-          dispatch(addPlayerThunk(player))
-        },
-        clearStore: () => {
-            dispatch(clearPlayer());
-            dispatch(deleteFlag());
-            dispatch(clearGame());
-        }
+        clearPlayer,
+        deleteFlag
     }
 }
 

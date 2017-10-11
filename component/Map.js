@@ -22,23 +22,11 @@ import {
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
-<<<<<<< HEAD
-import { getDistanceFromFlagThunk } from "../store";
-import { registerGameSubscriptions } from '../subscriptions'
-=======
 import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
-import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
->>>>>>> master
-
 
 class Map extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-    registerGameSubscriptions(`/GameArea3/-Kw5kOK5-vXMLrT7R6rp`);
-=======
-    
->>>>>>> master
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -80,7 +68,7 @@ class Map extends Component {
   componentDidMount() {
     this.watchPosition();
     setInterval(this.checkInside, 1000);
-    setInterval(this.props.updatePlayerLocation, 1000);
+    // setInterval(this.props.updatePlayerLocation, 1000);
     // this.props.updatePlayerLocation(99, 99);
   }
 
@@ -110,34 +98,6 @@ class Map extends Component {
         distanceFilter: 0.5
       }
     );
-<<<<<<< HEAD
-
-    // let redFlag = new Flag();
-    // redFlag.setHomeLocation(
-    //   this.props.flags[0].startLocation.latitude,
-    //   this.props.flags[0].startLocation.longitude
-    // );
-    // redFlag.gameSessionId = this.state.gameSessionId;
-    // console.log("*****", redFlag);
-    // createFlagThunk(redFlag);
-
-    // let blueFlag = new Flag();
-    // blueFlag.setHomeLocation(
-    //   this.props.flags[1].startLocation.latitude,
-    //   this.props.flags[1].startLocation.longitude
-    // );
-    // blueFlag.gameSessionId = this.state.gameSessionId;
-    // createFlagThunk(blueFlag);
-
-    // let player = new Player();
-    // player.setPosition(this.state.latitude, this.state.longitude);
-    // player.gameSessionId = this.state.gameSessionId;
-    // player.playerId = Uuid.create();
-    // player.teamColor = "red"; // for testing, Oscar assign this to 'blue'
-    // console.log("*****player thunk", player);
-    // createPlayerThunk(player);
-=======
->>>>>>> master
   };
 
   getCurrentPosition = () => {
@@ -255,11 +215,13 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
+    console.log('my game is ', this.state.game)
 
     // this.props.game ? registerGameSubscriptions(`GameArea2/${this.props.game.gameId}`) : null;
 
     if (this.props.flags.length === 2) {
       console.log('Map flags ', this.props.flags);
+      console.log('this is my game ', this.props.game)
       return (
         <View style={Style.container}>
           <MapView

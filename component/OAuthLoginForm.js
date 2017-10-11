@@ -59,7 +59,7 @@ class OAuthLoginForm extends Component {
       SafariView.dismiss();
     }
 
-    this.props.navigation.navigate('GameView')
+    this.props.navigation.navigate('SelectGameView')
   };
 
   // Handle Login with Facebook button tap

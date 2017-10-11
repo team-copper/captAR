@@ -1,6 +1,7 @@
 "use strict";
 
 import firebase from "../firebase";
+import { registerGameSubscriptions } from '../subscriptions';
 
 // Action Types
 const FETCH_GAME = 'FETCH_GAME' // checks db to see if a game session exists for selected game field (non-1st player)
@@ -11,6 +12,8 @@ const CLEAR_GAME = 'CLEAR_GAME' // after game ends, clear game session
 // Initial State
 
 let initialState = {
+    gameId: null,
+    gameArea: null,
     games: []
 }
 
@@ -20,8 +23,9 @@ export function fetchGame(game){
   return action
 }
 
-export function createGame(gameSessionId){
-    const action = {type: CREATE_GAME, gameSessionId}
+export function createGame(gameKey, gameId){
+    const payload = {gameKey, gameId}
+    const action = {type: CREATE_GAME, payload}
     return action
 }
 
@@ -36,20 +40,6 @@ export function clearGame(){
 }
 
 // THUNKS
-
-export function fetchGameThunk(polyId) {
-    return function (dispatch) {
-        const dbName = 'GameArea'+polyId.toString();
-        firebase.database().ref(`${dbName}`).once('value')
-            .then(function(snapshot) {
-                var game = snapshot.val();
-                console.log('this is ', typeof game)
-                dispatch(fetchGame(game))
-            })
-            .catch(error => console.log('no message found ', error))
-    }
-}
-
 export function createGameThunk(game){
     return function (dispatch) {
         const dbName = 'GameArea'+game.gameId.toString();
@@ -57,19 +47,18 @@ export function createGameThunk(game){
         const gameKey = firebasedb.push().key;
         game.gameFirebaseKey = gameKey;
         firebasedb.child(gameKey).set(game)
-            .then(console.log('player added'))
+            .then(console.log('game added'))
             .catch(error => console.log('not added ', error))
+        registerGameSubscriptions(`${dbName}/${gameKey}`)
+        dispatch(createGame(gameKey, game.gameId))
     }
 }
 
-export function addPlayerThunk(player){
+export function addPlayerThunk(areaId, player){
     return function (dispatch) {
-        // const dbName = 'GameArea'+game.gameId.toString();
-        // const firebasedb = firebase.database().ref(`${dbName}`);
-        const firebasedb = firebase.database().ref(`/GameArea3/-Kw5kOK5-vXMLrT7R6rp/players`);
-        // const playerKey = firebasedb.push().key;
-        console.log('my game is this ', player)
-        firebasedb.child(player.playerId-1).set(player)
+        const dbName = 'GameArea'+areaId.toString();
+        const firebasedb = firebase.database().ref(`/${dbName}/-Kw8HdbD1ObPf2lOPn-D/players`);
+        firebasedb.child(player.playerId).set(player)
             .then(console.log('player added')) 
             .catch(error => console.log('not added ', error))
     }
@@ -91,7 +80,7 @@ export default (state = initialState.games, action) => {
         return [action.game]
 
     case CREATE_GAME:
-        return [action.gameSessionId]
+        return {gameKey: action.payload.gameKey, gameId: action.payload.gameId }
 
     case FETCH_GAME_POLYGON:
         return [action.game]
