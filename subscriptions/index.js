@@ -72,14 +72,17 @@ export function registerGameSubscriptions(gameUrl) {
     }
   })
 
-  var gameRef = firebase.database().ref(gameUrl + '/gameId')
+  var gameRef = firebase.database().ref(gameUrl)
 
   gameRef.on('value', function (snapshot) {
     console.log('Received child game info on add: ', snapshot.val())
     let gameObjects = snapshot.val()
 
+    // for (key in gameObjects) {
+    //   store.dispatch(fetchGame(gameObjects[key]))
+    // }
     for (key in gameObjects) {
-      store.dispatch(fetchGame(gameObjects[key]))
+      key === 'gameId' ? store.dispatch(fetchGame(gameObjects[key])) : console.log("###no gameId")
     }
   })
 }
