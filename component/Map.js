@@ -23,15 +23,10 @@ import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
 import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
-import { registerUserSubscriptions, registerGameSubscriptions } from '../subscriptions'
-
 
 class Map extends Component {
   constructor(props) {
     super(props);
-    // const games = Object.keys(this.props.game[0]);
-    // const currentGame = games.slice(-1)[0];
-    // registerGameSubscriptions(`GameArea1/${currentGame}`);
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -228,13 +223,14 @@ class Map extends Component {
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    console.log("*****", this.props, 'props');
-
     if (this.props.flags.length === 2) {
       // updatePlayerLocationThunk(
       //   {latitude: this.state.latitude, longitude: this.state.longitude}, myId
       // );
 
+    if (this.props.flags.length === 2) {
+      console.log('Map flags ', this.props.flags);
+      console.log('this is my game ', this.props.game)
       return (
         <View style={Style.container}>
           <MapView
@@ -368,6 +364,7 @@ class Map extends Component {
       );
     }
   }
+}
 }
 
 const mapStateToProps = state => {

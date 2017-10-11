@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { OAuthLoginForm, GameView, SelectGameView } from '../component';
+import { OAuthLoginForm, GameView, SelectGameView, ListView } from '../component';
 
 export const GameScreen = StackNavigator({
     OAuthLoginForm: {
@@ -16,6 +16,12 @@ export const GameScreen = StackNavigator({
         screen: SelectGameView,
         navigationOptions: {
             title: 'SelectGameView',
+            header: null
+        }
+    },
+    ListView: {
+        screen: ListView,
+        navigationOptions: {
             header: null
         }
     },
