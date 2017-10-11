@@ -2,18 +2,31 @@
 
 import React, { Component } from 'react';
 import { Text, Image, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { addPlayerThunk } from '../store';
+import { registerGameSubscriptions } from '../subscriptions';
 
 class ListView extends Component {
-    state = {
-       keys: [
-          {'key': 'Ben', 'id': 1},
-          {'key': 'Susan', 'id': 2},
-          {'key': 'Robert', 'id': 3},
-          {'key': 'Mary', 'id': 4},
-          {'key': 'Daniel', 'id': 5},
-       ]
+
+    constructor() {
+        super()
+        this.handleEvent = this.handleEvent.bind(this);
     }
+
+    handleEvent = (key, numberPlayers, areaId) => {
+        const dbName = 'GameArea'+areaId;
+        const player = this.props.navigation.state.params.player;
+        player.playerId = numberPlayers;
+        player.team = player.playerId%2 ? "blue" : "red";
+        console.log('sending player to db ', player);
+        registerGameSubscriptions(`${dbName}/${key}`);
+        this.props.joinGame(player, areaId, key);
+        this.props.navigation.state.params.navigate("GameView");
+    }
+
     render() {
+       const players = this.props.navigation.state.params.players
+       console.log('i am getting players ', players)
        return (
           <View>
             <View style={styles.header}>
@@ -24,22 +37,32 @@ class ListView extends Component {
              <ScrollView style={styles.marginTop}>
                  <View style={styles.scrollView}>
                 {
-                   this.state.keys.map((item, index) => (
-                      <TouchableOpacity key = {item.id} style = {styles.item} onPress={item => console.log('i am pressed with ', item)}>
-                         <Text>{item.key}</Text>
-                         <Text>Number of players: {item.id}</Text>
+                   players.length && players.map((item, index) => (
+                      <TouchableOpacity key = {item.key} style = {styles.item} onPress={() => this.handleEvent(item.key, item.numberPlayers, item.areaId)}>
+                         <Text>Game {index+1}</Text>
+                         <Text>Number of players: {item.numberPlayers}</Text>
                       </TouchableOpacity>
                    ))
                 }
                 </View>
              </ScrollView>
           </View>
-       )
+        )
     }
- }
- export default ListView
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        joinGame: (player, areaId, gameKey) => {
+            dispatch(addPlayerThunk(player, areaId, gameKey))
+        }
+    }
+}
+
+const ListViewContainer = connect(null, mapDispatchToProps)(ListView)
+export default ListViewContainer
  
- const styles = StyleSheet.create ({
+const styles = StyleSheet.create ({
     header: {
         position: 'absolute',
         top: 0,

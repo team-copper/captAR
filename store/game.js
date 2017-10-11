@@ -54,13 +54,15 @@ export function createGameThunk(game){
     }
 }
 
-export function addPlayerThunk(areaId, player){
+export function addPlayerThunk(player, areaId, gameKey){
+    console.log('i am sending this to db, ', player, areaId, gameKey)
     return function (dispatch) {
         const dbName = 'GameArea'+areaId.toString();
-        const firebasedb = firebase.database().ref(`/${dbName}/-Kw8HdbD1ObPf2lOPn-D/players`);
+        const firebasedb = firebase.database().ref(`/${dbName}/${gameKey}/players`);
         firebasedb.child(player.playerId).set(player)
             .then(console.log('player added')) 
             .catch(error => console.log('not added ', error))
+        dispatch(createGame(gameKey, areaId))
     }
 }
 

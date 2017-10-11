@@ -14,7 +14,7 @@ class ModalView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            playersArray: []
+            playersArray: null
         }
         this._renderCreateButton = this._renderCreateButton.bind(this);
         this._renderModalContent = this._renderModalContent.bind(this);
@@ -25,8 +25,6 @@ class ModalView extends Component {
         this.clearStore = this.clearStore.bind(this);
         this.createArray = this.createArray.bind(this);
     }
-
-    //cearStore break into components
 
     createGame = () => {
         const game = new Game();
@@ -49,13 +47,14 @@ class ModalView extends Component {
         };
         player.playerId = 1;
         player.team = player.playerId%2 ? "blue" : "red";
-        this.props.joinGame(areaId, player);
+        // this.props.joinGame(areaId, player);
         this.props.modalView();
         this.clearStore();
-        this.props.navigate("GameView");
+        this.props.navigate("ListView", {players: this.state.playersArray, player: player, navigate: this.props.navigate})
     }
 
     clearStore = () => {
+        this.setState({playersArray: null})
         this.props.clearPlayer()
         this.props.deleteFlag()
     }
@@ -69,7 +68,7 @@ class ModalView extends Component {
       );
 
       _renderJoinButton = (text) => (
-        <TouchableOpacity onPress={this.joinGame}>
+        <TouchableOpacity onPress={() => this.joinGame()}>
           <View style={Style.button}>
             <Text>{text}</Text>
           </View>
@@ -82,7 +81,7 @@ class ModalView extends Component {
                 <Text>Have fun playing captAR!</Text>
             </Item>
           {this._renderCreateButton('Create Game') }
-          {this.state.playersArray.length
+          {this.state.playersArray !== null && this.state.playersArray.length
           ? <View>
               <Text>There are other games in this area. Would you like to join?</Text>
                 {this._renderJoinButton('Join Game')} 
@@ -98,19 +97,23 @@ class ModalView extends Component {
     }
 
     createArray = (currentGames) => {
-        console.log('current ', currentGames)
-        const keys = Object.keys(currentGames);
-        console.log('keys ', keys)
-        const playersArray = keys.map(key => (
-            currentGames[key].players.length
-        ))
-        const gameArray = [keys, playersArray]
-        this.setState({playersArray: gameArray})
+        if (!!currentGames) {
+            const keys = Object.keys(currentGames);
+            const playersArray = keys.map(key => (
+                currentGames[key].players.length
+            ))
+            const gameArray = keys.map((key, index) => (
+                {
+                    key: key,
+                    numberPlayers: playersArray[index],
+                    areaId: this.props.areaId
+                }
+            ))
+            this.setState({playersArray: gameArray})   
+        } else {
+            console.log('currentGames is empty')
+        }
     }
-
-    // componentWillMount() {
-    //     this.createArray()
-    // }
 
     componentWillReceiveProps(nextProps) {
         this.createArray(nextProps.currentGames)
@@ -118,8 +121,7 @@ class ModalView extends Component {
 
     render() {
         const isModalVisible = this.props.isModalVisible;
-        console.log('inside render ', this.props.currentGames)
-        console.log('key in render ', Object.keys(this.props.currentGames))
+        console.log('playersArray ', this.state.playersArray)
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.goBack}>
