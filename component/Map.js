@@ -65,60 +65,49 @@ class Map extends Component {
   }
 
   componentDidMount() {
+    if (this.props.game.gameId === 1) {
+      this.setState({
+        gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
+        redCoordinates: elevatedAcre.redCoordinates,
+        blueCoordinates: elevatedAcre.blueCoordinates,
+      });
+
+    } else if (this.props.game.gameId === 2) {
+
+      this.setState({
+        gameAreaCoordinates: bowlingGreen.gameAreaCoordinates,
+        redCoordinates: bowlingGreen.redCoordinates,
+        blueCoordinates: bowlingGreen.blueCoordinates,
+      });
+
+    } else if (this.props.game.gameId === 3) {
+
+      this.setState({
+        gameAreaCoordinates: batteryPark.gameAreaCoordinates,
+        redCoordinates: batteryPark.redCoordinates,
+        blueCoordinates: batteryPark.blueCoordinates,
+      });
+
+    }
     this.watchPosition();
-    setInterval(this.checkInside, 1000);
+    setInterval(this.checkInside, 100);
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchId);
+    clearInterval(this.checkInside);
   }
 
   watchPosition = () => {
     this.watchId = navigator.geolocation.watchPosition(
       position => {
-        let area = ''
-        // reference to gameId might change
-        // Re: I got a scope issue "Can't find variable 'area'" ; refactored the pseudocode
-        if (this.props.game[0] === 1) {
-
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
-            redCoordinates: elevatedAcre.redCoordinates,
-            blueCoordinates: elevatedAcre.blueCoordinates,
-            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-            error: null
-          });
-
-        } else if (this.props.game[0] === 2) {
-
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            gameAreaCoordinates: bowlingGreen.gameAreaCoordinates,
-            redCoordinates: bowlingGreen.redCoordinates,
-            blueCoordinates: bowlingGreen.blueCoordinates,
-            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-            error: null
-          });
-
-        } else if (this.props.game[0] === 3) {
-
-          this.setState({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            gameAreaCoordinates: batteryPark.gameAreaCoordinates,
-            redCoordinates: batteryPark.redCoordinates,
-            blueCoordinates: batteryPark.blueCoordinates,
-            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-            error: null
-          });
-
-        }
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+          // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+          error: null
+        });
       },
       error => this.setState({ error: error.message }),
       {
@@ -170,7 +159,7 @@ class Map extends Component {
 
     let team = '';
     let playerHasFlag = false;
-    
+
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
         team = this.props.players[i].team
@@ -184,7 +173,7 @@ class Map extends Component {
         { latitude: this.state.latitude, longitude: this.state.longitude },
         redCoordinates
       )
-    ) { 
+    ) {
       this.setState({ displayStatus: "Red Team Wins!"})
     } else if (
       playerHasFlag === true && team === 'blue' && geolib.isPointInside(
@@ -194,7 +183,7 @@ class Map extends Component {
     ) {
       this.setState({ displayStatus: "Blue Team Wins!"})
     }
-    
+
   };
 
   // create CALCULATE_DISTANCE on Flag store and test this part
@@ -250,7 +239,7 @@ class Map extends Component {
         { latitude: this.state.latitude, longitude: this.state.longitude },
         this.props.flags[0].startLocation, // red team's flag
         2
-      ) 
+      )
       ||
       team == 'blue' &&
       geolib.isPointInCircle(
@@ -281,7 +270,7 @@ class Map extends Component {
     // this.props.flags[0].location = this.props.players[whatever index the player is].location
 
     let playerTeam = '';
-    
+
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
         playerTeam = this.props.players[i].team
@@ -295,9 +284,9 @@ class Map extends Component {
     let flagBlueId = this.props.flags[1].flagId
     let flagBlueLoc = this.props.flags[1].currentLocation.latitude
 
-    if (playerTeam === flagRedTeam || playerTeam === flagBlueTeam) { 
+    if (playerTeam === flagRedTeam || playerTeam === flagBlueTeam) {
       // ex: red player on red team captures red flag
-      this.setState({ 
+      this.setState({
         displayStatus: `${playerTeam}` + " has captured the flag!" ,
         // INSERT THUNK THAT UPDATES FLAG LOCATION as PLAYER LOC
 
@@ -306,7 +295,7 @@ class Map extends Component {
 
     if ((playerTeam !== flagRedTeam && flagRedLoc !== 0) || (playerTeam !== flagBlueTeam && flagBlueLoc !== 0)) { // && flag's current location is not null
       // ex: red player intercepts blue flag from blue team member
-      this.setState({ 
+      this.setState({
         displayStatus: `${playerTeam}` + " team has intercepted the flag!" ,
         // THUNK: FLAG LOCATION returns to HOME LOC
         // show 10 second modal to block phone interactions?
@@ -314,16 +303,20 @@ class Map extends Component {
     }
 
   }
-  
+
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
-    if (this.props.flags.length === 2) {
-      // updatePlayerLocationThunk(
-      //   {latitude: this.state.latitude, longitude: this.state.longitude}, myId
-      // );
+    const game = this.props.game;
+    const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
+    const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
 
     if (this.props.flags.length === 2) {
+      // update my location to firebase
+      updatePlayerLocationThunk(firebasePath,
+        {latitude: this.state.latitude, longitude: this.state.longitude}
+      );
+
       return (
         <View style={Style.container}>
           <MapView
@@ -351,6 +344,7 @@ class Map extends Component {
               fillColor="rgba(0, 0, 200, 0.1)"
             />
 
+            {/*
             <MapView.Marker
               name="currentLocation"
               coordinate={{
@@ -364,6 +358,7 @@ class Map extends Component {
                 style={{ height: 25, width: 25 }}
               />
             </MapView.Marker>
+            */}
 
             {/* Render every player on map */}
             {players.map((player, index) => (
@@ -371,7 +366,6 @@ class Map extends Component {
                 name={player.playerId}
                 key={player.playerId}
                 coordinate={player.location}
-                title={index.toString()}
               >
                 <Image
                   source={playerMarkerPath[index]}
@@ -379,7 +373,6 @@ class Map extends Component {
                 />
               </MapView.Marker>
             ))}
-
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
@@ -458,7 +451,7 @@ class Map extends Component {
     }
   }
 }
-}
+
 
 const mapStateToProps = state => {
   return {
