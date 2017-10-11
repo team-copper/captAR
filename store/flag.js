@@ -2,6 +2,7 @@
 
 import { elevatedAcre, bowlingGreen, batteryPark } from "../assets/presetGameFields"
 import geolib from "geolib"
+import firebase from "../firebase";
 
 // Action Types
 const CREATE_FLAG = 'CREATE_FLAG'

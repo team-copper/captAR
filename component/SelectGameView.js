@@ -56,6 +56,7 @@ class SelectGameView extends Component {
   componentDidMount() {
     this.getCurrentPosition();
     this.watchPosition();
+    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -150,7 +151,7 @@ class SelectGameView extends Component {
     let player = new Player();
     player.playerKey = this.props.currentPlayerKey;
     player.location = {
-      latitude: this.state.latitude, 
+      latitude: this.state.latitude,
       longitude: this.state.longitude
     };
     player.playerId = this.props.players.length+1;

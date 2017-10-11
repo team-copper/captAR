@@ -1,10 +1,12 @@
 "use strict";
 
+import firebase from "../firebase";
+
 // Action Types
 const CREATE_PLAYER = 'CREATE_PLAYER'
 const ASSIGN_PLAYER_TEAM = 'ASSIGN_PLAYER_TEAM'
 // save player location --> thunk, save loc to db
-const GET_PLAYERS_LOCATION = 'GET_PLAYERS_LOCATION'
+const UPDATE_PLAYER_LOCATION = 'UPDATE_PLAYER_LOCATION'
 const CHANGE_PLAYER_STATUS = 'CHANGE_PLAYER_STATUS'
 const CLEAR_PLAYER = 'CLEAR_PLAYER'
 
@@ -19,8 +21,8 @@ export function assignPlayerTeam(player){
     return action
 }
 
-export function getPlayersLocation(){
-    const action = {type: GET_PLAYERS_LOCATION}
+export function updatePlayerLocation(){
+    const action = {type: UPDATE_PLAYER_LOCATION}
     return action
 }
 
@@ -46,9 +48,17 @@ export function assignPlayerTeamThunk(player){
     assignPlayerTeam(player)
 }
 
-export function getPlayerLocationThunk(player){
-    getPlayerLocation(player)
-}
+export function updatePlayerLocationThunk({latitude, longitude}){
+    console.log("*****THUNK ME*****")
+    // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
+    firebase.database()
+        .ref('GameArea2/-Kw6geKIdPlOnE54l7Sj/players/1')
+        .update({location: {latitude, longitude}})
+    // .then(() => firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({longitude}))
+    .then(() => console.log('location updated'))
+    .catch(error => console.log(error))
+    // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
+ }
 
 export function changePlayerStatusThunk(player){
     changePlayerStatus(player)
@@ -69,7 +79,7 @@ export default (state = [], action) => {
         let newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state, action.player]
 
-    case GET_PLAYERS_LOCATION:
+    case UPDATE_PLAYER_LOCATION:
         //  newState = state.filter(player => player.playerId !== action.player.playerId)
         return [...state]
 
