@@ -20,7 +20,7 @@ class ListView extends Component {
         player.team = player.playerId%2 ? "blue" : "red";
         console.log('sending player to db ', player);
         registerGameSubscriptions(`${dbName}/${key}`);
-        this.props.joinGame(player, areaId, key);
+        this.props.addPlayerThunk(player, areaId, key);
         this.props.navigation.state.params.navigate("GameView");
     }
 
@@ -51,17 +51,11 @@ class ListView extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        joinGame: (player, areaId, gameKey) => {
-            dispatch(addPlayerThunk(player, areaId, gameKey))
-        }
-    }
-}
+const mapDispatchToProps = { addPlayerThunk }
 
 const ListViewContainer = connect(null, mapDispatchToProps)(ListView)
 export default ListViewContainer
- 
+
 const styles = StyleSheet.create ({
     header: {
         position: 'absolute',
