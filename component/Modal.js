@@ -110,12 +110,17 @@ class ModalView extends Component {
         this.setState({playersArray: gameArray})
     }
 
-    componentWillUpdate() {
+    // componentWillMount() {
+    //     this.createArray()
+    // }
+
+    componentWillReceiveProps() {
         this.createArray()
     }
 
     render() {
         const isModalVisible = this.props.isModalVisible;
+        console.log('inside render ', this.props.currentGames)
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.goBack}>

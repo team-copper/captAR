@@ -16,8 +16,9 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux'
 import { Style, Main, GameView, LoginForm, SelectGameView } from './';
-import store from '../store'
-import { GameScreen } from '../config/router'
+import store from '../store';
+import { GameScreen } from '../config/router';
+import ListView from './ListView';
 
 export default class captAR extends Component {
   render() {
