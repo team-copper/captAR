@@ -21,13 +21,13 @@ let flags = [
         team: 'red',
         startLocation: { latitude: 40.703295, longitude: -74.00845 },
         isTaken: false,
-        currentLocation: null,
+        currentLocation: { latitude: 0, longitude: 0 },
     }, {
         flagId: 2,
         team: 'blue',
         startLocation: { latitude: 40.703414, longitude: -74.008663 },
         isTaken: false,
-        currentLocation: null,
+        currentLocation: { latitude: 0, longitude: 0 },
     }
 ]
 

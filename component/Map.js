@@ -214,7 +214,7 @@ class Map extends Component {
   // Re: added team logic
   onCapturePress() {
 
-    const team = '';
+    let team = '';
 
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
@@ -253,9 +253,12 @@ class Map extends Component {
   onFlagCapture(player, flag) {
     // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
     // if (this.state.team === this.props.flags.flagId)
+    // and change flag's location to that the user (use playerId)
+    // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
+    // need dispatch here to have flag's location be the same as the holder
+    // this.props.flags[0].location = this.props.players[whatever index the player is].location
 
-    const playerTeam = '';
-    const flagTeam = '';
+    let playerTeam = '';
     
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
@@ -263,25 +266,33 @@ class Map extends Component {
       }
     }
 
-    for (let i=0; i<this.props.flags.length; i++) {
-        flagTeam = this.props.flags[i].team
-    }
+    let flag0Team = this.props.flags[0].team
+    let flag0Id = this.props.flags[0].flagId
+    let flag0Loc = this.props.flags[0].currentLocation.latitude
+    let flag1Team = this.props.flags[1].team
+    let flag1Id = this.props.flags[1].flagId
+    let flag1Loc = this.props.flags[1].currentLocation.latitude
 
-    if (playerTeam === flagTeam) {
+    if (playerTeam === flag0Team || playerTeam === flag1Team) { 
+      // ex: red player on red team captures red flag
       this.setState({ 
         displayStatus: `${playerTeam}` + " has captured the flag!" ,
-        
-      });
+        // INSERT THUNK THAT UPDATES FLAG LOCATION as PLAYER LOC
 
+      });
     }
 
+    if ((playerTeam !== flag0Team && flag0Loc !== 0) || (playerTeam !== flag1Team && flag1Loc !== 0)) { // && flag's current location is not null
+      // ex: red player intercepts blue flag from blue team member
+      this.setState({ 
+        displayStatus: `${playerTeam}` + " has intercepted the flag!" ,
+        // THUNK: FLAG LOCATION returns to HOME LOC
+        // show 10 second modal to block phone interactions?
+      });
+    }
 
-    // and change flag's location to that the user (use playerId)
-    // if (flag.flagId === 1 && flag.isTaken === true && player.hasFlag === true)
-    // need dispatch here to have flag's location be the same as the holder
-    // this.props.flags[0].location = this.props.players[whatever index the player is].location
   }
-
+  
   render() {
     const players = this.props.players;
     const flags = this.props.flags;
