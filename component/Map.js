@@ -84,24 +84,47 @@ class Map extends Component {
         let area = ''
         // reference to gameId might change
         // Re: I got a scope issue "Can't find variable 'area'" ; refactored the pseudocode
-        if (this.props.gameId === 1) {
-          area = 'elevatedAcre'
-        } else if (this.props.gameId === 2) {
-          area = 'bowlingGreen'
-        } else if (this.props.gameId === 3) {
-          area = 'batteryPark'
-        }
+        if (this.props.game[0] === 1) {
 
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          gameAreaCoordinates: area.gameAreaCoordinates,
-          redCoordinates: area.redCoordinates,
-          blueCoordinates: area.blueCoordinates,
-          // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
-          // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
-          error: null
-        });
+
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: elevatedAcre.gameAreaCoordinates,
+            redCoordinates: elevatedAcre.redCoordinates,
+            blueCoordinates: elevatedAcre.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        } else if (this.props.game[0] === 2) {
+
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: bowlingGreen.gameAreaCoordinates,
+            redCoordinates: bowlingGreen.redCoordinates,
+            blueCoordinates: bowlingGreen.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        } else if (this.props.game[0] === 3) {
+
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            gameAreaCoordinates: batteryPark.gameAreaCoordinates,
+            redCoordinates: batteryPark.redCoordinates,
+            blueCoordinates: batteryPark.blueCoordinates,
+            // redFlag: elevatedAcre.redFlagSpawn[Math.floor(Math.random() * 5)],
+            // blueFlag: elevatedAcre.blueFlagSpawn[Math.floor(Math.random() * 5)],
+            error: null
+          });
+
+        }
       },
       error => this.setState({ error: error.message }),
       {
