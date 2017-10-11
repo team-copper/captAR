@@ -308,14 +308,19 @@ class Map extends Component {
     const players = this.props.players;
     const flags = this.props.flags;
     const game = this.props.game;
-    const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
-    const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
+    const me = players.filter(player => player.playerKey === this.props.localUserKey)
 
-    if (this.props.flags.length === 2) {
-      // update my location to firebase
+    let firebasePath = '';
+
+    if (me !== undefined && me.length > 0) {
+      firebasePath = 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + me[0].playerId;
+
       updatePlayerLocationThunk(firebasePath,
         {latitude: this.state.latitude, longitude: this.state.longitude}
       );
+    }
+
+    if (this.props.flags.length === 2) {
 
       return (
         <View style={Style.container}>
@@ -344,22 +349,6 @@ class Map extends Component {
               fillColor="rgba(0, 0, 200, 0.1)"
             />
 
-            {/*
-            <MapView.Marker
-              name="currentLocation"
-              coordinate={{
-                latitude: this.state.latitude,
-                longitude: this.state.longitude
-              }}
-              title={"Your Location"}
-            >
-              <Image
-                source={require("../assets/person.png")}
-                style={{ height: 25, width: 25 }}
-              />
-            </MapView.Marker>
-            */}
-
             {/* Render every player on map */}
             {players.map((player, index) => (
               <MapView.Marker
@@ -373,6 +362,21 @@ class Map extends Component {
                 />
               </MapView.Marker>
             ))}
+
+            <MapView.Marker
+              name="currentLocation"
+              coordinate={{
+                latitude: this.state.latitude,
+                longitude: this.state.longitude
+              }}
+              title={"Your Location"}
+            >
+            <Image
+              source={require("../assets/person.png")}
+              style={{ height: 25, width: 25 }}
+            />
+            </MapView.Marker>
+
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
@@ -436,8 +440,8 @@ class Map extends Component {
           />
           <View style={Style.selectTextContainer}>
             <Text>
-              {this.state.latitude}
-              {this.state.longitude}
+              {this.state.latitude.toFixed(6)}
+              {this.state.longitude.toFixed(6)}
             </Text>
           </View>
         </View>
