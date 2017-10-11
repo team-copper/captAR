@@ -27,10 +27,6 @@ import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
 class Map extends Component {
   constructor(props) {
     super(props);
-<<<<<<< HEAD
-=======
-
->>>>>>> master
     this.state = {
       latitude: 0,
       longitude: 0,
@@ -360,6 +356,7 @@ class Map extends Component {
       );
     }
   }
+}
 }
 
 const mapStateToProps = state => {

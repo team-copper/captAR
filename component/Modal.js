@@ -82,9 +82,9 @@ class ModalView extends Component {
                 <Text>Have fun playing captAR!</Text>
             </Item>
           {this._renderCreateButton('Create Game') }
-          {this.props.currentGames && this.props.currentGames.length
+          {this.state.playersArray.length
           ? <View>
-              <Text>There are ${this.props.currentGames[0].length} in this area. Would you like to join?</Text>
+              <Text>There are other games in this area. Would you like to join?</Text>
                 {this._renderJoinButton('Join Game')} 
             </View>
           : <View></View>
@@ -97,9 +97,7 @@ class ModalView extends Component {
         this.clearStore();
     }
 
-    createArray = () => {
-        console.log('i am called')
-        const currentGames = this.props.currentGames;
+    createArray = (currentGames) => {
         console.log('current ', currentGames)
         const keys = Object.keys(currentGames);
         console.log('keys ', keys)
@@ -114,13 +112,14 @@ class ModalView extends Component {
     //     this.createArray()
     // }
 
-    componentWillReceiveProps() {
-        this.createArray()
+    componentWillReceiveProps(nextProps) {
+        this.createArray(nextProps.currentGames)
     }
 
     render() {
         const isModalVisible = this.props.isModalVisible;
         console.log('inside render ', this.props.currentGames)
+        console.log('key in render ', Object.keys(this.props.currentGames))
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.goBack}>
