@@ -308,7 +308,7 @@ class Map extends Component {
     const players = this.props.players;
     const flags = this.props.flags;
     const game = this.props.game;
-    const myId = players.filter(player => player.playerKey === this.props.localUserKey)[0].playerId
+    const myId = players.filter(player => player.playerKey === this.props.localUserKey[0].playerId)
     const firebasePath= 'GameArea' + game.gameId + '/' + game.gameKey + '/players/' + myId;
 
     if (this.props.flags.length === 2) {
