@@ -207,14 +207,13 @@ class Map extends Component {
   handleFlagPress = event => {
     // let lat = this.state.latitude,
     //   lng = this.state.longitude;
+    // this.props.getDistanceFromFlag(lat, lng, event);
+    // this.setState({ pressFlag: !this.state.pressFlag });
 
     !this.state.pressFlag
       ? this.setState({ pressFlag: true })
       : this.setState({ pressFlag: false });
 
-    // this.props.getDistanceFromFlag(lat, lng, event);
-
-    // this.setState({ pressFlag: !this.state.pressFlag });
 
     this.setState({
     //  flagDistance: getDistanceFromFlagThunk(lat, lng, event)
@@ -294,14 +293,14 @@ class Map extends Component {
       }
     }
 
-    let flag0Team = this.props.flags[0].team
-    let flag0Id = this.props.flags[0].flagId
-    let flag0Loc = this.props.flags[0].currentLocation.latitude
-    let flag1Team = this.props.flags[1].team
-    let flag1Id = this.props.flags[1].flagId
-    let flag1Loc = this.props.flags[1].currentLocation.latitude
+    let flagRedTeam = this.props.flags[0].team
+    let flagRedId = this.props.flags[0].flagId
+    let flagRedLoc = this.props.flags[0].currentLocation.latitude
+    let flagBlueTeam = this.props.flags[1].team
+    let flagBlueId = this.props.flags[1].flagId
+    let flagBlueLoc = this.props.flags[1].currentLocation.latitude
 
-    if (playerTeam === flag0Team || playerTeam === flag1Team) { 
+    if (playerTeam === flagRedTeam || playerTeam === flagBlueTeam) { 
       // ex: red player on red team captures red flag
       this.setState({ 
         displayStatus: `${playerTeam}` + " has captured the flag!" ,
@@ -310,10 +309,10 @@ class Map extends Component {
       });
     }
 
-    if ((playerTeam !== flag0Team && flag0Loc !== 0) || (playerTeam !== flag1Team && flag1Loc !== 0)) { // && flag's current location is not null
+    if ((playerTeam !== flagRedTeam && flagRedLoc !== 0) || (playerTeam !== flagBlueTeam && flagBlueLoc !== 0)) { // && flag's current location is not null
       // ex: red player intercepts blue flag from blue team member
       this.setState({ 
-        displayStatus: `${playerTeam}` + " has intercepted the flag!" ,
+        displayStatus: `${playerTeam}` + " team has intercepted the flag!" ,
         // THUNK: FLAG LOCATION returns to HOME LOC
         // show 10 second modal to block phone interactions?
       });
