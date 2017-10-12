@@ -119,15 +119,13 @@ export function getDistanceFromFlagThunk(lat, lng, event){
     }
 }
 
-export function updateFlagLocationThunk(flagFirebasePath, playerLocation) {
-    firebase.database()
-        .ref(flagFirebasePath)
-        .update({currentLocation: {latitude: playerLocation.latitude, longitude: playerLocation.longitude}})
-    // .then(() => firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({longitude}))
-    .then(() => console.log('flag location updated'))
-    .catch(error => console.log(error))
-    // firebase.database().ref('GameArea3/-Kw5kOK5-vXMLrT7R6rp/players/0/location').update({latitude, longitude})
-}
+// export function updateFlagLocationThunk(flagFirebasePath, playerLocation) {
+//     firebase.database()
+//         .ref(flagFirebasePath)
+//         .update({currentLocation: {latitude: playerLocation.latitude, longitude: playerLocation.longitude}})
+//     .then(() => console.log('flag location updated'))
+//     .catch(error => console.log(error))
+// }
 
 export function takeFlagThunk(flag){
 

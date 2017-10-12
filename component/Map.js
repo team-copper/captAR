@@ -31,7 +31,7 @@ class Map extends Component {
       latitude: 0,
       longitude: 0,
       error: null,
-      enableCapture: false,
+      enableCapture: true,
       pressFlag: false,
       displayStatus: "",
       gameAreaCoordinates: [
@@ -62,6 +62,7 @@ class Map extends Component {
     this.onCapturePress = this.onCapturePress.bind(this);
     this.onCloseCamera = this.onCloseCamera.bind(this);
     this.onFlagCapture = this.onFlagCapture.bind(this);
+    this.updateFlagLocation = this.updateFlagLocation.bind(this);
   }
 
   componentDidMount() {
@@ -136,7 +137,7 @@ class Map extends Component {
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
         this.props.flags[0].currentLocation, // red team's flag
-        2
+        5
       )
     ) {
       this.setState({ displayStatus: "Red flag nearby" });
@@ -148,7 +149,7 @@ class Map extends Component {
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
         this.props.flags[1].currentLocation, // blue team's flag
-        2
+        5
       )
     ) {
       this.setState({ displayStatus: "Blue flag nearby" });
@@ -261,6 +262,7 @@ class Map extends Component {
   // Pressing AR image on Camera
   // This is passed down as props to Camera component
   onFlagCapture(player, flag) {
+    console.log('i am pressed')
     // if user's team is the same as the flag's (e.g., this.state.team === this.props.flags.team === 'red', then
     // if (this.state.team === this.props.flags.flagId)
     // and change flag's location to that the user (use playerId)
@@ -268,11 +270,12 @@ class Map extends Component {
     // need dispatch here to have flag's location be the same as the holder
     // this.props.flags[0].location = this.props.players[whatever index the player is].location
 
-    let playerTeam = '', flagId = '', playerLocation = '';
+    let playerTeam = '', flagId = '', playerLocation = {};
 
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
         playerTeam = this.props.players[i].team;
+        console.log('location is ', this.props.players[i].location)
         playerLocation = this.props.players[i].location;
       }
     }
@@ -291,20 +294,32 @@ class Map extends Component {
         displayStatus: `${playerTeam}` + " has captured the flag!" ,
       });
 
-      const flagFirebasePath = 'GameArea'+this.props.game.gameId + '/' + game.gameKey + '/flags/' + flagId;
-      this.props.updateFlagLocationThunk(flagFirebasePath, playerLocation)
+      const flagFirebasePath = 'GameArea'+this.props.game.gameId + '/' + this.props.game.gameKey + '/flags/' + flagId;
+      this.updateFlagLocation(flagFirebasePath, playerLocation)
     }
 
-    if ((playerTeam !== flagColorRed && flagRedLoc !== 0) || (playerTeam !== flagColorBlue && flagBlueLoc !== 0)) { // && flag's current location is not null
+    if ((playerTeam !== flagColorRed && flagRedLoc.latitude !== this.props.flags[0].startLocation.latitude) || (playerTeam !== flagColorBlue && flagBlueLoc.latitude !== this.props.flags[1].startLocation.latitude)) { // && flag's current location is not null
+      flagId =  playerTeam === 'red' ? 1 : 0;
       // ex: red player intercepts blue flag from blue team member
       this.setState({
         displayStatus: `${playerTeam}` + " team has intercepted the flag!" ,
         // THUNK: FLAG LOCATION returns to HOME LOC
         // show 10 second modal to block phone interactions?
       });
+      const flagFirebasePath = 'GameArea'+this.props.game.gameId + '/' + this.props.game.gameKey + '/flags/' + flagId;
+      const flagHome = this.props.flags[flagId].startLocation
+      this.updateFlagLocation(flagFirebasePath, flagHome)
     }
 
   }
+
+  updateFlagLocation(flagFirebasePath, playerLocation) {
+    firebase.database()
+        .ref(flagFirebasePath)
+        .update({currentLocation: {latitude: playerLocation.latitude, longitude: playerLocation.longitude}})
+    .then(() => console.log('flag location updated'))
+    .catch(error => console.log(error))
+}
 
   render() {
     const players = this.props.players;
@@ -416,25 +431,6 @@ class Map extends Component {
               radius={2}
               fillColor="rgba(0, 0, 200, 0.3)"
             />
-
-            <MapView.Marker
-              name="hardCodedFlag"
-              coordinate={{latitude: 40.704868, longitude: -74.009506}}
-              onPress={event => this.handleFlagPress(event)}
-            >
-              <Image
-                source={require("../assets/redFlag.png")}
-                style={{ height: 25, width: 25 }}
-              />
-            </MapView.Marker>
-            <MapView.Circle
-              name="blueFlagCircle"
-              center={{latitude: 40.704868, longitude: -74.009506}}
-              radius={2}
-              fillColor="rgba(200, 0, 0, 0.3)"
-            />
-
-
           </MapView>
 
           {/* display bar in the middle of the view */}
@@ -490,8 +486,16 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { getDistanceFromFlagThunk, updateFlagLocationThunk };
+const mapDispatchToProps = { getDistanceFromFlagThunk };
 
 const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map);
 
 export default MapContainer;
+
+const hardCodedFlags = [
+  {latitude: 40.705162, longitude: -74.007185},
+  {latitude: 40.704463, longitude: -74.009470},
+  {latitude: 40.704007, longitude: -74.008971},
+  {latitude: 40.702616, longitude: -74.010006},
+  {latitude: 40.703616, longitude: -74.011513}
+]
