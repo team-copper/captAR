@@ -138,6 +138,7 @@ class SelectGameView extends Component {
       latitude: redCoordinates.latitude,
       longitude: redCoordinates.longitude
     }
+    redFlag.currentLocation = redFlag.startLocation
     this.props.createFlag(redFlag)
     const blueCoordinates = locationArray[polyId].blueFlagSpawn[randNum];
     let blueFlag = new Flag('blue', 2);
@@ -145,6 +146,7 @@ class SelectGameView extends Component {
       latitude: blueCoordinates.latitude,
       longitude: blueCoordinates.longitude
     }
+    blueFlag.currentLocation = blueFlag.startLocation
     this.props.createFlag(blueFlag)
   }
 

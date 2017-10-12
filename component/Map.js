@@ -22,7 +22,7 @@ import {
 import { playerMarkerPath } from "../assets/playerMarkers";
 import Uuid from "uuid-lib";
 import { Player, Team, Flag } from "../model";
-import { getDistanceFromFlagThunk, updatePlayerLocationThunk } from "../store";
+import { getDistanceFromFlagThunk, updatePlayerLocationThunk, updateFlagLocationThunk } from "../store";
 
 class Map extends Component {
   constructor(props) {
@@ -87,7 +87,6 @@ class Map extends Component {
         redCoordinates: batteryPark.redCoordinates,
         blueCoordinates: batteryPark.blueCoordinates,
       });
-
     }
     this.watchPosition();
     setInterval(this.checkInside, 100);
@@ -136,7 +135,7 @@ class Map extends Component {
     if (
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[0].startLocation, // red team's flag
+        this.props.flags[0].currentLocation, // red team's flag
         2
       )
     ) {
@@ -148,7 +147,7 @@ class Map extends Component {
     if (
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[1].startLocation, // blue team's flag
+        this.props.flags[1].currentLocation, // blue team's flag
         2
       )
     ) {
@@ -225,26 +224,26 @@ class Map extends Component {
   // Re: added team logic
   onCapturePress() {
 
-    let team = '';
+    // let team = '';
 
-    for (let i=0; i<this.props.players.length; i++) {
-      if (this.props.localUserKey === this.props.players[i].playerKey) {
-        team = this.props.players[i].team
-      }
-    }
+    // for (let i=0; i<this.props.players.length; i++) {
+    //   if (this.props.localUserKey === this.props.players[i].playerKey) {
+    //     team = this.props.players[i].team
+    //   }
+    // }
 
     if (
-      team === 'red' &&
+      // team === 'red' &&
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[0].startLocation, // red team's flag
+        this.props.flags[0].currentLocation, // red team's flag
         2
       )
       ||
-      team == 'blue' &&
+      // team == 'blue' &&
       geolib.isPointInCircle(
         { latitude: this.state.latitude, longitude: this.state.longitude },
-        this.props.flags[1].startLocation, // blue team's flag
+        this.props.flags[1].currentLocation, // blue team's flag
         2
       )
     ) {
@@ -269,31 +268,34 @@ class Map extends Component {
     // need dispatch here to have flag's location be the same as the holder
     // this.props.flags[0].location = this.props.players[whatever index the player is].location
 
-    let playerTeam = '';
+    let playerTeam = '', flagId = '', playerLocation = '';
 
     for (let i=0; i<this.props.players.length; i++) {
       if (this.props.localUserKey === this.props.players[i].playerKey) {
-        playerTeam = this.props.players[i].team
+        playerTeam = this.props.players[i].team;
+        playerLocation = this.props.players[i].location;
       }
     }
 
-    let flagRedTeam = this.props.flags[0].team
+    let flagColorRed = this.props.flags[0].team
     let flagRedId = this.props.flags[0].flagId
     let flagRedLoc = this.props.flags[0].currentLocation.latitude
-    let flagBlueTeam = this.props.flags[1].team
+    let flagColorBlue= this.props.flags[1].team
     let flagBlueId = this.props.flags[1].flagId
     let flagBlueLoc = this.props.flags[1].currentLocation.latitude
 
-    if (playerTeam === flagRedTeam || playerTeam === flagBlueTeam) {
+    if (playerTeam === flagColorRed || playerTeam === flagColorBlue) {
+      flagId = playerTeam === 'red' ? 0 : 1;
       // ex: red player on red team captures red flag
       this.setState({
         displayStatus: `${playerTeam}` + " has captured the flag!" ,
-        // INSERT THUNK THAT UPDATES FLAG LOCATION as PLAYER LOC
-
       });
+
+      const flagFirebasePath = 'GameArea'+this.props.game.gameId + '/' + game.gameKey + '/flags/' + flagId;
+      this.props.updateFlagLocationThunk(flagFirebasePath, playerLocation)
     }
 
-    if ((playerTeam !== flagRedTeam && flagRedLoc !== 0) || (playerTeam !== flagBlueTeam && flagBlueLoc !== 0)) { // && flag's current location is not null
+    if ((playerTeam !== flagColorRed && flagRedLoc !== 0) || (playerTeam !== flagColorBlue && flagBlueLoc !== 0)) { // && flag's current location is not null
       // ex: red player intercepts blue flag from blue team member
       this.setState({
         displayStatus: `${playerTeam}` + " team has intercepted the flag!" ,
@@ -309,7 +311,11 @@ class Map extends Component {
     const flags = this.props.flags;
     const game = this.props.game;
     const me = players.filter(player => player.playerKey === this.props.localUserKey)
-
+    const homeRegion = geolib.getCenter(this.state.gameAreaCoordinates);
+    const deltas = this.props.game.gameId === 1 ? { latitudeDelta: 0.0002305 * 2,longitudeDelta: 0.00010525 * 2} : 
+                   this.props.game.gameId === 2 ? { latitudeDelta: 0.000927,longitudeDelta: 0.000687} :
+                   { latitudeDelta: 0.002521,longitudeDelta: 0.001835}
+                   
     let firebasePath = '';
 
     if (me !== undefined && me.length > 0) {
@@ -320,17 +326,16 @@ class Map extends Component {
       );
     }
 
-    if (this.props.flags.length === 2) {
-
+    if (homeRegion.latitude > 0 && this.props.flags.length === 2) {
       return (
         <View style={Style.container}>
           <MapView
             style={Style.map}
             initialRegion={{
-              latitude: 40.703374,
-              longitude: -74.008507,
-              latitudeDelta: 0.0002305 * 2,
-              longitudeDelta: 0.00010525 * 2
+              latitude: parseFloat(homeRegion.latitude),
+              longitude: parseFloat(homeRegion.longitude),
+              latitudeDelta: deltas.latitudeDelta,
+              longitudeDelta: deltas.longitudeDelta
             }}
           >
             <MapView.Polygon
@@ -380,7 +385,7 @@ class Map extends Component {
             {/* Needs to bind flag coordinate to holder cooridnate */}
             <MapView.Marker
               name="redFlag"
-              coordinate={flags[0].startLocation}
+              coordinate={flags[0].currentLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -390,14 +395,14 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="redFlagCircle"
-              center={flags[0].startLocation}
+              center={flags[0].currentLocation}
               radius={2}
               fillColor="rgba(200, 0, 0, 0.3)"
             />
 
             <MapView.Marker
               name="blueFlag"
-              coordinate={flags[1].startLocation}
+              coordinate={flags[1].currentLocation}
               onPress={event => this.handleFlagPress(event)}
             >
               <Image
@@ -407,10 +412,29 @@ class Map extends Component {
             </MapView.Marker>
             <MapView.Circle
               name="blueFlagCircle"
-              center={flags[1].startLocation}
+              center={flags[1].currentLocation}
               radius={2}
               fillColor="rgba(0, 0, 200, 0.3)"
             />
+
+            <MapView.Marker
+              name="hardCodedFlag"
+              coordinate={{latitude: 40.704868, longitude: -74.009506}}
+              onPress={event => this.handleFlagPress(event)}
+            >
+              <Image
+                source={require("../assets/redFlag.png")}
+                style={{ height: 25, width: 25 }}
+              />
+            </MapView.Marker>
+            <MapView.Circle
+              name="blueFlagCircle"
+              center={{latitude: 40.704868, longitude: -74.009506}}
+              radius={2}
+              fillColor="rgba(200, 0, 0, 0.3)"
+            />
+
+
           </MapView>
 
           {/* display bar in the middle of the view */}
@@ -466,7 +490,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = { getDistanceFromFlagThunk };
+const mapDispatchToProps = { getDistanceFromFlagThunk, updateFlagLocationThunk };
 
 const MapContainer = connect(mapStateToProps, mapDispatchToProps)(Map);
 

@@ -42,7 +42,7 @@ export class Flag {
     constructor(color, num) {
         this.flagId = num
         this.startLocation = null
-        this.currentLocation = null
+        this.currentLocation = false
         this.team = color
         this.isTaken = false
         this.holder = null
