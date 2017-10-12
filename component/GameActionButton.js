@@ -50,11 +50,13 @@ class GameActionButtonView extends Component {
           buttonColor="rgba(231,76,60,1)"
           position={this.state.position}
           backgroundTappable={true}
+          useNativeFeedback={true}
         >
           <ActionButton.Item
             buttonColor="#1E90FF"
             title="Capture"
             position={this.state.position}
+            useNativeFeedback={true}
             onPress={() => this.props.onCapturePress()}
           >
             <Icon name="ios-flag" style={Style.actionButtonIcon} />
@@ -63,6 +65,7 @@ class GameActionButtonView extends Component {
             buttonColor="#FF6347"
             title="Current Location"
             position={this.state.position}
+            useNativeFeedback={true}
             onPress={() => this.props.getCurrentPosition()}
           >
             <Icon name="ios-locate-outline" style={Style.actionButtonIcon} />
@@ -71,6 +74,7 @@ class GameActionButtonView extends Component {
             buttonColor="#778899"
             title="Log Out"
             position={this.state.position}
+            useNativeFeedback={true}
             onPress={() => this.onLogoutPress()}
           >
             <Icon name="ios-log-out" style={Style.actionButtonIcon} />
