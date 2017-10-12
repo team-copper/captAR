@@ -6,6 +6,7 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
+  Platform,
   View,
   Image,
   Dimensions
@@ -111,7 +112,7 @@ class Map extends Component {
       },
       error => this.setState({ error: error.message }),
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: Platform.OS === 'ios' ? true : false,
         timeout: 20000,
         maximumAge: 0,
         distanceFilter: 0.5
@@ -128,7 +129,9 @@ class Map extends Component {
         });
       },
       error => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { enableHighAccuracy: Platform.OS === 'ios' ? true : false,
+        timeout: 20000,
+        maximumAge: 1000 }
     );
   };
 
