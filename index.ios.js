@@ -5,4 +5,6 @@ import { registerUserSubscriptions, registerGameSubscriptions } from './subscrip
 // Firebase setup
 registerUserSubscriptions()
 
+console.disableYellowBox = true;
+
 AppRegistry.registerComponent('captAR', () => captAR);
