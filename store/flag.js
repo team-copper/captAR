@@ -119,6 +119,14 @@ export function getDistanceFromFlagThunk(lat, lng, event){
     }
 }
 
+export function updateFlagLocationThunk(firebasePath, { latitude, longitude }){
+    firebase.database()
+    .ref(firebasePath)
+    .update({startLocation: {latitude, longitude}})
+.then(() => console.log('location updated'))
+.catch(error => console.log(error))
+}
+
 export function takeFlagThunk(flag){
 
 }

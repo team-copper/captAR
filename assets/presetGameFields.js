@@ -25,10 +25,10 @@ const elevatedAcre = {
 
   redFlagSpawn: [
     { latitude: 40.703295, longitude: -74.00845 },
-    { latitude: 40.703339, longitude: -74.008386 },
-    { latitude: 40.70324, longitude: -74.008433 },
-    { latitude: 40.703281, longitude: -74.008388 },
-    { latitude: 40.70332, longitude: -74.00833 }
+    { latitude: 40.703295, longitude: -74.00845 },
+    { latitude: 40.703295, longitude: -74.00845 },
+    { latitude: 40.703295, longitude: -74.00845 },
+    { latitude: 40.703295, longitude: -74.00845 }
   ],
 
   blueFlagSpawn: [
