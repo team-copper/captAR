@@ -1,22 +1,32 @@
 # captAR
-## Augmented Reality-based Capture the Flag using React-Native
+## Real-time Augmented Reality Location-based Capture the Flag Mobile Game
 
-#### Resources:
-* https://facebook.github.io/react-native/releases/0.48/docs/getting-started.html
-* https://github.com/jeromeetienne/AR.js
-* https://docs.google.com/document/d/1q71ueY10J4BM8PzlhglKMzUql9U77153fiAfIAnpInE/edit
+Built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
 
-#### Git Instuctions (from John):
-Here's a git workflow for you -
-1) Before you start work on a new feature, make sure you are in your master branch (by doing `git checkout master`) and make sure you have the most up-to-date code from github (by doing `git pull origin master`)
+### How To Play
 
-2) Congratulations! You now have the freshest code on your master branch. We now want to start work on our feature so we *must* make a new branch, by doing `git checkout -b my_new_branch_name`
+Coming soon to the App Store & Google Play. 
 
-3) We just created and moved to the new branch. We do all our work here. When we have finished, we should add all the new files (`git add -A`), and commit them (`git commit -m "awesome work"`)
+> Note: Until then, users may clone this repository, run 'npm install', 'react-native link', and 'node seed', and build to either an [i0S phone via XCode](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/LaunchingYourApponDevices/LaunchingYourApponDevices.html) or [Android phone via Android Studio](https://developer.android.com/studio/run/device.html#connect) to play captAR.
 
-4) In the meantime, it's possible that the master branch up on github might have some new code in it, so before we push our feature branch up, we should pull down this new master code, and merge it into our feature branch. One way of doing this is by going to our local version of our master branch (`git checkout master`), pulling the new code from github (`git pull origin master`), then switching back to our feature branch (`git checkout my_new_branch_name`), and merging this new master code into it (`git merge master`)
+Game setup:
+* Gather friends at a nearby park. We suggest 2-8 players, even numbers, and Battery Park, Bowling Green or Elevated Acre.
+* Login with Google or Facebook. The first to sign in should create a game. The rest should join their game.
+* Select your park and position yourselves on your team's side of the game field.
 
-5) Now we know that our feature branch has both the freshest code from the master branch on github _and_ the code the we wrote ourselves. We should now push this up to github (`git push origin my_new_branch_name`), and make a pull request into master. (edited)
+To Win:
+* Advance towards your team's flag on the opposite team's territory.
+* Get in the flag's geofence and hit the 'Capture' button to render captAR's AR split screen camera mode. Press on the camera view flag to capture it! 
+* Return to your team's side with the flag. You should see the flag move with you on map view. But careful--the opposite team can intercept the flag when near you, automatically returning the flag back to its place. 
 
--------
-just remember, *always* do your work on a new branch, you should never be writing code directly into the master branch
+### Demo and Process:
+* https://www.youtube.com/watch?v=JWu1q7qW1Ic
+* https://www.linkedin.com/pulse/my-capstone-project-using-react-native-oscar-arturo-ramirez/
+
+### Team _C_o_PP_e_R_ Contributors:
+- Jannine _C_han
+- Anuj _P_ant
+- Jordan _P_ark
+- Oscar _R_amirez
+
+Built at Fullstack Academy of Code, NYC, 1707-FSA-NY
