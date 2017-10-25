@@ -23,10 +23,10 @@ To Win:
 * https://www.youtube.com/watch?v=JWu1q7qW1Ic
 * https://www.linkedin.com/pulse/my-capstone-project-using-react-native-oscar-arturo-ramirez/
 
-### Team __C__o__PP__e__R__ Contributors:
-- Jannine __C__han
-- Anuj __P__ant
-- Jordan __P__ark
-- Oscar __R__amirez
+### Team CoPPeR Contributors:
+- Jannine **C**han
+- Anuj **P**ant
+- Jordan **P**ark
+- Oscar **R**amirez
 
 Built at Fullstack Academy of Code, NYC, 1707-FSA-NY
