@@ -17,7 +17,7 @@ Game setup:
 To Win:
 * Advance towards your team's flag on the opposite team's territory.
 * Get in the flag's geofence and hit the 'Capture' button to render captAR's AR split screen camera mode. Press on the camera view flag to capture it! 
-* Return to your team's side with the flag. You should see the flag move with you on map view. But careful--the opposite team can intercept the flag when near you, automatically returning the flag back to its place. 
+* Return to your team's side with the flag. You should see the flag move with you on map view. Careful though--the opposite team can intercept the flag when near you, automatically returning the flag back to its place. 
 
 ### Demo and Process:
 * https://www.youtube.com/watch?v=JWu1q7qW1Ic
