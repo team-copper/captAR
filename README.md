@@ -4,7 +4,7 @@
 
 Real-time mobile game built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
 
-![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAr8AAAAJDNhMDkwY2UzLTIyNDktNGI3OS04Mjk4LTgzMGI0Mzk3NmIzMw.png "Game Field Selection") ![Alt text](https://media.giphy.com/media/3ohhwvlz95H4DvbsKQ/giphy.gif "Elevated Acre Gameplay")
+![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAr8AAAAJDNhMDkwY2UzLTIyNDktNGI3OS04Mjk4LTgzMGI0Mzk3NmIzMw.png "Game Field Selection") ![Alt text](https://i.giphy.com/3ohhwvlz95H4DvbsKQ.gif "Elevated Acre Gameplay")
 
 ## How To Play
 
