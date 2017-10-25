@@ -1,10 +1,10 @@
 # captAR
 
-![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAr8AAAAJDNhMDkwY2UzLTIyNDktNGI3OS04Mjk4LTgzMGI0Mzk3NmIzMw.png "Game Field Selection") ![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAmtAAAAJDFjYWY5MWRkLTIzYWYtNGZjMS1iNmJjLTQ5Mjc3NmE0MzU4ZQ.png "Elevated Acre")
-
 ### Augmented Reality Location-based Capture the Flag
 
 Real-time mobile game built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
+
+![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAr8AAAAJDNhMDkwY2UzLTIyNDktNGI3OS04Mjk4LTgzMGI0Mzk3NmIzMw.png "Game Field Selection") ![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAmtAAAAJDFjYWY5MWRkLTIzYWYtNGZjMS1iNmJjLTQ5Mjc3NmE0MzU4ZQ.png "Elevated Acre")
 
 ## How To Play
 
