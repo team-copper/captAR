@@ -4,7 +4,7 @@
 
 Real-time mobile game built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
 
-![](http://i.giphy.com/xT1R9OOBpiRmVANe92.gif) ![](http://i.giphy.com/3ohhwvlz95H4DvbsKQ.gif)
+![alt text](http://i.giphy.com/xT1R9OOBpiRmVANe92.gif "Login") ![alt text](https://media.giphy.com/media/26Ff8Ko38AlLd69bO/giphy.gif "Create or Join") ![alt text](http://i.giphy.com/3ohhwvlz95H4DvbsKQ.gif "Gameplay")
 
 ## How To Play
 
