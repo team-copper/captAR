@@ -1,7 +1,7 @@
 # captAR
-## Real-time Augmented Reality Location-based Capture the Flag Mobile Game
+## Augmented Reality Location-based Capture the Flag
 
-Built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
+Real-time mobile game built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
 
 ### How To Play
 
