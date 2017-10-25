@@ -4,7 +4,7 @@
 
 Real-time mobile game built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and Android
 
-![](https://www.dropbox.com/s/7pzw6uqqc2gobea/captAR_login.gif?dl=0) ![](https://www.dropbox.com/s/vr8zfmj3studqv8/captAR_gameplay.gif?dl=0)
+![](http://i.giphy.com/xT1R9OOBpiRmVANe92.gif) ![](http://i.giphy.com/3ohhwvlz95H4DvbsKQ.gif)
 
 ## How To Play
 
