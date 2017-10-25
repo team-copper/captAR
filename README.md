@@ -10,12 +10,15 @@ Coming soon to the App Store & Google Play.
 > Note: Until then, users may clone this repository, run 'npm install', 'react-native link', and 'node seed', and build to either an [iOS phone via XCode](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/LaunchingYourApponDevices/LaunchingYourApponDevices.html) or [Android phone via Android Studio](https://developer.android.com/studio/run/device.html#connect) to play captAR.
 
 Game setup:
+
 ![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAr8AAAAJDNhMDkwY2UzLTIyNDktNGI3OS04Mjk4LTgzMGI0Mzk3NmIzMw.png "Game Field Selection")
 * Gather friends at a nearby park. We suggest 2-8 players, even numbers, and Battery Park, Bowling Green or Elevated Acre.
 * Login with Google or Facebook. The first to sign in should create a game. The rest should join their game.
 * Select your park and position yourselves on your team's side of the game field.
 
 To Win:
+
+![Alt text](https://media.licdn.com/mpr/mpr/AAIA_wDGAAAAAQAAAAAAAAmtAAAAJDFjYWY5MWRkLTIzYWYtNGZjMS1iNmJjLTQ5Mjc3NmE0MzU4ZQ.png "Elevated Acre")
 * Advance towards your team's flag on the opposite team's territory.
 * Get in the flag's geofence and hit the 'Capture' button to render captAR's AR split screen camera mode. Press on the camera view flag to capture it! 
 * Return to your team's side with the flag. You should see the flag move with you on map view. Careful though--the opposite team can intercept the flag when near you, automatically returning the flag back to its place. 
