@@ -7,7 +7,7 @@ Built with React-Native, React-Native-Maps, Geolib, Redux, Firebase for iOS and 
 
 Coming soon to the App Store & Google Play. 
 
-> Note: Until then, users may clone this repository, run 'npm install', 'react-native link', and 'node seed', and build to either an [i0S phone via XCode](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/LaunchingYourApponDevices/LaunchingYourApponDevices.html) or [Android phone via Android Studio](https://developer.android.com/studio/run/device.html#connect) to play captAR.
+> Note: Until then, users may clone this repository, run 'npm install', 'react-native link', and 'node seed', and build to either an [iOS phone via XCode](https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/LaunchingYourApponDevices/LaunchingYourApponDevices.html) or [Android phone via Android Studio](https://developer.android.com/studio/run/device.html#connect) to play captAR.
 
 Game setup:
 * Gather friends at a nearby park. We suggest 2-8 players, even numbers, and Battery Park, Bowling Green or Elevated Acre.
@@ -23,10 +23,10 @@ To Win:
 * https://www.youtube.com/watch?v=JWu1q7qW1Ic
 * https://www.linkedin.com/pulse/my-capstone-project-using-react-native-oscar-arturo-ramirez/
 
-### Team _C_o_PP_e_R_ Contributors:
-- Jannine _C_han
-- Anuj _P_ant
-- Jordan _P_ark
-- Oscar _R_amirez
+### Team __C__o__PP__e__R__ Contributors:
+- Jannine __C__han
+- Anuj __P__ant
+- Jordan __P__ark
+- Oscar __R__amirez
 
 Built at Fullstack Academy of Code, NYC, 1707-FSA-NY
